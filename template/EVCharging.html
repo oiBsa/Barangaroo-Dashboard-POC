@@ -1,0 +1,338 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static 'admin/css/style2.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+        integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
+    <title>Thermal Comfort</title>
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+    <section id="sidebar" class="hide">
+        <a href="#" class="brand">
+            <img class="oi-icon"
+                src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw"
+                alt="Operational Interlligence">
+            <span class="text">Operational Intelligence</span>
+        </a>
+    </section>
+    <!-- SIDEBAR -->
+
+
+
+    <!-- CONTENT -->
+    <section id="content" style="background-color: rgb(255, 255, 255);">
+        <!-- NAVBAR -->
+        <nav style="height: 52px;">
+            <a href="#" class="nav-link">EV Charging</a>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main id="EV">
+            <div id="EVDashboard">
+                <!-- Heading -->
+                <div class="headings">
+                    <p>
+                        EV
+                    </p>
+                    <p>
+                        <span>
+                            Charging
+                        </span>
+                        <span class="dashboard">
+                            Dashboard
+                        </span>
+                    </p>
+                </div>
+                <!-- Heading -->
+
+                <!-- EVSummary content infinite scroll -->
+                <div id="EVSummary">
+                    <div class="EVcontainer">
+                        <p class="heading">
+                            Energy Per Charge
+                        </p>
+                        <div class="mainContent">
+                            <div id="EVgauge">
+                                <div id="gauge1" style="height: 17.5rem; width:17.5rem">
+                                </div>
+                                <div id="center-circle">
+                                    <span id="totalConsumptionValue" class="EVgaugeValue">933 kW</span>
+                                </div>
+                            </div>
+                            <div>
+                                <canvas id="EPCgraph1" style="height: 16rem; width:32rem"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="EVcontainer">
+                        <p class="heading">
+                            Cost Per Charge
+                        </p>
+                        <div class="mainContent">
+                            <div id="EVgauge">
+                                <div id="gauge2" style="height: 17.5rem; width:17.5rem">
+                                </div>
+                                <div id="center-circle">
+                                    <span id="totalConsumptionValue" class="EVgaugeValue">12 $</span>
+                                </div>
+                            </div>
+                            <div>
+                                <canvas id="EPCgraph2" style="height: 16rem; width:32rem"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="EVcontainer">
+                        <p class="heading">
+                            Avg Energy Per Charge
+                        </p>
+                        <div class="mainContent">
+                            <div id="EVgauge">
+                                <div id="gauge3" style="height: 17.5rem; width:17.5rem">
+                                </div>
+                                <div id="center-circle">
+                                    <span id="totalConsumptionValue" class="EVgaugeValue">70 kW</span>
+                                </div>
+                            </div>
+                            <div>
+                                <canvas id="EPCgraph3" style="height: 16rem; width:32rem"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="EVcontainer" style="margin-bottom:1rem;">
+                        <p class="heading">
+                            Emission Reduction Tracking
+                        </p>
+                        <div class="mainContent">
+                            <div id="EVgauge">
+                                <div id="gauge4" style="height: 17.5rem; width:17.5rem">
+                                </div>
+                                <div id="center-circle">
+                                    <span id="totalConsumptionValue" class="EVgaugeValue">0.5 ERU</span>
+                                </div>
+                            </div>
+                            <div>
+                                <canvas id="EPCgraph4" style="height: 16rem; width:32rem;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- EVSummary content infinite scroll -->
+
+
+            </div>
+
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+
+    <script src="{% static 'admin/js/script.js' %}"></script>
+    <script>
+        var showData = 1;
+        var primeColor = "#ffd35c";
+        var secondaryColor = "#214fe7";
+        var xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var yValues = [1100, 800, 400, 700, 300, 950, 880, 650, 600, 600, 990, 1000];
+        var chartConfig = {
+            type: 'line',
+            data: {
+                labels: xValues,
+                datasets: [{
+                    label: 'Energy',
+                    data: yValues,
+                    borderWidth: 1.5,
+                    borderColor: '#2d5a27',
+                    backgroundColor: "#7FFD6E",
+                    tension: 0.3,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    pointHoverBackgroundColor: '#7FFD6E',
+                    hoverBorderWidth: 0,
+                    hoverBorderWidth: '1',
+                }],
+
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                        align: 'end',
+                        position: 'top',
+                    },
+
+                },
+                scales: {
+                    
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            display: false,
+                            drawBorder: true,
+                            drawTicks: true,
+                        },
+                        ticks: {
+                            display: true,
+                            callback: function (value, index, ticks) { return value + 'kW';}
+                        }
+                    },
+                    x: {
+                        type: 'category',
+                        grid: {
+                            display: false,
+                            drawBorder: true,
+                            drawTicks: true,
+                        }
+                    },
+                },
+                responsive: true,
+            }
+
+        };
+
+        var gaugeConfig = {
+            chart: {
+                backgroundColor: '#FFFFFF',
+                type: 'solidgauge'
+            },
+            tooltip: {
+                borderWidth: 0,
+                backgroundColor: 'none',
+                shadow: false,
+                style: {
+                  fontSize: '16px'
+                },
+                pointFormat: '<span style="font-size:24px; color:#3B3462; font-weight: bold; text-align: center">kW</span>',
+                positioner: function (labelWidth, labelHeight) {
+                  return {
+                    x: 140 - labelWidth / 2,
+                    y: 220
+                  };
+                }
+              },
+
+            pane: [{
+                startAngle: -140,
+                endAngle: 140,
+                background: [{ // Track for Move
+                    outerRadius: '85%',
+                    innerRadius: '70%',
+                    backgroundColor: '#F1F0F5',
+                    borderWidth: 0,
+                    shape: 'arc'
+                }, { // Track for Stand
+                    outerRadius: '70%',
+                    innerRadius: '0%',
+                    backgroundColor: '#FBFBFB',
+                    borderWidth: 0,
+                    shape: 'arc'
+                }]
+            }, {
+                startAngle: -140,
+                endAngle: 140,
+                size: '100%',
+                background: []
+            }],
+            credits: {
+                enabled: false
+            },
+
+            yAxis: [{
+                min: 0,
+                max: 50,
+                lineWidth: 0,
+                tickLength: 0,
+                tickWidth: 6,
+                tickColor: 'black',
+                tickPosition: 'inside',
+                minorTickLength: 0,
+                labels: {
+                    distance: 20,
+                    enabled: false,
+                    x: 0,
+                    y: 0,
+                    format: '{value} &deg;C',
+                    style: {
+                        fontSize: 12,
+                        fontFamily: "sans-serif"
+                    }
+                }
+
+            }],
+            title: {
+                text: '',
+            },
+            plotOptions: {
+                solidgauge: {
+                    borderWidth: '16px',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    linecap: 'round',
+                    stickyTracking: false,
+                }
+            },
+
+            series: [{
+                name: 'Average',
+                animation: false,
+                borderColor: {
+                    linearGradient: { x1: 0, x2: 1, y1: 0, y2: 1 },
+                    stops: [
+                        [0, '#bbf0b2'], // start
+                        [0.5, '#65a0cc'], // middle
+                        [1, '#18930a'] // end
+                    ]
+                },
+                data: [{
+                    radius: '82%',
+                    innerRadius: '82%',
+                    y: 50
+                }]
+            },
+            ]
+        }
+
+        new Chart(document.getElementById('EPCgraph1').getContext('2d'), chartConfig);
+        chartConfig.options.scales.y.ticks.callback = function (value, index, ticks) { return value + '$';}
+        chartConfig.data.datasets[0].data = [40, 40, 35, 33, 32, 32, 32, 30, 30, 30, 30, 28];
+        new Chart(document.getElementById('EPCgraph2').getContext('2d'), chartConfig);
+        
+        chartConfig.options.scales.y.ticks.callback = function (value, index, ticks) { return value + 'kW';}
+        chartConfig.data.datasets[0].data = [110, 80, 40, 70, 60, 95, 88, 65, 60, 60, 90, 100];
+        new Chart(document.getElementById('EPCgraph3').getContext('2d'), chartConfig);
+        
+        chartConfig.options.scales.y.ticks.callback = function (value, index, ticks) { return value + 'E';}
+        chartConfig.data.datasets[0].data = [11, 8, 10, 7, 6, 9, 8, 6, 6, 6, 9, 10];
+        new Chart(document.getElementById('EPCgraph4').getContext('2d'), chartConfig);
+
+        new Highcharts.chart('gauge1', gaugeConfig);
+        new Highcharts.chart('gauge2', gaugeConfig);
+        new Highcharts.chart('gauge3', gaugeConfig);
+        new Highcharts.chart('gauge4', gaugeConfig);
+    </script>
+
+</body>
+
+</html>

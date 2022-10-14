@@ -1,0 +1,1 @@
+web: gunicorn barangaroo.wsgi --log-file -

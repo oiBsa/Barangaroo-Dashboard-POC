@@ -1,0 +1,414 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<!-- My CSS -->
+	<link rel="stylesheet" href="{% static 'admin/css/style.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+		integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
+	<title>Dashboard Overview</title>
+</head>
+
+<body>
+
+
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand">
+			<img 
+			class="oi-icon"
+			src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw" 
+			alt="Operational Interlligence">
+            <div class="OI-line" id="OI-line"></div>
+			<span class="text">Operational Intelligence</span>
+		</a>
+		<ul class="side-menu top">
+			<li class="active">
+				<a href="{% url 'ems_dashboard' %}">
+					<i class='bx bxs-dashboard'></i>
+					<span class="text">Overview</span>
+				</a>
+			</li>
+			<li>
+				<a href="{% url 'ems' %}">
+					<i class='bx bx-bolt-circle'></i>
+					<span class="text">Electric Meters</span>
+				</a>
+			</li>
+			<li>
+				<a href="{% url 'water' %}">
+					<i class='bx bx-water'></i>
+					<span class="text">Water Meter</span>
+				</a>
+			</li>
+			<li>
+				<a href="{% url 'gas' %}">
+					<i class='bx bxs-hot'></i>
+					<span class="text">Gas Meter</span>
+				</a>
+			</li>
+			<li>
+				<a href="{% url 'thermal' %}">
+					<i class='bx bxs-droplet'></i>
+					<span class="text">Thermal Meter</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu'></i>
+			<a href="#" class="nav-link">Dashboard</a>
+			<form action="#">
+				<div class="form-input" style="align-content: right;">
+					<input type="search" placeholder="Click me.">
+					<button type="submit" class="search-btn">
+						<i class='bx bx-search'></i>
+					</button>
+				</div>
+			</form>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main>
+			<h1>Dashboard Overview</h1>
+			<div class="row-1">
+				<div class="column-1">
+					<div style="display: flex;" class="graphBoxHeader">
+						<a href="{% url 'ems' %}">
+							<h4 id="meterName" style="color: black;">EMS</h4>
+						</a>
+						<div style="margin-left: auto;">
+							<label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
+							<input type="date" id="startDate" name="Start Date" value="2022-08-28">
+						</div>
+						<div>
+							<label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
+							<input type="date" id="endDate" name="End Date" value="2022-09-28">
+						</div>
+						<div>
+							<div class="dropdown">
+								<button class="dropbtn" id='dropdown-button'>Type</button>
+								<div class="dropdown-content">
+									<option href="#" value="1" onclick="jsFunction(this.value);">Bar</a>
+									<option href="#" value="2" onclick="jsFunction(this.value);">Line</a>
+									<option href="#" value="3" onclick="jsFunction(this.value);">Pie</a>
+									<option href="#" value="4" onclick="jsFunction(this.value);">Ring</a>
+									<option href="#" value="5" onclick="jsFunction(this.value);">Scatter</a>
+									<option href="#" value="6" onclick="jsFunction(this.value);">Bubble</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:20px">
+						<div style="font-family: Lato, sans-serif; margin-bottom:20px;" id="meterDescription">
+							<p>Total consumption of all meters</p>
+						</div class='graphButtons'>
+						<div style="margin-left: auto; margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Today</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Weekly</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Monthly</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Yearly</button>
+						</div>
+						<div class="vertical" style="margin-right: 20px; 
+															border-left: 2px solid black; 
+															height:32px;
+															"></div>
+						<div class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Report</button>
+						</div>
+
+					</div>
+					<a href="{% url 'ems' %}" target="_blank">
+						<canvas id="ems" style="max-height: 350px;" class="graph"> </canvas>
+					</a>
+				</div>
+				<div class="column-2">
+					<div style="display: flex;" class="graphBoxHeader">
+						<a href="{% url 'water' %}">
+							<h4 id="meterName" style="color: black;">Water</h4>
+						</a>
+						<div style="margin-left: auto;">
+							<label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
+							<input type="date" id="startDate" name="Start Date" value="2022-08-28">
+						</div>
+						<div>
+							<label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
+							<input type="date" id="endDate" name="End Date" value="2022-09-28">
+						</div>
+						<div>
+							<div class="dropdown">
+								<button class="dropbtn" id='dropdown-button'>Type</button>
+								<div class="dropdown-content">
+									<option href="#" value="1" onclick="jsFunction(this.value);">Bar</a>
+									<option href="#" value="2" onclick="jsFunction(this.value);">Line</a>
+									<option href="#" value="3" onclick="jsFunction(this.value);">Pie</a>
+									<option href="#" value="4" onclick="jsFunction(this.value);">Ring</a>
+									<option href="#" value="5" onclick="jsFunction(this.value);">Scatter</a>
+									<option href="#" value="6" onclick="jsFunction(this.value);">Bubble</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:20px">
+						<div style="font-family: Lato, sans-serif; margin-bottom:20px;" id="meterDescription">
+							<p>Total consumption of all meters</p>
+						</div class='graphButtons'>
+						<div style="margin-left: auto; margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Today</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Weekly</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Monthly</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Yearly</button>
+						</div>
+						<div class="vertical" style="margin-right: 20px; 
+															border-left: 2px solid black; 
+															height:32px;
+															"></div>
+						<div class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Report</button>
+						</div>
+
+					</div>
+					<a href="{% url 'water' %}" target="_blank">
+						<canvas id="water" style="max-height: 350px;" class="graph"> </canvas>
+					</a>
+
+				</div>
+			</div>
+			<div class="row-2">
+				<div class="column-1">
+					<div style="display: flex;" class="graphBoxHeader">
+						<a href="{% url 'gas' %}">
+							<h4 id="meterName" href="./index.html" style="color: black;">Gas</h4>
+						</a>
+						<div style="margin-left: auto;">
+							<label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
+							<input type="date" id="startDate" name="Start Date" value="2022-08-28">
+						</div>
+						<div>
+							<label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
+							<input type="date" id="endDate" name="End Date" value="2022-09-28">
+						</div>
+						<div>
+							<div class="dropdown">
+								<button class="dropbtn" id='dropdown-button'>Type</button>
+								<div class="dropdown-content">
+									<option href="#" value="1" onclick="jsFunction(this.value);">Bar</a>
+									<option href="#" value="2" onclick="jsFunction(this.value);">Line</a>
+									<option href="#" value="3" onclick="jsFunction(this.value);">Pie</a>
+									<option href="#" value="4" onclick="jsFunction(this.value);">Ring</a>
+									<option href="#" value="5" onclick="jsFunction(this.value);">Scatter</a>
+									<option href="#" value="6" onclick="jsFunction(this.value);">Bubble</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:20px">
+						<div style="font-family: Lato, sans-serif; margin-bottom:20px;" id="meterDescription">
+							<p>Total consumption of all meters</p>
+						</div class='graphButtons'>
+						<div style="margin-left: auto; margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Today</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Weekly</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Monthly</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Yearly</button>
+						</div>
+						<div class="vertical" style="margin-right: 20px; 
+															border-left: 2px solid black; 
+															height:32px;
+															"></div>
+						<div class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Report</button>
+						</div>
+
+					</div>
+					<a href="{% url 'gas' %}" target="_blank">
+						<canvas id="gas" style="max-height: 350px;" class="graph"> </canvas>
+					</a>
+				</div>
+				<div class="column-2">
+					<div style="display: flex;" class="graphBoxHeader">
+						<a href="{% url 'thermal' %}">
+							<h4 id="meterName" href="./index.html" style="color: black;">Thermal</h4>
+						</a>
+						<div style="margin-left: auto;">
+							<label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
+							<input type="date" id="startDate" name="Start Date" value="2022-08-28">
+						</div>
+						<div>
+							<label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
+							<input type="date" id="endDate" name="End Date" value="2022-09-28">
+						</div>
+						<div>
+							<div class="dropdown">
+								<button class="dropbtn" id='dropdown-button'>Type</button>
+								<div class="dropdown-content">
+									<option href="#" value="1" onclick="jsFunction(this.value);">Bar</a>
+									<option href="#" value="2" onclick="jsFunction(this.value);">Line</a>
+									<option href="#" value="3" onclick="jsFunction(this.value);">Pie</a>
+									<option href="#" value="4" onclick="jsFunction(this.value);">Ring</a>
+									<option href="#" value="5" onclick="jsFunction(this.value);">Scatter</a>
+									<option href="#" value="6" onclick="jsFunction(this.value);">Bubble</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:20px">
+						<div style="font-family: Lato, sans-serif; margin-bottom:20px;" id="meterDescription">
+							<p>Total consumption of all meters</p>
+						</div class='graphButtons'>
+						<div style="margin-left: auto; margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Today</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Weekly</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Monthly</button>
+						</div>
+						<div style="margin-right: 20px;" class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Yearly</button>
+						</div>
+						<div class="vertical" style="margin-right: 20px; 
+															border-left: 2px solid black; 
+															height:32px;
+															"></div>
+						<div class="graphButtons">
+							<button type="button" class="btn btn-outline-primary">Report</button>
+						</div>
+
+					</div>
+					<a href="{% url 'thermal' %}" target="_blank">
+
+						<canvas id="thermal" style="max-height: 350px; width:100%;" class="graph" > </canvas>
+					</a>
+
+				</div>
+			</div>
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- CONTENT -->
+
+
+	{% static 'admin/js/script.js' %}
+	<script>
+		var showData = 1;
+		var meterName = document.getElementById("meterName");
+		var meterDescription = document.getElementById('meterDescription');
+		var xValues = ['January', 'Feburary', 'March', 'April', 'May', 'June',
+			'July', 'Augest', 'September', 'October', 'November', 'December'];
+		var yValues = [1100, 800, 400, 700, 300, 950, 880, 650, 600, 600, 990, 1000];
+		var colorList = getRandomColor()
+		var ems = document.getElementById('ems').getContext('2d');
+		var thermal = document.getElementById('thermal').getContext('2d');
+		var water = document.getElementById('water').getContext('2d');
+		var gas = document.getElementById('gas').getContext('2d');
+		var chartConfig = {
+			type: 'bar',
+			data: {
+				labels: xValues,
+				datasets: [{
+					label: 'Consumption',
+					data: yValues,
+					borderWidth: 1,
+					borderColor: 'rgba(0, 0, 0, 1)',
+					backgroundColor: "#8AC3EE",
+					tension: 0.25,
+					borderRadius: 8,
+					type: 'bar'
+				},
+				{
+					label: '6.0',
+					data: yValues,
+					borderWidth: 1,
+					borderColor: 'rgba(0, 0, 0, 1)',
+					backgroundColor: "#8AC3EE",
+					tension: 0.25,
+					borderRadius: 8,
+					type: 'line'
+				}],
+
+			},
+			options: {
+
+				scales: {
+					y: {
+						beginAtZero: true
+					}
+				},
+				responsive: true,
+			}
+
+		};
+
+		var Chart1 = new Chart(ems, chartConfig);
+		var Chart2 = new Chart(thermal, chartConfig);
+		var Chart3 = new Chart(water, chartConfig);
+		var Chart4 = new Chart(gas, chartConfig);
+		
+		function getRandomColor() {
+			var letters = '0123456789ABCDEF'.split('');
+			var color = '#';
+			for (var i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * 16)];
+			}
+			return color + 'B3';
+		}
+		function jsFunction(value) {
+			if (value == 1) {
+				chartConfig.type = 'bar';
+			} else if (value == 2) {
+				chartConfig.type = 'line';
+			} else if (value == 3) {
+				chartConfig.type = 'pie';
+			} else if (value == 4) {
+				chartConfig.type = 'doughnut';
+			} else if (value == 5) {
+				chartConfig.type = 'scatter';
+			} else if (value == 6) {
+				chartConfig.type = 'bubble';
+			}
+
+		};
+		Chart1.update('active');
+		
+		selectedRow();
+	</script>
+</body>
+
+</html>

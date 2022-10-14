@@ -1,0 +1,492 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Boxicons -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <!-- My CSS -->
+  <link rel="stylesheet" href="{% static 'admin/css/style2.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+    integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
+  <title>Thermal Comfort</title>
+</head>
+
+<body>
+
+
+  <!-- SIDEBAR -->
+  <section id="sidebar" class="hide">
+    <a href="#" class="brand">
+      <img class="oi-icon"
+        src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw"
+        alt="Operational Interlligence">
+      <span class="text">Operational Intelligence</span>
+    </a>
+  </section>
+  <!-- SIDEBAR -->
+
+
+
+  <!-- CONTENT -->
+  <section id="content" style="background-color: white;">
+    <!-- NAVBAR -->
+    <nav style="height: 52px;">
+      <a href="#" class="nav-link">Thermal Comfort</a>
+    </nav>
+    <!-- NAVBAR -->
+
+    <!-- MAIN -->
+    <main id="TCD">
+      <div id="thermalComfortDashboard">
+        <!-- Heading -->
+        <div class="headings">
+          <p>
+            Thermal
+          </p>
+          <p>
+            <span>
+              Comfort
+            </span>
+            <span class="dashboard">
+              Dashboard
+            </span>
+          </p>
+        </div>
+        <!-- Heading -->
+
+        <!-- TCD Main Content -->
+        <div class="thermalComfortContent">
+          <div class="gaugeConinter">
+            <div>
+              <p>Percentage of Rooms<br>Below 30&deg;C</p>
+              <div id="TCDgauge">
+                <div id="gaugecontainers1" style="width: 300px; height: 300px; margin: 0 auto">
+                </div>
+                <div id="center-circle">
+                  <span id="totalConsumptionValue" class="TCDgaugeValue">65%</span>
+                </div>
+
+              </div>
+            </div>
+            <div>
+              <p>Percentage of Rooms<br>Above 30&deg;C</p>
+              <div id="TCDgauge">
+                <div id="gaugecontainers2" style="width: 300px; height: 300px; margin: 0 auto">
+                </div>
+                <div id="center-circle">
+                  <span id="totalConsumptionValue" class="TCDgaugeValue">35%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <canvas id="TDCgraph" style="height: 100px;">
+            </canvas>
+          </div>
+        </div>
+
+
+        <!-- TCD Main Content -->
+      </div>
+      <div id="thermalComfortSideBar">
+        <div class="heading">
+          <h4>
+            Monitoring
+          </h4>
+        </div>
+        <div id="thermalComfortSideBarSelection">
+          <div class="selectionContainer active">
+            <div style="display:flex">
+              <a class='bx' id="box1" href="{% url 'thermalComfort' %}">
+                <span>&deg;C</span>
+              </a>
+              <div style="margin-left:20px;" class="selectionLabel">
+                Temperature
+              </div>
+            </div>
+          </div>
+          <div class="selectionContainer">
+            <div style="display:flex">
+              <a class='bx' id="box2" href="{% url 'thermalComfortHumidity' %}">
+                <span>%</span>
+              </a>
+              <div style="margin-left:20px;" class="selectionLabel">
+                Humidity
+              </div>
+            </div>
+          </div>
+          <div class="selectionContainer">
+            <div style="display:flex">
+              <a class='bx' id="box3" href="{% url 'thermalComfortCo2' %}">
+                <span>Co2</span>
+              </a>
+              <div style="margin-left:20px;" class="selectionLabel">
+                Carbon Dioxide
+              </div>
+            </div>
+          </div>
+          <div id="thermalComfortSideBarDropDown">
+            <p>Thermal Comfort For</p>
+            <form name="form" action="">
+              <ul name="toys" id="toy-id" size="6">
+                <li value="1" onclick="switchChannel(this)">L1 Room 61</li>
+                <li value="2" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-076</li>
+                <li value="3" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-004</li>
+                <li value="4" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-078</li>
+                <li value="5" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-012</li>
+                <li value="6" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-076</li>
+                <li value="7" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-004</li>
+                <li value="8" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-078</li>
+                <li value="9" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-012</li>
+                <li value="10" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-076</li>
+                <li value="11" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-004</li>
+                <li value="12" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-078</li>
+                <li value="14" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-012</li>
+                <li value="15" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-076</li>
+                <li value="16" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-004</li>
+                <li value="17" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-078</li>
+                <li value="18" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-012</li>
+              </ul>
+            </form>
+          </div>
+        </div>
+    </main>
+    <!-- MAIN -->
+  </section>
+  <!-- CONTENT -->
+
+
+  <script src="{% static 'admin/js/script.js' %}"></script>
+  <script>
+    var showData = 1;
+    var primeColor = "#ffa280";
+    var primceColor2 = "#6F33FB";
+    var meterName = document.getElementById("meterName");
+    var meterDescription = document.getElementById('meterDescription');
+    var xValues = ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'];
+    var yValuesAbove = [22, 18, 15, 25, 10, 15, 22, 32, 22, 20, 14, 25, 20, 18, 14, 20, 18, 20, 22, 21, 30, 35, 20, 25, 21, 25];
+    var yValuesBelow = [78, 82, 85, 75, 90, 23, 78, 68, 78, 80, 86, 75, 80, 78, 86, 80, 82, 80, 78, 79, 70, 65, 80, 75, 79, 75];
+    var colorListAbove = new Array(yValuesAbove.length).fill(primeColor);
+    var colorListBelow = new Array(yValuesAbove.length).fill(primceColor2);
+
+    var ctx = document.getElementById('TDCgraph').getContext('2d');
+    var chartConfig = {
+      type: 'bar',
+      data: {
+        labels: xValues,
+        datasets: [{
+          label: "Above",
+          data: yValuesAbove,
+          backgroundColor: colorListAbove,
+          borderRadius: 5,
+        },
+        {
+          label: "Below",
+          data: yValuesBelow,
+          backgroundColor: colorListBelow,
+          borderRadius: 5,
+        }],
+
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: true,
+            align: 'end',
+            position: 'top',
+          }
+        },
+
+        scales: {
+          y: {
+            grid: {
+              display: false,
+              drawBorder: true,
+              drawTicks: true,
+            },
+            ticks: {
+              display: true,
+              callback: function (value, index, ticks) {
+                return value + '%';
+              }
+            }
+          },
+          x: {
+            type: 'category',
+            grid: {
+              display: false,
+              drawBorder: true,
+              drawTicks: true,
+            },
+          },
+        },
+        responsive: true,
+      }
+
+    };
+    $(function () {
+      Highcharts.setOptions({
+        chart: {
+          backgroundColor: '#FBFBFB'
+        },
+        colors: [primceColor2, primeColor, '#FBFBFB']
+      });
+
+      Highcharts.chart('gaugecontainers1', {
+
+        chart: {
+          type: 'solidgauge'
+        },
+
+        tooltip: {
+          borderWidth: 0,
+          backgroundColor: 'none',
+          shadow: false,
+          style: {
+            fontSize: '16px'
+          },
+          pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} &deg;C</span>',
+          positioner: function (labelWidth, labelHeight) {
+            return {
+              x: 260 - labelWidth / 2,
+              y: 180
+            };
+          }
+        },
+
+        pane: [{
+          startAngle: -140,
+          endAngle: 140,
+          background: [{ // Track for Move
+            outerRadius: '85%',
+            innerRadius: '70%',
+            backgroundColor: '#F1F0F5',
+            borderWidth: 0,
+            shape: 'arc'
+          }, { // Track for Stand
+            outerRadius: '70%',
+            innerRadius: '0%',
+            backgroundColor: Highcharts.getOptions().colors[2],
+            borderWidth: 0,
+            shape: 'arc'
+          }]
+        }, {
+          startAngle: -140,
+          endAngle: 140,
+          size: '100%',
+          background: []
+        }],
+
+        yAxis: [{
+          min: 0,
+          max: 50,
+          lineWidth: 0,
+          tickLength: 0,
+          tickWidth: 6,
+          tickColor: 'black',
+          tickPosition: 'inside',
+          minorTickLength: 8,
+          tickPositions: [0, 10, 20, 30, 40, 50],
+          labels: {
+            distance: 20,
+            enabled: true,
+            x: 0,
+            y: 0,
+            format: '{value} &deg;C',
+            style: {
+              fontSize: 12,
+              fontFamily: "sans-serif"
+            }
+          }
+
+        }],
+        title: {
+          text: '',
+        },
+
+        plotOptions: {
+          solidgauge: {
+            borderWidth: '14px',
+            dataLabels: {
+              enabled: false
+            },
+            linecap: 'round',
+            stickyTracking: false,
+          }
+        },
+
+        series: [{
+          name: 'Current',
+          animation: false,
+          borderColor: Highcharts.getOptions().colors[0],
+          data: [{
+            color: Highcharts.getOptions().colors[0],
+            radius: '80%',
+            innerRadius: '80%',
+            y: 19
+          }],
+          dataLabels: {
+            borderRadius: 0,
+            backgroundColor: "transparent",
+            borderWidth: 0,
+            borderColor: "#FFF",
+            style: {
+              fontSize: "50px"
+            },
+            color: "grey",
+            crop: true,
+            formatter: function () {
+              var s;
+              s = '<span style="font-size: 50px;">' + this.point.y + '</span>';
+              return s;
+            },
+            y: 30,
+            zIndex: 20
+          }
+        },
+        ]
+      });
+    });
+
+    $(function () {
+      Highcharts.setOptions({
+        chart: {
+          backgroundColor: '#FBFBFB'
+        },
+        colors: [primeColor, primceColor2, '#FBFBFB']
+      });
+
+      Highcharts.chart('gaugecontainers2', {
+
+        chart: {
+          type: 'solidgauge'
+        },
+
+        tooltip: {
+          borderWidth: 0,
+          backgroundColor: 'none',
+          shadow: false,
+          style: {
+            fontSize: '16px'
+          },
+          pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} &deg;C</span>',
+          positioner: function (labelWidth, labelHeight) {
+            return {
+              x: 260 - labelWidth / 2,
+              y: 180
+            };
+          }
+        },
+
+        pane: [{
+          startAngle: -140,
+          endAngle: 140,
+          background: [{ // Track for Move
+            outerRadius: '85%',
+            innerRadius: '70%',
+            backgroundColor: '#F1F0F5',
+            borderWidth: 0,
+            shape: 'arc'
+          }, { // Track for Stand
+            outerRadius: '70%',
+            innerRadius: '0%',
+            backgroundColor: Highcharts.getOptions().colors[2],
+            borderWidth: 0,
+            shape: 'arc'
+          }]
+        }, {
+          startAngle: -140,
+          endAngle: 140,
+          size: '100%',
+          background: []
+        }],
+
+        yAxis: [{
+          min: 0,
+          max: 50,
+          lineWidth: 0,
+          tickLength: 0,
+          tickWidth: 6,
+          tickColor: 'black',
+          tickPosition: 'inside',
+          minorTickLength: 8,
+          tickPositions: [0, 10, 20, 30, 40, 50],
+          labels: {
+            distance: 20,
+            enabled: true,
+            x: 0,
+            y: 0,
+            format: '{value} &deg;C',
+            style: {
+              fontSize: 12,
+              fontFamily: "sans-serif"
+            }
+          }
+
+        }],
+        title: {
+          text: '',
+        },
+
+        plotOptions: {
+          solidgauge: {
+            borderWidth: '14px',
+            dataLabels: {
+              enabled: false
+            },
+            linecap: 'round',
+            stickyTracking: false,
+          }
+        },
+
+        series: [{
+          name: 'Current',
+          animation: false,
+          borderColor: Highcharts.getOptions().colors[0],
+          data: [{
+            color: Highcharts.getOptions().colors[0],
+            radius: '82%',
+            innerRadius: '82%',
+            y: 33
+          }],
+          dataLabels: {
+            borderRadius: 0,
+            backgroundColor: "transparent",
+            borderWidth: 0,
+            borderColor: "#FFF",
+            style: {
+              fontSize: "50px"
+            },
+            color: "grey",
+            crop: true,
+            formatter: function () {
+              var s;
+              s = '<span style="font-size: 50px;">' + this.point.y + '</span>';
+              return s;
+            },
+            y: 30,
+            zIndex: 20
+          }
+        },
+        ]
+      });
+    });
+
+    var Chart1 = new Chart(ctx, chartConfig);
+    document.getElementById("tempratureAboveArc").setAttribute("d", describeArc(115, 115, 110, 0, 359));
+    document.getElementById("tempratureBellowArc").setAttribute("d", describeArc(80, 80, 65, 0, 270));
+  </script>
+</body>
+
+</html>

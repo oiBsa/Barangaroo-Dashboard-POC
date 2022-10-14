@@ -1,0 +1,285 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static 'admin/css/style2.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+        integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
+    <title>Thermal Comfort</title>
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+    <section id="sidebar" class="hide">
+        <a href="#" class="brand">
+            <img class="oi-icon"
+                src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw"
+                alt="Operational Interlligence">
+            <span class="text">Operational Intelligence</span>
+        </a>
+    </section>
+    <!-- SIDEBAR -->
+
+
+
+    <!-- CONTENT -->
+    <section id="content" style="background-color: rgb(255, 255, 255);">
+        <!-- NAVBAR -->
+        <nav style="height: 52px;">
+            <a href="#" class="nav-link">Car Park</a>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main id="CAR">
+            <div id="CarParkDashboard">
+                <!-- Heading -->
+                <div class="headings">
+                    <p>
+                        Car Park
+                    </p>
+                    <p>
+                        <span class="dashboard">
+                            Dashboard
+                        </span>
+                        
+                    </p>
+                </div>
+                <!-- Heading -->
+
+                <!-- CarParkSummary content infinite scroll -->
+                <div id="CarParkSummary">
+                    <div class="unit">
+                        <div class="heading">
+                            <p style="float: left;width:70%">
+                                Baker McKenzie Carpark
+                            </p>
+                            <div style="width:30%;">
+                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
+                            </div>
+                        </div>
+                        <canvas id="carPark1" ></canvas>
+                    </div>
+                    <div class="unit">
+                        <div class="heading">
+                            <p style="float: left;width:70%">
+                                Coverorce Carpark
+                            </p>
+                            <div style="width:30%;">
+                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
+                            </div>
+                        </div>
+                        <canvas id="carPark2" ></canvas>
+                    </div>
+                    <div class="unit">
+                        <div class="heading">
+                            <p style="float: left;width:70%">
+                                Decode Carpark
+                            </p>
+                            <div style="width:30%;">
+                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
+                            </div>
+                        </div>
+                        <canvas id="carPark3" ></canvas>
+                    </div>
+                    <div class="unit">
+                        <div class="heading">
+                            <p style="float: left;width:70%">
+                                Enel Carpark
+                            </p>
+                            <div style="width:30%;">
+                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
+                            </div>
+                        </div>
+                        <canvas id="carPark4" ></canvas>
+                    </div>
+                    <div class="unit">
+                        <div class="heading">
+                            <p style="float: left;width:70%">
+                                HSBC Carpark
+                            </p>
+                            <div style="width:30%;">
+                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
+                            </div>
+                        </div>
+                        <canvas id="carPark5" ></canvas>
+                    </div>
+                    <div class="unit">
+                        <div class="heading">
+                            <p style="float: left;width:70%">
+                                ICBC Carpark
+                            </p>
+                            <div style="width:30%;">
+                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
+                            </div>
+                        </div>
+                        <canvas id="carPark6" ></canvas>
+                    </div>
+                    <div class="unit">
+                        <div class="heading">
+                            <p style="float: left;width:70%">
+                                Marsh Carpark
+                            </p>
+                            <div style="width:30%;">
+                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
+                            </div>
+                        </div>
+                        <canvas id="carPark7" ></canvas>
+                    </div>
+                    <div class="unit">
+                        <div class="heading">
+                            <p style="float: left;width:70%">
+                                Nanshan Carpark
+                            </p>
+                            <div style="width:30%;">
+                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
+                            </div>
+                        </div>
+                        <canvas id="carPark8" ></canvas>
+                    </div>
+                    <div class="unit">
+                        <div class="heading">
+                            <p style="float: left;width:70%">
+                                Nikko Carpark
+                            </p>
+                            <div style="width:30%;">
+                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
+                            </div>
+                        </div>
+                        <canvas id="carPark9" ></canvas>
+                    </div>
+                    <div class="unit">
+                        <div class="heading">
+                            <p style="float: left;width:70%">
+                                Origin Carpark
+                            </p>
+                            <div style="width:30%;">
+                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
+                            </div>
+                        </div>
+                        <canvas id="carPark10" ></canvas>
+                    </div>
+                </div>
+        
+            </div>
+            
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+
+    {% static 'admin/js/script.js' %}
+    <script>
+        var showData = 1;
+        var primeColor = "#ffd35c";
+        var secondaryColor = "#214fe7";
+        var chartConfig = {
+            type: 'doughnut',
+            data: {
+                labels: ["Occupied", "UnOccupied"],
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: [30, 70],
+                    backgroundColor: [
+                      primeColor,
+                      secondaryColor,
+                    ],
+                    hoverOffset: 14,
+                    offset: 4,
+                    borderRadius: 10,
+                    tension: 0.25,
+                    offset: 0,
+                    radius: "90%",
+                    animation: {
+                        animateScale : true
+                    }
+                  }]
+
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        align: 'center',
+                        position: 'bottom',
+                    }
+                },
+
+                scales: {
+                    y: {
+                        grid: {
+                            display: false,
+                            drawBorder: false,
+                            drawTicks: false,
+                        },
+                        ticks: {
+                            display: false,
+                            callback: function (value, index, ticks) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        type: 'category',
+                        grid: {
+                            display: false,
+                            drawBorder: false,
+                            drawTicks: false,
+                        },
+                        ticks: {
+                            display: false,
+                            callback: function (value, index, ticks) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                },
+                responsive: true,
+            }
+
+        };
+
+        
+        new Chart(document.getElementById('carPark1').getContext('2d'), chartConfig);
+        chartConfig.data.datasets[0].data = [20, 80];
+        new Chart(document.getElementById('carPark2').getContext('2d'), chartConfig);
+        chartConfig.data.datasets[0].data = [40, 60];
+        new Chart(document.getElementById('carPark3').getContext('2d'), chartConfig);
+        chartConfig.data.datasets[0].data = [90, 10];
+        new Chart(document.getElementById('carPark4').getContext('2d'), chartConfig);
+        chartConfig.data.datasets[0].data = [30, 70];
+        new Chart(document.getElementById('carPark5').getContext('2d'), chartConfig);
+        chartConfig.data.datasets[0].data = [15, 85];
+        new Chart(document.getElementById('carPark6').getContext('2d'), chartConfig);
+        chartConfig.data.datasets[0].data = [15, 85];
+        new Chart(document.getElementById('carPark7').getContext('2d'), chartConfig);
+        chartConfig.data.datasets[0].data = [20, 80];
+        new Chart(document.getElementById('carPark8').getContext('2d'), chartConfig);
+        chartConfig.data.datasets[0].data = [0, 100];
+        new Chart(document.getElementById('carPark9').getContext('2d'), chartConfig);
+        chartConfig.data.datasets[0].data = [10, 90];
+        new Chart(document.getElementById('carPark10').getContext('2d'), chartConfig);
+        chartConfig.data.datasets[0].data = [60, 40];
+        new Chart(document.getElementById('carPark11').getContext('2d'), chartConfig);
+        
+    </script>
+</body>
+
+</html>
