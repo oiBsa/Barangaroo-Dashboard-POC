@@ -445,7 +445,7 @@ body {
 #content main .box-info .nabers:hover {
 	background-color: #C4DEF7;
 	cursor: pointer;
-	transition-delay: 0.1s;
+	transition: 0.1s ease-in-out;
 }
 
 #content main .box-info li .text h3 {
