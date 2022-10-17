@@ -19,9 +19,12 @@
   <script src="https://code.highcharts.com/highcharts-more.js"></script>
   <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
   <title>Thermal Comfort</title>
 </head>
 
@@ -72,47 +75,50 @@
         <div class="thermalComfortContent">
           <div class="gaugeConinter">
             <div>
-              <p>Percentage of Rooms<br>Below 
-                <input value="22.5" id="belowTempThresh" style='text-decoration: underline; text-decoration-color: #B4B1C9;'></input>&deg;C</p>
+              <p>Percentage of Rooms<br>Below
+                <input value="22.5" id="belowTempThresh"
+                  style='text-decoration: underline; text-decoration-color: #B4B1C9;'></input>&deg;C
+              </p>
               <div id="TCDgauge" class="belowButton">
                 <div id="gaugecontainers1" style="width: 300px; height: 300px; margin: 0 auto">
                 </div>
-                <button id="center-circle" style="border:none;" class='btn gaugeBelowClick' data-toggle="modal" data-target="#myModal" label='below'>
+                <button id="center-circle" style="border:none;" class='btn gaugeBelowClick' data-toggle="modal"
+                  data-target="#myModal" label='below'>
                   <span id="belowAvg" class="TCDgaugeValue">65%</span>
                 </button>
                 <div class="modal" id="myModal">
                   <div class="modal-dialog">
                     <div class="modal-content" style="min-width:30vw;border-radius:20px;padding:5px 5px;">
-                
+
                       <!-- Modal Header -->
                       <div class="modal-header">
                         <h4 class="modal-title">Equipment Temperature</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                       </div>
-                
+
                       <!-- Modal body -->
                       <div class="modal-body" style="max-height:50vh; overflow-y:auto;">
-                          <table class="table table-striped" id="table">
-                    <thead>
-                      <tr>
-                        <th>Equipment</th>
-                        <th>Temperature</th>
-                      </tr>
-                    </thead>
-                    <tbody id='dialog-tbody'>
-                      <tr>
-                        <td>          Please wait....</td>
-                        <td> <i class="bx bx-loader-alt bx-spin"></i> </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  </div>
-                
+                        <table class="table table-striped" id="table">
+                          <thead>
+                            <tr>
+                              <th>Equipment</th>
+                              <th>Temperature</th>
+                            </tr>
+                          </thead>
+                          <tbody id='dialog-tbody'>
+                            <tr>
+                              <td> Please wait....</td>
+                              <td> <i class="bx bx-loader-alt bx-spin"></i> </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
                       <!-- Modal footer -->
                       <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                       </div>
-                
+
                     </div>
                   </div>
                 </div>
@@ -120,12 +126,15 @@
               </div>
             </div>
             <div>
-              <p>Percentage of Rooms<br>Above 
-                <input value="24.2" id="aboveTempThresh" style='text-decoration: underline; text-decoration-color: #B4B1C9;'></input>&deg;C</p>
+              <p>Percentage of Rooms<br>Above
+                <input value="24.2" id="aboveTempThresh"
+                  style='text-decoration: underline; text-decoration-color: #B4B1C9;'></input>&deg;C
+              </p>
               <div id="TCDgauge" class='aboveButton'>
                 <div id="gaugecontainers2" style="width: 300px; height: 300px; margin: 0 auto">
                 </div>
-                <button id="center-circle" style="border:none;" class='btn gaugeAboveClick' data-toggle="modal" data-target="#myModal" label='above'>
+                <button id="center-circle" style="border:none;" class='btn gaugeAboveClick' data-toggle="modal"
+                  data-target="#myModal" label='above'>
                   <span id="aboveAvg" class="TCDgaugeValue">35%</span>
                 </button>
               </div>
@@ -182,22 +191,22 @@
           <p id="thermalComfortAll">Thermal Comfort For All</p>
           <form name="form" action="">
             <ul name="toys" id="levels" size="6">
-              <li value="1">PCF-ME-01-FCU-C3-012</li>  
-              <li value="2">PCF-ME-01-FCU-C3-076</li>  
+              <li value="1">PCF-ME-01-FCU-C3-012</li>
+              <li value="2">PCF-ME-01-FCU-C3-076</li>
               <li value="3">PCF-ME-01-FCU-C3-004</li>
-              <li value="4">PCF-ME-01-FCU-C3-078</li>  
+              <li value="4">PCF-ME-01-FCU-C3-078</li>
               <li value="5">PCF-ME-01-FCU-C3-012</li>
-              <li value="6">PCF-ME-01-FCU-C3-076</li>  
+              <li value="6">PCF-ME-01-FCU-C3-076</li>
               <li value="7">PCF-ME-01-FCU-C3-004</li>
-              <li value="8">PCF-ME-01-FCU-C3-078</li>  
+              <li value="8">PCF-ME-01-FCU-C3-078</li>
               <li value="9">PCF-ME-01-FCU-C3-012</li>
-              <li value="10">PCF-ME-01-FCU-C3-076</li>  
+              <li value="10">PCF-ME-01-FCU-C3-076</li>
               <li value="11">PCF-ME-01-FCU-C3-004</li>
-              <li value="12">PCF-ME-01-FCU-C3-078</li>  
+              <li value="12">PCF-ME-01-FCU-C3-078</li>
               <li value="14">PCF-ME-01-FCU-C3-012</li>
-              <li value="15">PCF-ME-01-FCU-C3-076</li>  
+              <li value="15">PCF-ME-01-FCU-C3-076</li>
               <li value="16">PCF-ME-01-FCU-C3-004</li>
-              <li value="17">PCF-ME-01-FCU-C3-078</li>  
+              <li value="17">PCF-ME-01-FCU-C3-078</li>
               <li value="18">PCF-ME-01-FCU-C3-012</li>
             </ul>
           </form>
@@ -223,7 +232,7 @@
     var colorListBelow = new Array(yValuesAbove.length).fill('#9b70ff');
     var maxTemp = indexOfMax(yValuesBelow);
     var minTemp = indexOfMin(yValuesBelow);
-  
+
     function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
       var angleInRadians = (angleInDegrees - 180) * Math.PI / 180;
 
@@ -256,9 +265,9 @@
       }
       return lowest;
     };
-    function switchChannel(el){
+    function switchChannel(el) {
       // find all the elements in your channel list and loop over them
-      Array.prototype.slice.call(document.querySelectorAll('ul[data-tag="channelList"] li')).forEach(function(element){
+      Array.prototype.slice.call(document.querySelectorAll('ul[data-tag="channelList"] li')).forEach(function (element) {
         // remove the selected class
         element.classList.toggle('unselected');
       });
@@ -267,7 +276,7 @@
     }
 
 
-    
+
     var ctx = document.getElementById('TDCgraph').getContext('2d');
     var chartConfig = {
       type: 'bar',
@@ -299,15 +308,15 @@
         scales: {
           y: {
             grid: {
-              display:false,
+              display: false,
               drawBorder: true,
               drawTicks: true,
             },
             ticks: {
               display: true,
-              callback: function(value, index, ticks) {
-                return value +'%';
-            }
+              callback: function (value, index, ticks) {
+                return value + '%';
+              }
             }
           },
           x: {
@@ -324,15 +333,15 @@
 
     };
     const gauge1 = Highcharts.chart('gaugecontainers1', {
-      chart: { type: 'solidgauge', backgroundColor: '#FBFBFB',},
+      chart: { type: 'solidgauge', backgroundColor: '#FBFBFB', },
       tooltip: {
         borderWidth: 0,
         backgroundColor: 'none',
         shadow: false,
-        style: { fontSize: '16px'},
+        style: { fontSize: '16px' },
         pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} &deg;C</span>',
         positioner: function (labelWidth, labelHeight) {
-          return { x: 160 - labelWidth / 2, y: 240};
+          return { x: 160 - labelWidth / 2, y: 240 };
         }
       },
 
@@ -360,7 +369,7 @@
       }],
       credits: {
         enabled: false
-    },
+      },
       yAxis: [{
         min: 0,
         max: 50,
@@ -457,7 +466,7 @@
       }],
       credits: {
         enabled: false
-    },
+      },
 
       yAxis: [{
         min: 0,
@@ -505,25 +514,31 @@
           radius: '82%',
           innerRadius: '82%',
           y: 25
-        }]},
+        }]
+      },
       ]
     });
-    $('#levels').on("click", "li", function(){
+    $('#levels').on("click", "li", function () {
       $(this).parent().find('li').removeClass('active');
       $(this).addClass('active');
       document.getElementById("thermalComfortAll").innerHTML = "Thermal Comfort For"
       gauge1.update({
         series: [{
           animation: false,
-          data: [{ y: 22 }]}]
+          data: [{ y: 22 }]
+        }]
       }, true, false, false);
       gauge2.update({
         series: [{
           animation: false,
-          data: [{ y: 25 }]}]
+          data: [{ y: 25 }]
+        }]
       }, true, false, false);
-      document.getElementById("aboveAvg").innerHTML="16%";
-      document.getElementById("belowAvg").innerHTML="84%";
+      document.getElementById("aboveAvg").innerHTML = "16%";
+      document.getElementById("belowAvg").innerHTML = "84%";
+      chartConfig.data.datasets[0].data = JSON.parse([11, 9, 10, 12, 8, 7, 2, 20, 22, 10, 8, 12, 5, 9, 6, 5, 9, 10, 11, 7, 15, 20, 15, 11, 9, 12])
+      chartConfig.data.datasets[1].data = JSON.parse([89, 91, 90, 88, 92, 93, 98, 80, 78, 90, 92, 85, 95, 91, 94, 95, 91, 90, 89, 93, 85, 80, 85, 89, 91, 88])
+      Chart1.update("active")
 
     });
     var Chart1 = new Chart(ctx, chartConfig);
