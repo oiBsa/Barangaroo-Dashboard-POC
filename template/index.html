@@ -332,7 +332,6 @@
 		var meterDescription = document.getElementById('meterDescription');
 		var xValues = ['January', 'Feburary', 'March', 'April', 'May', 'June',
 			'July', 'Augest', 'September', 'October', 'November', 'December'];
-		var yValues = [1100, 800, 400, 700, 300, 950, 880, 650, 600, 600, 990, 1000];
 		var colorList = getRandomColor()
 		var ems = document.getElementById('ems').getContext('2d');
 		var thermal = document.getElementById('thermal').getContext('2d');
@@ -344,21 +343,52 @@
 				labels: xValues,
 				datasets: [{
 					label: 'Consumption',
-					data: yValues,
+					data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
 					borderWidth: 1,
 					borderColor: 'rgba(0, 0, 0, 1)',
-					backgroundColor: "#8AC3EE",
-					tension: 0.25,
+					backgroundColor: "#e1dbee",
+					tension: 1,
 					borderRadius: 8,
-					type: 'bar'
+					type: 'bar',
+					order: 1
 				},
 				{
 					label: '6.0',
-					data: yValues,
-					borderWidth: 1,
-					borderColor: 'rgba(0, 0, 0, 1)',
-					backgroundColor: "#8AC3EE",
-					tension: 0.25,
+					data: [400, 370, 320, 290, 250, 220, 215, 220, 210, 210],
+					borderWidth: 2,
+					borderColor: '#D9C4D7',
+					backgroundColor: "#D9C4D7",
+					tension: 0.5,
+					borderRadius: 8,
+					type: 'line'
+				},
+				{
+					label: '5.5',
+					data: [500, 460, 410, 360, 320, 300, 295, 300, 290, 290],
+					borderWidth: 2,
+					borderColor: '#52A98C',
+					backgroundColor: "#52A98C",
+					tension: 0.5,
+					borderRadius: 8,
+					type: 'line'
+				},
+				{
+					label: '5.0',
+					data: [600, 550, 500, 430, 380, 350, 345, 350, 340, 340],
+					borderWidth: 2,
+					borderColor: '#8785C7',
+					backgroundColor: "#8785C7",
+					tension: 0.5,
+					borderRadius: 8,
+					type: 'line'
+				},
+				{
+					label: '4.5',
+					data: [800, 750, 650, 560, 505, 490, 485, 490, 480, 480],
+					borderWidth: 2,
+					borderColor: '#C6D9E3',
+					backgroundColor: "#C6D9E3",
+					tension: 0.4,
 					borderRadius: 8,
 					type: 'line'
 				}],

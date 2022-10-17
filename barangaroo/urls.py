@@ -24,7 +24,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", view=views.home, name="Home"),
+    path("login/", view=views.login_view, name="login"),
+    path("accounts/login/", view=views.login_view, name="login"),
+    path("", view=views.home, name="home"),
     path("dashboard/", view=views.ems_dashboard, name='ems_dashboard'),
     path("ems/", view=views.ems, name="ems"),
     path('water/', view=views.water, name="water"),
@@ -36,7 +38,6 @@ urlpatterns = [
     path("thermal_comfort_co2", view=views.thermal_comfort_co2, name="thermalComfortCo2"),
     path("carpark/", view=views.car_park, name="carPark"),
     path("ev_charging", view=views.ev_charging, name="evCharging"),
-    
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),   
 ]
