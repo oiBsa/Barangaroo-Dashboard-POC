@@ -387,12 +387,12 @@
                         <div class="dropdown">
                             <button class="dropbtn" id='dropdown-button'>Type</button>
                             <div class="dropdown-content">
-                                <option href="#" value="1" onclick="jsFunction(this.value);">Bar</a>
-                                <option href="#" value="2" onclick="jsFunction(this.value);">Line</a>
-                                <option href="#" value="3" onclick="jsFunction(this.value);">Pie</a>
-                                <option href="#" value="4" onclick="jsFunction(this.value);">Ring</a>
-                                <option href="#" value="5" onclick="jsFunction(this.value);">Scatter</a>
-                                <option href="#" value="6" onclick="jsFunction(this.value);">Bubble</a>
+                                <option href="#" value="1" onclick="jsFunction(this.value);">Bar</option>
+                                <option href="#" value="2" onclick="jsFunction(this.value);">Line</option>
+                                <option href="#" value="3" onclick="jsFunction(this.value);">Pie</option>
+                                <option href="#" value="4" onclick="jsFunction(this.value);">Ring</option>
+                                <option href="#" value="5" onclick="jsFunction(this.value);">Scatter</option>
+                                <option href="#" value="6" onclick="jsFunction(this.value);">Bubble</option>
                             </div>
                         </div>
                     </div>
@@ -612,7 +612,9 @@
                 chartConfig.type = 'scatter';
             } else if (value == 6) {
                 chartConfig.type = 'bubble';
-            } 
+            } else if (value == 7) {
+                alert("NABLE")
+            }
 
             Chart1.update('active');
         };

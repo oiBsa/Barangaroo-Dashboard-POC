@@ -31,37 +31,37 @@
             <span class="text">Operational Interlligence</span>
         </a>
         <ul class="side-menu top">
-			<li>
-				<a href="{% url 'ems_dashboard' %}">
-					<i class='bx bxs-dashboard'></i>
-					<span class="text">Overview</span>
-				</a>
-			</li>
-			<li>
-				<a href="{% url 'ems' %}">
-					<i class='bx bx-bolt-circle'></i>
-					<span class="text">Electric Meters</span>
-				</a>
-			</li>
-			<li>
-				<a href="{% url 'water' %}">
-					<i class='bx bx-water'></i>
-					<span class="text">Water Meter</span>
-				</a>
-			</li>
-			<li>
-				<a href="{% url 'gas' %}">
-					<i class='bx bxs-hot'></i>
-					<span class="text">Gas Meter</span>
-				</a>
-			</li>
-			<li>
-				<a href="{% url 'thermal' %}">
-					<i class='bx bxs-droplet'></i>
-					<span class="text">Thermal Meter</span>
-				</a>
-			</li>
-		</ul>
+            <li>
+                <a href="{% url 'ems_dashboard' %}">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Overview</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'ems' %}">
+                    <i class='bx bx-bolt-circle'></i>
+                    <span class="text">Electric Meters</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'water' %}">
+                    <i class='bx bx-water'></i>
+                    <span class="text">Water Meter</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'gas' %}">
+                    <i class='bx bxs-hot'></i>
+                    <span class="text">Gas Meter</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'thermal' %}">
+                    <i class='bx bxs-droplet'></i>
+                    <span class="text">Thermal Meter</span>
+                </a>
+            </li>
+        </ul>
     </section>
     <!-- SIDEBAR -->
 
@@ -571,12 +571,13 @@
                         <div class="dropdown">
                             <button class="dropbtn" id='dropdown-button'>Type</button>
                             <div class="dropdown-content">
-                                <option href="#" value="1" onclick="jsFunction(this.value);">Bar</a>
-                                <option href="#" value="2" onclick="jsFunction(this.value);">Line</a>
-                                <option href="#" value="3" onclick="jsFunction(this.value);">Pie</a>
-                                <option href="#" value="4" onclick="jsFunction(this.value);">Ring</a>
-                                <option href="#" value="5" onclick="jsFunction(this.value);">Scatter</a>
-                                <option href="#" value="6" onclick="jsFunction(this.value);">Bubble</a>
+                                <option href="#" value="1" onclick="jsFunction(this.value);">Bar</option>
+                                <option href="#" value="2" onclick="jsFunction(this.value);">Line</option>
+                                <option href="#" value="3" onclick="jsFunction(this.value);">Pie</option>
+                                <option href="#" value="4" onclick="jsFunction(this.value);">Ring</option>
+                                <option href="#" value="5" onclick="jsFunction(this.value);">Scatter</option>
+                                <option href="#" value="6" onclick="jsFunction(this.value);">Bubble</option>
+                                <option href="#" value="7" onclick="jsFunction(this.value);">NABLES</option>
                             </div>
                         </div>
                     </div>
@@ -588,16 +589,16 @@
                     </div>
 
                     <div style="margin-left: auto; margin-right: 20px;" class="graphButtons">
-                        <button type="button" class="btn btn-outline-primary">Today</button>
+                        <button type="button" class="btn btn-outline-primary enable" id="todayButton">Today</button>
                     </div>
                     <div style="margin-right: 20px;" class="graphButtons">
-                        <button type="button" class="btn btn-outline-primary">Weekly</button>
+                        <button type="button" class="btn btn-outline-primary enable" id="weeklyButton">Weekly</button>
                     </div>
                     <div style="margin-right: 20px;" class="graphButtons">
-                        <button type="button" class="btn btn-outline-primary">Monthly</button>
+                        <button type="button" class="btn btn-outline-primary enable">Monthly</button>
                     </div>
                     <div style="margin-right: 20px;" class="graphButtons">
-                        <button type="button" class="btn btn-outline-primary">Yearly</button>
+                        <button type="button" class="btn btn-outline-primary enable">Yearly</button>
                     </div>
                     <div class="vertical" style="margin-right: 20px; 
                                                         border-left: 2px solid black; 
@@ -622,6 +623,8 @@
 
     <script src="{% static 'admin/js/script.js' %}"></script>
     <script>
+        var todayButton = document.getElementById("todayButton");
+        var weeklyButton = document.getElementById("weeklyButton")
         var maxVoltage = 260;
         var minVoltage = 0;
         var voltageA = 221;
@@ -649,7 +652,7 @@
         var x1 = ['3:00 AM', '3:15 AM', '3:30 AM', '3:45 AM', '4:00 AM', '4:15 AM', '4:30 AM', '4:45 AM', '5:00 AM', '5:15 AM', '5:30 AM', '5:45 AM', '6:00 AM', '6:15 AM', '6:30 AM', '6:45 AM', '7:00 AM', '7:15 AM', '7:30 AM', '7:45 AM', '8:00 AM', '8:15 AM', '8:30 AM', '8:45 AM', '9:00 AM', '9:15 AM', '9:30 AM', '9:45 AM', '10:00 AM', '10:15 AM', '10:30 AM', '10:45 AM', '11:00 AM', '11:15 AM', '11:30 AM', '11:45 AM', '12:00 PM', '12:15 PM', '12:30 PM', '12:45 PM', '1:00 PM', '1:15 PM', '1:30 PM', '1:45 PM', '2:00 PM', '2:15 PM', '2:30 PM', '2:45 PM', '3:00 PM', '3:15 PM'];
         var y1 = [86493.1875, 86525.953125, 86495.234375, 86018.046875, 86026.2421875, 86519.8046875, 86521.859375, 86054.9140625, 86054.9140625, 86077.4375, 86042.625, 86073.34375, 86054.9140625, 86478.8515625, 86026.2421875, 86517.7578125, 86077.4375, 86523.90625, 86036.4765625, 86046.71875, 86026.2421875, 86497.28125, 86069.25, 86056.9609375, 86026.2421875, 86077.4375, 86489.0859375, 86497.28125, 86480.8984375, 86444.03125, 86521.859375, 86482.9453125, 86497.28125, 86036.4765625, 86472.703125, 86476.796875, 86071.296875, 86484.9921875, 86513.6640625, 86507.5234375, 86484.9921875, 86462.4609375, 86489.0859375, 86482.9453125, 86548.4765625, 86616.0625, 86583.296875, 86996.9921875, 86558.71875, 87009.28125, 86562.8125, 86589.4375, 86982.65625, 86560.765625, 86616.0625, 86583.296875, 86988.796875, 86937.6015625, 87003.1328125, 87025.6640625, 86589.4375, 86597.6328125, 87083.0078125, 87498.75, 87098.640625, 87126.875, 87156.3984375, 87185.6796875, 87213.7578125, 87242.796875, 87270.796875, 87299.6796875, 87318.3203125, 87336, 87337.4375, 87337.515625];
         var colorList = [];
-        
+
         var ctx = document.getElementById('meterGraph').getContext('2d');
         var chartConfig = {
             type: 'bar',
@@ -657,12 +660,14 @@
                 labels: xValues,
                 datasets: [{
                     label: 'Consumption',
-                    data: yValues,
+                    data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
                     borderWidth: 1,
-                    borderColor: 'rgba(0, 0, 0, 0.5)',
-                    backgroundColor: "#98A8F8",
-                    borderRadius: 20,
-                    tension: 0.25
+                    borderColor: 'rgba(0, 0, 0, 1)',
+                    backgroundColor: "#8AC3EE",
+                    tension: 0.2,
+                    borderRadius: 8,
+                    type: 'bar',
+                    order: 1
                 }],
 
             },
@@ -677,6 +682,67 @@
             }
 
         };
+        var dataset1 = [{
+            label: 'Consumption',
+            data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
+            borderWidth: 1,
+            borderColor: 'rgba(0, 0, 0, 1)',
+            backgroundColor: "#8AC3EE",
+            tension: 0.2,
+            borderRadius: 8,
+            order: 1
+        }];
+        var dataset2 = [{
+            label: 'Consumption',
+            data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
+            borderWidth: 1,
+            borderColor: 'rgba(0, 0, 0, 1)',
+            backgroundColor: "#8AC3EE",
+            tension: 1,
+            borderRadius: 8,
+            type: 'bar',
+            order: 1
+        },
+        {
+            label: '6.0',
+            data: [400, 370, 320, 290, 250, 220, 215, 220, 210, 210],
+            borderWidth: 2,
+            borderColor: '#D9C4D7',
+            backgroundColor: "#D9C4D7",
+            tension: 0.5,
+            borderRadius: 8,
+            type: 'line'
+        },
+        {
+            label: '5.5',
+            data: [500, 460, 410, 360, 320, 300, 295, 300, 290, 290],
+            borderWidth: 2,
+            borderColor: '#52A98C',
+            backgroundColor: "#52A98C",
+            tension: 0.5,
+            borderRadius: 8,
+            type: 'line'
+        },
+        {
+            label: '5.0',
+            data: [600, 550, 500, 430, 380, 350, 345, 350, 340, 340],
+            borderWidth: 2,
+            borderColor: '#8785C7',
+            backgroundColor: "#8785C7",
+            tension: 0.5,
+            borderRadius: 8,
+            type: 'line'
+        },
+        {
+            label: '4.5',
+            data: [800, 750, 650, 560, 505, 490, 485, 490, 480, 480],
+            borderWidth: 2,
+            borderColor: '#C6D9E3',
+            backgroundColor: "#C6D9E3",
+            tension: 0.4,
+            borderRadius: 8,
+            type: 'line'
+        }];
         var Chart1 = new Chart(ctx, chartConfig);
 
 
@@ -725,15 +791,70 @@
             if (value == 1) {
                 chartConfig.type = 'bar';
             } else if (value == 2) {
+                if (todayButton.classList.contains("disable")){
+                    todayButton.classList.remove("disable");
+                    weeklyButton.classList.remove("disable");
+                }
+                if (todayButton.classList.contains("enable")==false){
+                    todayButton.classList.add("enable");
+                    weeklyButton.classList.add("enable");
+                }
+                chartConfig.data.datasets = dataset1;
                 chartConfig.type = 'line';
             } else if (value == 3) {
+                if (todayButton.classList.contains("disable")){
+                    todayButton.classList.remove("disable");
+                    weeklyButton.classList.remove("disable");
+                }
+                if (todayButton.classList.contains("enable")==false){
+                    todayButton.classList.add("enable");
+                    weeklyButton.classList.add("enable");
+                }
+                chartConfig.data.datasets = dataset1;
                 chartConfig.type = 'pie';
             } else if (value == 4) {
+                if (todayButton.classList.contains("disable")){
+                    todayButton.classList.remove("disable");
+                    weeklyButton.classList.remove("disable");
+                }
+                if (todayButton.classList.contains("enable")==false){
+                    todayButton.classList.add("enable");
+                    weeklyButton.classList.add("enable");
+                }
+                chartConfig.data.datasets = dataset1;
                 chartConfig.type = 'doughnut';
             } else if (value == 5) {
+                if (todayButton.classList.contains("disable")){
+                    todayButton.classList.remove("disable");
+                    weeklyButton.classList.remove("disable");
+                }
+                if (todayButton.classList.contains("enable")==false){
+                    todayButton.classList.add("enable");
+                    weeklyButton.classList.add("enable");
+                }
+                chartConfig.data.datasets = dataset1;
                 chartConfig.type = 'scatter';
             } else if (value == 6) {
+                if (todayButton.classList.contains("disable")){
+                    todayButton.classList.remove("disable");
+                    weeklyButton.classList.remove("disable");
+                }
+                if (todayButton.classList.contains("enable")==false){
+                    todayButton.classList.add("enable");
+                    weeklyButton.classList.add("enable");
+                }
+                chartConfig.data.datasets = dataset1;
                 chartConfig.type = 'bubble';
+            } else if (value == 7) {
+                if (todayButton.classList.contains("enable")){
+                    todayButton.classList.remove("enable");
+                    weeklyButton.classList.remove("enable");
+                }
+                if (todayButton.classList.contains("disable")==false){
+                    todayButton.classList.add("disable");
+                    weeklyButton.classList.add("disable");
+                }
+                chartConfig.data.datasets = dataset2;
             }
 
             Chart1.update('active');
