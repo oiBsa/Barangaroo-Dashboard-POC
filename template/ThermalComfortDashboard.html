@@ -536,8 +536,8 @@
       }, true, false, false);
       document.getElementById("aboveAvg").innerHTML = "16%";
       document.getElementById("belowAvg").innerHTML = "84%";
-      chartConfig.data.datasets[0].data = JSON.parse([11, 9, 10, 12, 8, 7, 2, 20, 22, 10, 8, 12, 5, 9, 6, 5, 9, 10, 11, 7, 15, 20, 15, 11, 9, 12])
-      chartConfig.data.datasets[1].data = JSON.parse([89, 91, 90, 88, 92, 93, 98, 80, 78, 90, 92, 85, 95, 91, 94, 95, 91, 90, 89, 93, 85, 80, 85, 89, 91, 88])
+      chartConfig.data.datasets[0].data = [11, 9, 10, 12, 8, 7, 2, 20, 22, 10, 8, 12, 5, 9, 6, 5, 9, 10, 11, 7, 15, 20, 15, 11, 9, 12]
+      chartConfig.data.datasets[1].data = [89, 91, 90, 88, 92, 93, 98, 80, 78, 90, 92, 85, 95, 91, 94, 95, 91, 90, 89, 93, 85, 80, 85, 89, 91, 88]
       Chart1.update("active")
 
     });
