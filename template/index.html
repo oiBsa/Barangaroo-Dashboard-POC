@@ -406,6 +406,35 @@
 
 		};
 
+		var chartConfig2 = {
+			type: 'bar',
+			data: {
+				labels: xValues,
+				datasets: [{
+					label: 'Consumption',
+					data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
+					borderWidth: 1,
+					borderColor: 'rgba(0, 0, 0, 1)',
+					backgroundColor: "#e1dbee",
+					tension: 1,
+					borderRadius: 8,
+					type: 'bar',
+					order: 1
+				}],
+
+			},
+			options: {
+
+				scales: {
+					y: {
+						beginAtZero: true
+					}
+				},
+				responsive: true,
+			}
+
+		};
+
 		var Chart1 = new Chart(ems, chartConfig);
 		var Chart2 = new Chart(thermal, chartConfig);
 		var Chart3 = new Chart(water, chartConfig);
