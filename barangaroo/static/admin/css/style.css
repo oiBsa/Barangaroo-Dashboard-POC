@@ -421,22 +421,29 @@ body {
 	align-items: center;
 }
 
-#content main .box-info li:nth-child(1) .bx {
+#content main .box-info .consumtion .bx {
 	background: #CDFFFF;
 	color: black;
 }
-#content main .box-info li:nth-child(2) .bx {
+#content main .box-info .demand .bx {
 	background: rgba(235, 235, 51, 0.418);
 	color: black;
 }
-#content main .box-info li:nth-child(3) .bx {
+#content main .box-info .online .bx {
 	background: #9bff9bbb;
 	color: black;
 
 }
-#content main .box-info li:nth-child(4) .bx {
+#content main .box-info .offline .bx {
 	background: #f88777b7;
 	color: black;
+}
+#content main .box-info .nabers {
+	background: #C4DEF7;
+	color: black;
+}
+#content main .box-info .nabers:hover {
+	background-color: #C4DEF7;
 }
 
 #content main .box-info li .text h3 {

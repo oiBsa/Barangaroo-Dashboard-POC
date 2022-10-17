@@ -32,12 +32,14 @@ urlpatterns = [
     path('water/', view=views.water, name="water"),
     path('thermal/', view=views.thermal, name='thermal'),
     path("gas/", view=views.gas, name="gas"),
+    path('nabers/', view=views.nabers, name='nabers'),
     path("mater_page/", view=views.meter_page, name="meterPage"),
     path("thermal_comfort/", view=views.thermal_comfort, name="thermalComfort"),
     path("thermal_comfort_humidity/", view=views.thermal_comfort_humidity, name="thermalComfortHumidity"),
     path("thermal_comfort_co2", view=views.thermal_comfort_co2, name="thermalComfortCo2"),
     path("carpark/", view=views.car_park, name="carPark"),
     path("ev_charging", view=views.ev_charging, name="evCharging"),
+    
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),   
 ]

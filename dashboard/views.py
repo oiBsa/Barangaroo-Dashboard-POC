@@ -44,6 +44,10 @@ def thermal(request):
 def gas(request):
     if request.user.is_authenticated: return render(request=request, template_name="GAS.html")
     else: return redirect("home")
+    
+def nabers(request):
+    if request.user.is_authenticated: return render(request=request, template_name="nabers.html")
+    else: return redirect("home")
 
 def meter_page(request):
     if request.user.is_authenticated: return render(request=request, template_name="EQUIP.html")
