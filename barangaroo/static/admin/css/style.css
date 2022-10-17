@@ -653,6 +653,12 @@ body {
 	height: 500px;
 	margin-bottom: 30px;
 	margin-right: 24px;
+	box-shadow: 0.5rem 0.5rem 1rem 0.2rem #9993934b;
+}
+#content main .column-1:hover {
+	box-shadow: 0.5rem 0.5rem 1rem 0.2rem #9993934b,  0rem 0rem 1rem 0.2rem #9993932f inset;
+	transform: scale(1.005);
+	transition-delay: 0.1s;
 }
 #content main .column-2 {
 	border-radius: 20px;
@@ -663,6 +669,12 @@ body {
 	float: right;
 	height: 500px;
 	margin-bottom: 30px;
+	box-shadow: 0.5rem 0.5rem 1rem 0.2rem #9993934b;
+}
+#content main .column-2:hover {
+	box-shadow: 0.5rem 0.5rem 1rem 0.2rem #9993934b,  0rem 0rem 1rem 0.2rem #9993932f inset;
+	transform: scale(1.005);
+	transition-delay: 0.1s;
 }
 #content main h4 {
 	margin-bottom: 5px;

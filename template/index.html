@@ -24,11 +24,10 @@
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
-			<img 
-			class="oi-icon"
-			src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw" 
-			alt="Operational Interlligence">
-            <div class="OI-line" id="OI-line"></div>
+			<img class="oi-icon"
+				src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw"
+				alt="Operational Interlligence">
+			<div class="OI-line" id="OI-line"></div>
 			<span class="text">Operational Intelligence</span>
 		</a>
 		<ul class="side-menu top">
@@ -96,37 +95,18 @@
 						</a>
 						<div style="margin-left: auto;">
 							<label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
-							<input type="date" id="startDate" name="Start Date" value="2022-08-28">
+							<input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00">
 						</div>
 						<div>
 							<label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
-							<input type="date" id="endDate" name="End Date" value="2022-09-28">
-						</div>
-						<div>
-							<div class="dropdown">
-								<button class="dropbtn" id='dropdown-button'>Type</button>
-								<div class="dropdown-content">
-									<option href="#" value="1" onclick="jsFunction(this.value);">Bar</a>
-									<option href="#" value="2" onclick="jsFunction(this.value);">Line</a>
-									<option href="#" value="3" onclick="jsFunction(this.value);">Pie</a>
-									<option href="#" value="4" onclick="jsFunction(this.value);">Ring</a>
-									<option href="#" value="5" onclick="jsFunction(this.value);">Scatter</a>
-									<option href="#" value="6" onclick="jsFunction(this.value);">Bubble</a>
-								</div>
-							</div>
+							<input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
 						</div>
 					</div>
 					<div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:20px">
 						<div style="font-family: Lato, sans-serif; margin-bottom:20px;" id="meterDescription">
-							<p>Total consumption of all meters</p>
+							<p>Naibours Tracking</p>
 						</div class='graphButtons'>
-						<div style="margin-left: auto; margin-right: 20px;" class="graphButtons">
-							<button type="button" class="btn btn-outline-primary">Today</button>
-						</div>
-						<div style="margin-right: 20px;" class="graphButtons">
-							<button type="button" class="btn btn-outline-primary">Weekly</button>
-						</div>
-						<div style="margin-right: 20px;" class="graphButtons">
+						<div style="margin-right: 20px; margin-left:auto;" class="graphButtons">
 							<button type="button" class="btn btn-outline-primary">Monthly</button>
 						</div>
 						<div style="margin-right: 20px;" class="graphButtons">
@@ -141,9 +121,8 @@
 						</div>
 
 					</div>
-					<a href="{% url 'ems' %}" target="_blank">
-						<canvas id="ems" style="max-height: 350px;" class="graph"> </canvas>
-					</a>
+						<canvas id="ems" style="max-height: 350px;" class="graph" onclick='location.href="{% url 'ems' %}";'> </canvas>
+					
 				</div>
 				<div class="column-2">
 					<div style="display: flex;" class="graphBoxHeader">
@@ -152,24 +131,11 @@
 						</a>
 						<div style="margin-left: auto;">
 							<label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
-							<input type="date" id="startDate" name="Start Date" value="2022-08-28">
+							<input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00">
 						</div>
 						<div>
 							<label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
-							<input type="date" id="endDate" name="End Date" value="2022-09-28">
-						</div>
-						<div>
-							<div class="dropdown">
-								<button class="dropbtn" id='dropdown-button'>Type</button>
-								<div class="dropdown-content">
-									<option href="#" value="1" onclick="jsFunction(this.value);">Bar</a>
-									<option href="#" value="2" onclick="jsFunction(this.value);">Line</a>
-									<option href="#" value="3" onclick="jsFunction(this.value);">Pie</a>
-									<option href="#" value="4" onclick="jsFunction(this.value);">Ring</a>
-									<option href="#" value="5" onclick="jsFunction(this.value);">Scatter</a>
-									<option href="#" value="6" onclick="jsFunction(this.value);">Bubble</a>
-								</div>
-							</div>
+							<input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
 						</div>
 					</div>
 					<div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:20px">
@@ -197,9 +163,8 @@
 						</div>
 
 					</div>
-					<a href="{% url 'water' %}" target="_blank">
-						<canvas id="water" style="max-height: 350px;" class="graph"> </canvas>
-					</a>
+						<canvas id="water" style="max-height: 350px;" class="graph" onclick='location.href="{% url 'water' %}";'> </canvas>
+					
 
 				</div>
 			</div>
@@ -211,24 +176,11 @@
 						</a>
 						<div style="margin-left: auto;">
 							<label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
-							<input type="date" id="startDate" name="Start Date" value="2022-08-28">
+							<input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00">
 						</div>
 						<div>
 							<label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
-							<input type="date" id="endDate" name="End Date" value="2022-09-28">
-						</div>
-						<div>
-							<div class="dropdown">
-								<button class="dropbtn" id='dropdown-button'>Type</button>
-								<div class="dropdown-content">
-									<option href="#" value="1" onclick="jsFunction(this.value);">Bar</a>
-									<option href="#" value="2" onclick="jsFunction(this.value);">Line</a>
-									<option href="#" value="3" onclick="jsFunction(this.value);">Pie</a>
-									<option href="#" value="4" onclick="jsFunction(this.value);">Ring</a>
-									<option href="#" value="5" onclick="jsFunction(this.value);">Scatter</a>
-									<option href="#" value="6" onclick="jsFunction(this.value);">Bubble</a>
-								</div>
-							</div>
+							<input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
 						</div>
 					</div>
 					<div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:20px">
@@ -256,9 +208,7 @@
 						</div>
 
 					</div>
-					<a href="{% url 'gas' %}" target="_blank">
-						<canvas id="gas" style="max-height: 350px;" class="graph"> </canvas>
-					</a>
+						<canvas id="gas" style="max-height: 350px;" class="graph" onclick='location.href="{% url 'gas' %}";'> </canvas>
 				</div>
 				<div class="column-2">
 					<div style="display: flex;" class="graphBoxHeader">
@@ -267,24 +217,11 @@
 						</a>
 						<div style="margin-left: auto;">
 							<label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
-							<input type="date" id="startDate" name="Start Date" value="2022-08-28">
+							<input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00">
 						</div>
 						<div>
 							<label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
-							<input type="date" id="endDate" name="End Date" value="2022-09-28">
-						</div>
-						<div>
-							<div class="dropdown">
-								<button class="dropbtn" id='dropdown-button'>Type</button>
-								<div class="dropdown-content">
-									<option href="#" value="1" onclick="jsFunction(this.value);">Bar</a>
-									<option href="#" value="2" onclick="jsFunction(this.value);">Line</a>
-									<option href="#" value="3" onclick="jsFunction(this.value);">Pie</a>
-									<option href="#" value="4" onclick="jsFunction(this.value);">Ring</a>
-									<option href="#" value="5" onclick="jsFunction(this.value);">Scatter</a>
-									<option href="#" value="6" onclick="jsFunction(this.value);">Bubble</a>
-								</div>
-							</div>
+							<input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
 						</div>
 					</div>
 					<div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:20px">
@@ -312,10 +249,7 @@
 						</div>
 
 					</div>
-					<a href="{% url 'thermal' %}" target="_blank">
-
-						<canvas id="thermal" style="max-height: 350px; width:100%;" class="graph" > </canvas>
-					</a>
+					<canvas id="thermal" style="max-height: 350px; width:100%;" class="graph" onclick='location.href="{% url 'thermal' %}";'> </canvas>
 
 				</div>
 			</div>
@@ -346,7 +280,7 @@
 					data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
 					borderWidth: 1,
 					borderColor: 'rgba(0, 0, 0, 1)',
-					backgroundColor: "#e1dbee",
+					backgroundColor: "#8AC3EE",
 					tension: 1,
 					borderRadius: 8,
 					type: 'bar',
@@ -395,7 +329,12 @@
 
 			},
 			options: {
-
+				plugins: {
+					legend: {
+						display: true,
+						onClick: null,
+					}
+				},
 				scales: {
 					y: {
 						beginAtZero: true
@@ -415,7 +354,7 @@
 					data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
 					borderWidth: 1,
 					borderColor: 'rgba(0, 0, 0, 1)',
-					backgroundColor: "#e1dbee",
+					backgroundColor: "#8AC3EE",
 					tension: 1,
 					borderRadius: 8,
 					type: 'bar',
@@ -424,7 +363,12 @@
 
 			},
 			options: {
-
+				plugins: {
+					legend: {
+						display: true,
+						onClick: null,
+					}
+				},
 				scales: {
 					y: {
 						beginAtZero: true
@@ -439,7 +383,7 @@
 		var Chart2 = new Chart(thermal, chartConfig2);
 		var Chart3 = new Chart(water, chartConfig2);
 		var Chart4 = new Chart(gas, chartConfig2);
-		
+
 		function getRandomColor() {
 			var letters = '0123456789ABCDEF'.split('');
 			var color = '#';
@@ -465,7 +409,7 @@
 
 		};
 		Chart1.update('active');
-		
+
 		selectedRow();
 	</script>
 </body>
