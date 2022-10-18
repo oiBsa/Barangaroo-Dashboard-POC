@@ -605,7 +605,8 @@
                                                         height:32px;
                                                         "></div>
                     <div class="graphButtons">
-                        <button type="button" class="btn btn-outline-primary">Report</button>
+                        <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('link').click()">Report</button>
+                            <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
                     </div>
 
                 </div>
