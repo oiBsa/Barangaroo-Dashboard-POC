@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static 'admin/css/style2.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+        integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
+    <title>Thermal Comfort</title>
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+    <section id="sidebar" class="hide">
+        <a href="#" class="brand">
+            <img class="oi-icon"
+                src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw"
+                alt="Operational Interlligence">
+            <span class="text">Operational Intelligence</span>
+        </a>
+    </section>
+    <!-- SIDEBAR -->
+
+
+
+    <!-- CONTENT -->
+    <section id="content" style="background-color: rgb(255, 255, 255);">
+        <!-- NAVBAR -->
+        <nav style="height: 52px;">
+            <a href="#" class="nav-link">Car Park</a>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main id="CAR">
+            <div id="CarParkDashboard">
+                <!-- Heading -->
+                <div class="headings">
+                    <p>
+                        Car Park
+                    </p>
+                    <p>
+                        <span class="dashboard">
+                            Summary
+                        </span>
+
+                    </p>
+                </div>
+                <!-- Heading -->
+
+                <!-- CarParkSummary content infinite scroll -->
+
+                <div id="CarParkDetails">
+                    <div style="display: flex;" class="graphBoxHeader">
+                        <h4 id="meterName" href="./index.html" style="color: black; font-size:26px;">Baker McKenzie Carpark</h4>
+                        <div style="margin-left: auto;">
+                            <label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
+                            <input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00">
+                        </div>
+                        <div style="margin-right: 0;">
+                            <label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
+                            <input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
+                        </div>
+                        
+                    </div>
+                    <!-- Graph -->
+                    <div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:55px">
+                        <div style="font-family: Lato, sans-serif; margin-bottom:20px; font-size:20px" id="meterDescription">
+                            <p>Location of carpark</p>
+                        </div>
+
+                        <div style="margin-left: auto; margin-right: 20px;" class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary enable" id="todayButton">Today</button>
+                        </div>
+                        <div style="margin-right: 20px;" class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary enable"
+                                id="weeklyButton">Weekly</button>
+                        </div>
+                        <div style="margin-right: 20px;" class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary enable">Monthly</button>
+                        </div>
+                        <div style="margin-right: 20px;" class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary enable">Yearly</button>
+                        </div>
+                        <div class="vertical" style="margin-right: 20px; 
+                                                                    border-left: 2px solid black; 
+                                                                    height:32px;
+                                                                    "></div>
+                        <div class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('link').click()">Report</button>
+                            <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
+                        </div>
+
+                    </div>
+                    <canvas id="CarParkSummaryGraph" style="max-height: 490px; margin-bottom:30px;" class="graph">
+
+                    </canvas>
+
+                </div>
+
+
+            </div>
+
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+
+    <script src="{% static 'admin/js/script.js' %}"></script>
+    <script>
+        var ctx = document.getElementById('CarParkSummaryGraph').getContext('2d');
+        var chartConfig = {
+            type: 'bar',
+            data: {
+                labels: ['January', 'Feburary', 'March', 'April', 'May', 'June',
+                            'July', 'Augest', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Occupied',
+                    data: [70, 64, 85, 95, 40, 80, 82, 72, 74, 68, 0, 0],
+                    borderWidth: 1,
+                    borderColor: 'rgba(0, 0, 0, 1)',
+                    backgroundColor: "#FFD35C",
+                    tension: 0.2,
+                    borderRadius: 8,
+                    type: 'bar',
+                    order: 1,
+                },
+                {
+                    label: 'UnOccupied',
+                    data: [30, 34, 15, 5, 60, 20, 18, 28, 26, 32, 0, 0],
+                    borderWidth: 1,
+                    borderColor: 'rgba(0, 0, 0, 1)',
+                    backgroundColor: "#214FE7",
+                    tension: 0.2,
+                    borderRadius: 8,
+                    type: 'bar',
+                    order: 1
+                }],
+
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        align: 'center',
+                        position: 'bottom',
+                    },
+
+                },
+                scales: {
+                    
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        grid: {
+                            display: false,
+                            drawBorder: true,
+                            drawTicks: true,
+                        },
+                        ticks: {
+                            display: true,
+                            callback: function (value, index, ticks) { return value + '%';}
+                        }
+                    },
+                    x: {
+                        offset: true,
+                        stacked: true,
+                        grid: {
+                            display: false,
+                            drawBorder: true,
+                            drawTicks: true,
+                        }
+                    },
+                },
+                responsive: true,
+            }
+
+        };
+        var Chart1 = new Chart(ctx, chartConfig);
+
+
+    </script>
+</body>
+
+</html>

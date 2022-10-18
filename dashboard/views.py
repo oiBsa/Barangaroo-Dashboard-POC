@@ -69,6 +69,10 @@ def car_park(request):
     if request.user.is_authenticated: return render(request=request, template_name="CarPark.html")
     else: return redirect("home")
 
+def car_park_page(request):
+    if request.user.is_authenticated: return render(request=request, template_name="CarParkSummary.html")
+    else: return redirect("home")
+
 def ev_charging(request):
     if request.user.is_authenticated: return render(request=request, template_name="EVCharging.html")
     else: return redirect("home")

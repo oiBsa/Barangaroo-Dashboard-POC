@@ -1658,13 +1658,17 @@ svg path {
 	font-family: sans-serif;
 	font-size: 1.5rem;
 	font-weight: 600;
-	color: #3B3462;
+	color: #3B3462 !important;
 	display: flex;
 	margin-bottom: 1rem;
 }
 
 #CarParkSummary .heading i:hover {
 	cursor: pointer;
+}
+#CarParkSummary .heading a:hover {
+	cursor: pointer;
+	text-decoration: underline;
 }
 
 #CarParkSummary canvas {
@@ -1932,3 +1936,4 @@ svg path {
 	color: white;
 }
 
+/*================================ CVar Park Details =============================*/

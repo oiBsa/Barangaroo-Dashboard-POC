@@ -38,6 +38,7 @@ urlpatterns = [
     path("thermal_comfort_humidity/", view=views.thermal_comfort_humidity, name="thermalComfortHumidity"),
     path("thermal_comfort_co2", view=views.thermal_comfort_co2, name="thermalComfortCo2"),
     path("carpark/", view=views.car_park, name="carPark"),
+    path("carpark_summary", view=views.car_park_page, name="carparkSummary"),
     path("ev_charging", view=views.ev_charging, name="evCharging"),
     
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
