@@ -91,6 +91,18 @@
             </div>
           </div>
           <div>
+            <div style="display: flex; align-content:right;" class="TCDButtons">
+              <button style="margin-left: auto;">Today</button>
+              <button>Weekly</button>
+              <button>Monthly</button>
+              <button>Yearly</button>
+              <div class="vertical" style="margin-right: 8px; 
+                                                        border-left: 2px solid black; 
+                                                        height:32px;
+                                                        "></div>
+              <button class="unClicked" onclick="document.getElementById('link').click()" style="background-color: #C4DEF7; color: #3B3462;">Report</button>
+              <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
+            </div>
             <canvas id="TDCgraph" style="height: 100px;">
             </canvas>
           </div>
@@ -106,7 +118,7 @@
           </h4>
         </div>
         <div id="thermalComfortSideBarSelection">
-          <div class="selectionContainer active">
+          <div class="selectionContainer">
             <div style="display:flex">
               <a class='bx' id="box1" href="{% url 'thermalComfort' %}">
                 <span>&deg;C</span>
@@ -116,7 +128,7 @@
               </div>
             </div>
           </div>
-          <div class="selectionContainer">
+          <div class="selectionContainer active">
             <div style="display:flex">
               <a class='bx' id="box2" href="{% url 'thermalComfortHumidity' %}">
                 <span>%</span>
@@ -259,8 +271,8 @@
           pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} &deg;C</span>',
           positioner: function (labelWidth, labelHeight) {
             return {
-              x: 260 - labelWidth / 2,
-              y: 180
+              x: 152 - labelWidth / 2,
+              y: 230
             };
           }
         },
@@ -287,7 +299,7 @@
           size: '100%',
           background: []
         }],
-
+        credits: {enabled: false},
         yAxis: [{
           min: 0,
           max: 50,
@@ -303,7 +315,7 @@
             enabled: true,
             x: 0,
             y: 0,
-            format: '{value} %r.h.',
+            format: '{value}%',
             style: {
               fontSize: 12,
               fontFamily: "sans-serif"
@@ -383,8 +395,8 @@
           pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} &deg;C</span>',
           positioner: function (labelWidth, labelHeight) {
             return {
-              x: 260 - labelWidth / 2,
-              y: 180
+              x: 152 - labelWidth / 2,
+              y: 230
             };
           }
         },
@@ -411,7 +423,7 @@
           size: '100%',
           background: []
         }],
-
+        credits: {enabled: false},
         yAxis: [{
           min: 0,
           max: 50,
@@ -427,7 +439,7 @@
             enabled: true,
             x: 0,
             y: 0,
-            format: '{value} %r.h.',
+            format: '{value}%',
             style: {
               fontSize: 12,
               fontFamily: "sans-serif"

@@ -141,6 +141,18 @@
             </div>
           </div>
           <div>
+            <div style="display: flex; align-content:right;" class="TCDButtons">
+              <button style="margin-left: auto;">Today</button>
+              <button>Weekly</button>
+              <button>Monthly</button>
+              <button>Yearly</button>
+              <div class="vertical" style="margin-right: 8px; 
+                                                        border-left: 2px solid black; 
+                                                        height:32px;
+                                                        "></div>
+              <button class="unClicked" onclick="document.getElementById('link').click()" style="background-color: #C4DEF7; color: #3B3462;">Report</button>
+              <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
+            </div>
             <canvas id="TDCgraph" style="height: 100px;">
             </canvas>
           </div>
@@ -158,7 +170,7 @@
         <div id="thermalComfortSideBarSelection">
           <div class="selectionContainer active">
             <div style="display:flex">
-              <a class='bx' id="box1" href="{% url 'thermalComfort' %}">
+              <a class='bx' id="box1" href="{% url 'thermalComfort' %}" style="text-decoration: none;">
                 <span>&deg;C</span>
               </a>
               <div style="margin-left:20px;" class="selectionLabel">
@@ -168,7 +180,7 @@
           </div>
           <div class="selectionContainer">
             <div style="display:flex">
-              <a class='bx' id="box2" href="{% url 'thermalComfortHumidity' %}">
+              <a class='bx' id="box2" href="{% url 'thermalComfortHumidity' %}" style="text-decoration: none;">
                 <span>%</span>
               </a>
               <div style="margin-left:20px;" class="selectionLabel">
@@ -178,7 +190,7 @@
           </div>
           <div class="selectionContainer">
             <div style="display:flex">
-              <a class='bx' id="box3" href="{% url 'thermalComfortCo2' %}">
+              <a class='bx' id="box3" href="{% url 'thermalComfortCo2' %}" style="text-decoration: none;">
                 <span>Co2</span>
               </a>
               <div style="margin-left:20px;" class="selectionLabel">
@@ -226,58 +238,13 @@
     var xValues = ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'];
     var yValuesAbove = [22, 18, 15, 25, 10, 15, 22, 32, 22, 20, 14, 25, 20, 18, 14, 20, 18, 20, 22, 21, 30, 35, 20, 25, 21, 25];
     var yValuesBelow = [78, 82, 85, 75, 90, 23, 78, 68, 78, 80, 86, 75, 80, 78, 86, 80, 82, 80, 78, 79, 70, 65, 80, 75, 79, 75];
-    var colorListAbove = new Array(yValuesAbove.length).fill('#e06666');
-    var maxTemp = indexOfMax(yValuesAbove);
-    var minTemp = indexOfMin(yValuesAbove);
+    var colorListAbove = new Array(yValuesAbove.length).fill('#ec6f41d7');
     var colorListBelow = new Array(yValuesAbove.length).fill('#9b70ff');
-    var maxTemp = indexOfMax(yValuesBelow);
-    var minTemp = indexOfMin(yValuesBelow);
-
-    function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
-      var angleInRadians = (angleInDegrees - 180) * Math.PI / 180;
-
-      return {
-        x: centerX + (radius * Math.cos(angleInRadians)),
-        y: centerY + (radius * Math.sin(angleInRadians))
-      };
-    };
-    function indexOfMax(arr) {
-      if (arr.length === 0) {
-        return -1;
-      }
-
-      var max = arr[0];
-      var maxIndex = 0;
-
-      for (var i = 1; i < arr.length; i++) {
-        if (arr[i] > max) {
-          maxIndex = i;
-          max = arr[i];
-        }
-      }
-
-      return maxIndex;
-    };
-    function indexOfMin(arr) {
-      var lowest = 0;
-      for (var i = 1; i < arr.length; i++) {
-        if (arr[i] < arr[lowest]) lowest = i;
-      }
-      return lowest;
-    };
-    function switchChannel(el) {
-      // find all the elements in your channel list and loop over them
-      Array.prototype.slice.call(document.querySelectorAll('ul[data-tag="channelList"] li')).forEach(function (element) {
-        // remove the selected class
-        element.classList.toggle('unselected');
-      });
-      // add the selected class to the element that was clicked
-      this.classList.toggle('selected');
-    }
-
-
-
     var ctx = document.getElementById('TDCgraph').getContext('2d');
+    $(".TCDButtons").on("click", "button", function() {
+      $(this).parent().find('button').removeClass('clicked');
+      $(this).addClass('clicked');
+    })
     var chartConfig = {
       type: 'bar',
       data: {
@@ -285,7 +252,7 @@
         datasets: [{
           label: "Above",
           data: yValuesAbove,
-          backgroundColor: colorListAbove,
+          backgroundColor: '#ec6f41d7',
           borderRadius: 5,
         },
         {
@@ -341,7 +308,10 @@
         style: { fontSize: '16px' },
         pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} &deg;C</span>',
         positioner: function (labelWidth, labelHeight) {
-          return { x: 160 - labelWidth / 2, y: 240 };
+          return {
+            x: 152 - labelWidth / 2,
+            y: 230
+          };
         }
       },
 
@@ -436,8 +406,8 @@
         pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} &deg;C</span>',
         positioner: function (labelWidth, labelHeight) {
           return {
-            x: 160 - labelWidth / 2,
-            y: 240
+            x: 152 - labelWidth / 2,
+            y: 230
           };
         }
       },
@@ -464,9 +434,7 @@
         size: '100%',
         background: []
       }],
-      credits: {
-        enabled: false
-      },
+      credits: {enabled: false},
 
       yAxis: [{
         min: 0,
@@ -508,9 +476,9 @@
       series: [{
         name: 'Average',
         animation: false,
-        borderColor: '#e06666',
+        borderColor: '#ec6f41d7',
         data: [{
-          color: '#e06666',
+          color: '#ec6f41d7',
           radius: '82%',
           innerRadius: '82%',
           y: 25
@@ -542,8 +510,7 @@
 
     });
     var Chart1 = new Chart(ctx, chartConfig);
-    document.getElementById("tempratureAboveArc").setAttribute("d", describeArc(115, 115, 110, 0, 359));
-    document.getElementById("tempratureBellowArc").setAttribute("d", describeArc(80, 80, 65, 0, 270));
+
   </script>
 </body>
 

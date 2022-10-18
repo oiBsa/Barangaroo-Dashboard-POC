@@ -72,7 +72,7 @@
             <div>
               <p>Percentage of Rooms<br>Below 20ppm</p>
               <div id="TCDgauge">
-                <div id="gaugecontainers1" style="width: 300px; height: 300px; margin: 0 auto">
+                <div id="gaugecontainers1" style="width: 305px; height: 300px; margin: 0 auto">
                 </div>
                 <div id="center-circle">
                   <span id="totalConsumptionValue" class="TCDgaugeValue">65%</span>
@@ -83,7 +83,7 @@
             <div>
               <p>Percentage of Rooms<br>Above 30ppm</p>
               <div id="TCDgauge">
-                <div id="gaugecontainers2" style="width: 300px; height: 300px; margin: 0 auto">
+                <div id="gaugecontainers2" style="width: 305px; height: 300px; margin: 0 auto">
                 </div>
                 <div id="center-circle">
                   <span id="totalConsumptionValue" class="TCDgaugeValue">35%</span>
@@ -92,6 +92,18 @@
             </div>
           </div>
           <div>
+            <div style="display: flex; align-content:right;" class="TCDButtons">
+              <button style="margin-left: auto;">Today</button>
+              <button>Weekly</button>
+              <button>Monthly</button>
+              <button>Yearly</button>
+              <div class="vertical" style="margin-right: 8px; 
+                                                        border-left: 2px solid black; 
+                                                        height:32px;
+                                                        "></div>
+              <button class="unClicked" onclick="document.getElementById('link').click()" style="background-color: #C4DEF7; color: #3B3462;">Report</button>
+              <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
+            </div>
             <canvas id="TDCgraph" style="height: 100px;">
             </canvas>
           </div>
@@ -288,7 +300,7 @@
           size: '100%',
           background: []
         }],
-
+        credits: {enabled: false},
         yAxis: [{
           min: 0,
           max: 50,
@@ -304,9 +316,9 @@
             enabled: true,
             x: 0,
             y: 0,
-            format: '{value} ppm',
+            format: '{value}ppm',
             style: {
-              fontSize: 12,
+              fontSize: 10,
               fontFamily: "sans-serif"
             }
           }
@@ -411,7 +423,7 @@
           size: '100%',
           background: []
         }],
-
+        credits: {enabled: false},
         yAxis: [{
           min: 0,
           max: 50,
@@ -427,9 +439,9 @@
             enabled: true,
             x: 0,
             y: 0,
-            format: '{value} ppm',
+            format: '{value}ppm',
             style: {
-              fontSize: 12,
+              fontSize: 10,
               fontFamily: "sans-serif"
             }
           }

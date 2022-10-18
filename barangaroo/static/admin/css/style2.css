@@ -1377,7 +1377,7 @@ svg path {
 	column-gap: 20px;
 	place-items: center;
 	text-align: center;
-	margin-bottom: 10px;
+	margin-bottom: 15px;
 	margin-top: 22px;
 }
 
@@ -1397,7 +1397,7 @@ svg path {
 }
 
 #TDCgraph {
-	max-height: 295px;
+	max-height: 260px;
 	padding: 0px 0px;
 }
 
@@ -1906,3 +1906,29 @@ svg path {
 	border: none;
 	box-shadow: 0.1rem 0.1rem 0.5rem 0.lrem #544d774b;
 }
+
+.TCDButtons button {
+	color: #3B3462;
+	width: 4rem;
+	height: 2rem;
+	font-family: sans-serif;
+	font-size: 15px;
+	border: none!important;
+	outline: none !important;
+	background-color: #C4DEF7;
+	border-radius: 0.5rem;
+	box-shadow: 0.2rem 0.2rem 0.5rem 0.1rem #3b34622c;
+	margin-right: 0.5rem;
+}
+.TCDButtons button:hover {
+	transform: scale(1.08);
+}
+.TCDButtons button:active {
+	background-color: #153b6177;
+	color: white;
+}
+.TCDButtons .clicked {
+	background-color: #0e365e86;
+	color: white;
+}
+
