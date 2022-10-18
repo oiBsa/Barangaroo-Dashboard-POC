@@ -1936,4 +1936,176 @@ svg path {
 	color: white;
 }
 
-/*================================ CVar Park Details =============================*/
+/*================================ NABERS page =============================*/
+
+#NABER {
+	background-color: #FCF7FF;
+	border-radius: 24px;
+	height: 100vh;
+	grid-row-start: auto;
+	margin-right: 1rem;
+}
+.NABERheading {
+	text-align: center;
+	font-family: sans-serif;
+	margin-bottom: 4rem;
+	margin-top: 1rem;
+}
+.NABERheading .mainHeading{
+	font-size: 1.4rem;
+	font-weight: 550;
+	color: black;
+}
+.NABERheading .subHeading{
+	font-size: 1rem;
+	font-weight: 550;
+	color: #97989C;
+}
+
+.NABERbody {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.NABERbody .dashboard {
+	width: 720px;
+	margin-right: 1rem;
+	height: 80%;
+	display: grid;
+	grid-template-rows: 50% 50%;
+}
+.NABERbody .dashboard .ratings {
+	display: flex;
+	flex-wrap: wrap;
+}
+.NABERbody .dashboard .naboursRating {
+	min-width: 300px;
+	margin-right: 1vw;
+	background-color: white;
+	border-radius: 1.5rem;
+	padding: 1rem 1rem;
+	margin-bottom: 1rem;
+}
+.NABERbody .dashboard .nabersMeterConsumtion {
+	min-width: 400px;
+	background-color: white;
+	border-radius: 1.5rem;
+	padding: 1rem 1rem;
+	margin-bottom: 1rem;
+}
+.NABERbody .dashboard .details {
+	background-color: white;
+	border-radius: 1.5rem;
+	padding: 1rem 1rem;
+	margin-bottom: 1rem;
+	height: auto;
+}
+.NABERbody .dashboard .details .heading {
+	font-family: sans-serif;
+	color: #939598;
+	font-size: 1rem;
+	text-align: center;
+	margin-bottom: 0.5rem;
+}
+.NABERbody .dashboard .details .target-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	justify-self: center;
+	column-gap: 1rem;
+	text-align: center;
+	justify-content: center;
+}
+.target-container p {
+	color: #939598;
+	font-family: sans-serif;
+	font-weight: 550;
+	font-size: 1.3rem;
+}
+.hLine {
+	width: 60%;
+	height: 1.2%;
+	background-color: #939598;
+	margin-bottom: 0.5rem;
+}
+.hLine2 {
+	width: 80%;
+	height: 1%;
+	background-color: #DBDBDD;
+	margin-bottom: 0.5rem;
+	margin-top: 0.5rem;
+}
+.NABERbody .dashboard .details .box {
+	border-radius: 1rem;
+	box-shadow: 0.2rem 0.2rem 0.5rem 0.1rem #3b346257,
+	0rem 0rem 0.1rem 0.1rem #3b34626c inset;
+	height: 12rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 13rem;
+}
+
+.NABERbody .dashboard .details .box .star-details p {
+	font-size: 2rem;
+	color: #0B799C;
+	font-family: sans-serif;
+}
+.NABERbody .dashboard .details .box .unit-details p {
+	font-size: 1rem;
+}
+
+.NABERbody .graph {
+	flex-grow: 100;
+	height: 42rem;
+	background-color: white;
+	border-radius: 1.5rem;
+	padding: 1rem 1rem;
+	margin-bottom: 1rem;
+	padding: 2rem 2rem;
+	box-shadow: 0.4rem 0.4rem 1.2rem 0.1rem #3b34622f;
+}
+.NABERbody .graph:hover {
+	transform: scale(1.01);
+	box-shadow: 0.4rem 0.4rem 1.2rem 0.1rem #3b346236,
+					0rem 0rem 0.5rem 0.1rem #3b346227 inset;
+}
+
+#center-circle-nabour {
+	position: absolute;
+	width: 90px;
+	height: 90px;
+	background: linear-gradient(180deg, #ffffff 0%, #e7ecf1 100%);
+	border-radius: 50%;
+	margin-bottom: 6px;
+	box-shadow: 0px 10px 100px 1px rgba(115, 80, 204, 0.25);
+	text-align: center;
+	justify-content: center;
+}
+
+#center-circle-nabour::before {
+	content: '';
+	position: absolute;
+	width: 70px;
+	height: 70px;
+	background: linear-gradient(0deg, #ffffff, #D9DBDD);
+	border-radius: 50%;
+	right: 10px;
+	top: 10px
+}
+#center-circle-nabour:hover {
+	cursor: pointer;
+	box-shadow: 0px 0px 20px 0.5px #8d7de41f inset,
+	 0px 10px 100px 1px rgba(115, 80, 204, 0.25);;
+}
+.nabourGaugeValue {
+	position: absolute;
+	font-size: 20px;
+	font-weight: 600;
+	font-family: sans-serif;
+	color: #3B3462;
+	text-align: center;
+	right: 20px;
+	top: 34px;
+
+}

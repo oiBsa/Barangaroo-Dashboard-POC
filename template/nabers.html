@@ -19,7 +19,7 @@
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
-    <title>Thermal Comfort</title>
+    <title>NABERS Tracking</title>
 </head>
 
 <body>
@@ -43,28 +43,117 @@
     <section id="content" style="background-color: white;">
         <!-- NAVBAR -->
         <nav style="height: 52px;">
-            <a href="#" class="nav-link">Nabers</a>
+            <a href="#" class="nav-link" style="font-size: 1.3rem; font-weight:650;">Nabers Tracking</a>
         </nav>
         <!-- NAVBAR -->
 
         <!-- MAIN -->
-        <main id="TCD">
-            <div id="thermalComfortDashboard">
-                <!-- Heading -->
-                <div class="headings">
-                    <p>
-                        Nabers Tracking
-                    </p>
-                </div>
-                <!-- Heading -->
-
-                <!-- TCD Main Content -->
-
-
-
-                <!-- TCD Main Content -->
+        <main id="NABER">
+            <!-- #region Heading of the Nabers page-->
+            <div class="NABERheading">
+                <p class="mainHeading">PS-B-ELE-L03-EM001</p>
+                <p class="subHeading">NABERS Tracking</p>
             </div>
+            <!-- #endregion End opf heading of the Nabers page-->
 
+            <!-- #region Body of the Nabers page-->
+            <div class="NABERbody">
+                <div class="dashboard">
+                    <div class="ratings">
+                        <div class="naboursRating">
+                            <p>
+                                Rating
+                            </p>
+                        </div>
+                        <div class="nabersMeterConsumtion">
+                            <p>
+                                Meter
+                            </p>
+                        </div>
+                    </div>
+                    <div class="details">
+                        <div class="heading">
+                            <p>
+                                Target for NABERS Rating This Month
+                            </p>
+                        </div>
+                        <div class="target-container">
+                            <div style="display: flex; flex-direction: column; align-items:center;">
+                                <p>Rating</p>
+                                <div class="hLine"></div>
+                                <div class="box">
+                                    <div class="star-details">
+                                        <p>6 STARS</p>
+                                    </div>
+                                    <div class="hLine2"></div>
+                                    <div class="unit-details">
+                                        <p>
+                                            Market Leading
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div div style="display: flex; flex-direction: column; align-items:center;">
+                                <p>Target</p>
+                                <div class="hLine"></div>
+                                <div class="box">
+                                    <div class="star-details">
+                                        <p>2500000</p>
+                                    </div>
+                                    <div class="hLine2"></div>
+                                    <div class="unit-details">
+                                        <p>
+                                            Market Leading
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div div style="display: flex; flex-direction: column; align-items:center;">
+                                <p>
+                                    Overall
+                                </p>
+                                <div class="hLine"></div>
+                                <div class="box">
+                                    <div id="nabersGauge" style="width: 11rem; height: 11rem; margin: 0 auto">
+                                    </div>
+                                    <div id="center-circle-nabour">
+                                        <span id="totalConsumptionValue" class="nabourGaugeValue">65%</span>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="graph">
+                    <div style="display: flex; margin-bottom:3rem;">
+                        <div>
+                            <label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
+                            <input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00">
+                        </div>
+                        <div>
+                            <label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
+                            <input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
+                        </div>
+                        <div style="margin-right: 20px; margin-left:auto;" class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary">Monthly</button>
+                        </div>
+                        <div style="margin-right: 20px;" class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary">Yearly</button>
+                        </div>
+                        <div class="vertical" style="margin-right: 20px; 
+															border-left: 2px solid black; 
+															height:32px;
+															"></div>
+                        <div class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary"
+                                onclick="document.getElementById('link').click()">Report</button>
+                            <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
+                        </div>
+                    </div>
+                    <canvas id="nabersGraph"></canvas>
+                </div>
+            </div>
+            <!-- #endregion End opf Body of the Nabers page-->
         </main>
         <!-- MAIN -->
     </section>
@@ -72,6 +161,190 @@
 
 
     <script src="{% static 'admin/js/script.js' %}"></script>
+    <script>
+        var nabersGraph = document.getElementById('nabersGraph').getContext('2d');
+        var chartConfig = {
+            type: 'bar',
+            data: {
+                labels: ['January', 'Feburary', 'March', 'April', 'May', 'June',
+                    'July', 'Augest', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Consumption',
+                    data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
+                    borderWidth: 1,
+                    borderColor: 'rgba(0, 0, 0, 1)',
+                    backgroundColor: "#8AC3EE",
+                    tension: 1,
+                    borderRadius: 8,
+                    type: 'bar',
+                    order: 1
+                },
+                {
+                    label: '6.0',
+                    data: [400, 370, 320, 290, 250, 220, 215, 220, 210, 210],
+                    borderWidth: 2,
+                    borderColor: '#D9C4D7',
+                    backgroundColor: "#D9C4D7",
+                    tension: 0.5,
+                    borderRadius: 8,
+                    type: 'line'
+                },
+                {
+                    label: '5.5',
+                    data: [500, 460, 410, 360, 320, 300, 295, 300, 290, 290],
+                    borderWidth: 2,
+                    borderColor: '#52A98C',
+                    backgroundColor: "#52A98C",
+                    tension: 0.5,
+                    borderRadius: 8,
+                    type: 'line'
+                },
+                {
+                    label: '5.0',
+                    data: [600, 550, 500, 430, 380, 350, 345, 350, 340, 340],
+                    borderWidth: 2,
+                    borderColor: '#8785C7',
+                    backgroundColor: "#8785C7",
+                    tension: 0.5,
+                    borderRadius: 8,
+                    type: 'line'
+                },
+                {
+                    label: '4.5',
+                    data: [800, 750, 650, 560, 505, 490, 485, 490, 480, 480],
+                    borderWidth: 2,
+                    borderColor: '#C6D9E3',
+                    backgroundColor: "#C6D9E3",
+                    tension: 0.4,
+                    borderRadius: 8,
+                    type: 'line'
+                }],
+
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                    }
+                },
+                scales: {
+
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            display: true,
+                            drawBorder: true,
+                            drawTicks: true,
+                        },
+                        ticks: {
+                            display: true,
+                            callback: function (value, index, ticks) { return value + 'kWh'; }
+                        }
+                    },
+                    x: {
+                        type: 'category',
+                        grid: {
+                            display: false,
+                            drawBorder: true,
+                            drawTicks: true,
+                        }
+                    },
+                },
+                responsive: true,
+            }
+
+        };
+        var Chart1 = new Chart(nabersGraph, chartConfig);
+        const gauge1 = Highcharts.chart('nabersGauge', {
+            chart: { type: 'solidgauge', backgroundColor: '#FFFFFF', },
+            tooltip: {
+                borderWidth: 0,
+                backgroundColor: 'none',
+                shadow: false,
+                style: { fontSize: '10px' },
+                pointFormat: '<span style="font-size:18px; color: {point.color}; font-weight: bold; text-align: center">{point.y} kWh</span>',
+                positioner: function (labelWidth, labelHeight) {
+                    return {
+                        x: 90 - labelWidth / 2,
+                        y: 140
+                    };
+                }
+            },
+
+            pane: [{
+                startAngle: -140,
+                endAngle: 140,
+                background: [{ // Track for Move
+                    outerRadius: '85%',
+                    innerRadius: '70%',
+                    backgroundColor: '#F1F0F5',
+                    borderWidth: 0,
+                    shape: 'arc'
+                }, { // Track for Stand
+                    outerRadius: '70%',
+                    innerRadius: '0%',
+                    backgroundColor: "#FFFFFF",
+                    borderWidth: 0,
+                    shape: 'arc'
+                }]
+            }, {
+                startAngle: -140,
+                endAngle: 140,
+                size: '100%',
+                background: []
+            }],
+            credits: {
+                enabled: false
+            },
+            yAxis: [{
+                lineWidth: 0,
+                tickLength: 0,
+                tickWidth: 0,
+                tickColor: 'black',
+                tickPosition: 'inside',
+                minorTickLength: 0,
+                labels: {
+                    distance: 5,
+                    enabled: false,
+                    x: 0,
+                    y: 0,
+                    format: '',
+                    style: {
+                        fontSize: 12,
+                        fontFamily: "sans-serif"
+                    }
+                }
+
+            }],
+            title: {
+                text: '',
+            },
+
+            plotOptions: {
+                solidgauge: {
+                    borderWidth: '10px',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    linecap: 'round',
+                    stickyTracking: false,
+                }
+            },
+
+            series: [{
+                name: 'Average',
+                animation: false,
+                borderColor: '#0B799C',
+                data: [{
+                    color: '#0B799C',
+                    radius: '80%',
+                    innerRadius: '80%',
+                    y: 20
+                }]
+            },
+            ]
+        });
+    </script>
 
 </body>
 
