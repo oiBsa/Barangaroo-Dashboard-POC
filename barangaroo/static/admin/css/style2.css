@@ -1953,12 +1953,13 @@ svg path {
 	margin-top: 1rem;
 }
 .NABERheading .mainHeading{
-	font-size: 1.4rem;
+	font-size: 1.6rem;
 	font-weight: 550;
 	color: black;
+	font-family: sans-serif;
 }
 .NABERheading .subHeading{
-	font-size: 1rem;
+	font-size: 1.2rem;
 	font-weight: 550;
 	color: #97989C;
 }
@@ -2001,7 +2002,12 @@ svg path {
 	text-align: center;
 	align-items: center;
 	color: #939598;
-
+	box-shadow: 0.3rem 0.3rem 1.2rem 0.1rem #3b34622f;
+}
+.NABERbody .dashboard .nabersMeterConsumtion:hover {
+	transform: scale(1.01);
+	box-shadow: 0.3rem 0.3rem 1.2rem 0.1rem #3b346236,
+					0rem 0rem 0.5rem 0.1rem #3b346227 inset;
 }
 .nabersMeterConsumtion .heading p {
 	margin-bottom: 3rem;
@@ -2032,12 +2038,12 @@ svg path {
 	padding: 1rem 1rem;
 	height: 20rem;
 	margin-bottom: 1rem;
-	box-shadow: 0.3rem 0.3rem 0.8rem 0.03rem #3b346225;
+	box-shadow: 0.3rem 0.3rem 1.2rem 0.1rem #3b34622f;
 }
 .NABERbody .dashboard .details:hover {
 	transform: scale(1.01);
-	box-shadow: 0.3rem 0.3rem 0.8rem 0.03rem #3b34622d, 
-					0rem 0rem 0.3rem 0.01rem #3b346225 inset;
+	box-shadow: 0.3rem 0.3rem 1.2rem 0.1rem #3b346236,
+					0rem 0rem 0.5rem 0.1rem #3b346227 inset;
 }
 .NABERbody .dashboard .details .heading {
 	font-family: sans-serif;
@@ -2162,6 +2168,12 @@ svg path {
 	align-items: center;
 	text-align: center;
 	align-content: center;
+	box-shadow: 0.3rem 0.3rem 1.2rem 0.1rem #3b34622f;
+}
+.naboursRating:hover {
+	transform: scale(1.01);
+	box-shadow: 0.3rem 0.3rem 1.2rem 0.1rem #3b346236,
+					0rem 0rem 0.5rem 0.1rem #3b346227 inset;
 }
 .naboursRating .heading p {
 	color: #939598;
