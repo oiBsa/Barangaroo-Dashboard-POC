@@ -1011,9 +1011,9 @@ tr{cursor: pointer; transition: all 0.5s ease-in-out}
 
 #lineVoltage {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(590px, 505px));
+	grid-template-columns: repeat(auto-fit, minmax(590px, 505px));
 	grid-gap: 15px;
-	grid-auto-flow: column;
+	grid-auto-flow: row;
 	grid-row: 1;
 	margin-top: 20px;
 	margin-bottom: 5px;
@@ -1064,7 +1064,7 @@ tr{cursor: pointer; transition: all 0.5s ease-in-out}
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(590px, 590px));
 	grid-gap: 15px;
-	grid-auto-flow: column;
+	grid-auto-flow: row;
 	grid-row: 1;
 	margin-top: 20px;
 	margin-bottom: 5px;
