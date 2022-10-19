@@ -1789,7 +1789,27 @@ svg path {
 	color: #3B3462;
 	text-align: center;
 }
+.EVSelection {
+	margin-bottom: 2rem;
+}
+.EVSelection p {
+	color: #3B3462;
+	font-size: 1.3rem;
+}
+.EVSelection .active{
+	color: #B4B1C9;
+	text-decoration: underline;
+}
 
+.EVSelection .bx:hover {
+	transform: scale(1.01);
+	color: var(--main-color);
+	text-decoration: underline;
+}
+
+
+
+/* --------------------------- Home Page -----------------------------*/
 .homePage {
 	height: 94vh;
 }

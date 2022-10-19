@@ -74,5 +74,5 @@ def car_park_page(request):
     else: return redirect("home")
 
 def ev_charging(request):
-    if request.user.is_authenticated: return render(request=request, template_name="EVCharging.html")
+    if request.user.is_authenticated: return render(request=request, template_name="EVCharging_new.html")
     else: return redirect("home")
