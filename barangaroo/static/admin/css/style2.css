@@ -1944,6 +1944,7 @@ svg path {
 	height: 100vh;
 	grid-row-start: auto;
 	margin-right: 1rem;
+	margin-right: 1rem;
 }
 .NABERheading {
 	text-align: center;
@@ -1964,15 +1965,15 @@ svg path {
 
 .NABERbody {
 	display: flex;
+	flex-direction: row;
 	flex-wrap: wrap;
 }
 
 .NABERbody .dashboard {
-	width: 720px;
+	width: 700px;
 	margin-right: 1rem;
 	height: 80%;
 	display: grid;
-	grid-template-rows: 50% 50%;
 }
 .NABERbody .dashboard .ratings {
 	display: flex;
@@ -1980,32 +1981,71 @@ svg path {
 }
 .NABERbody .dashboard .naboursRating {
 	min-width: 300px;
+	min-height: 300px;
 	margin-right: 1vw;
 	background-color: white;
 	border-radius: 1.5rem;
 	padding: 1rem 1rem;
-	margin-bottom: 1rem;
+	margin-bottom: 1vw;
 }
 .NABERbody .dashboard .nabersMeterConsumtion {
-	min-width: 400px;
+	min-width: 380px;
 	background-color: white;
 	border-radius: 1.5rem;
 	padding: 1rem 1rem;
 	margin-bottom: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-content: center;
+	text-align: center;
+	align-items: center;
+	color: #939598;
+
+}
+.nabersMeterConsumtion .heading p {
+	margin-bottom: 3rem;
+	font-family: sans-serif;
+	font-size: 1.3rem;
+	margin-top: 1rem;
+}
+.NABERConsumptionValue span {
+	font-family: sans-serif;
+	font-size: 3.5rem;
+}
+.NAVERSUnit p {
+	font-family: sans-serif;
+	font-size: 1.6rem;
+}
+.NAVERSUnit {
+	margin-top: 1rem;
+}
+.hLine3 {
+	width: 70%;
+	height: 1%;
+	background-color: #DBDBDD;
+	margin-bottom: 1.1rem;
 }
 .NABERbody .dashboard .details {
 	background-color: white;
 	border-radius: 1.5rem;
 	padding: 1rem 1rem;
+	height: 20rem;
 	margin-bottom: 1rem;
-	height: auto;
+	box-shadow: 0.3rem 0.3rem 0.8rem 0.03rem #3b346225;
+}
+.NABERbody .dashboard .details:hover {
+	transform: scale(1.01);
+	box-shadow: 0.3rem 0.3rem 0.8rem 0.03rem #3b34622d, 
+					0rem 0rem 0.3rem 0.01rem #3b346225 inset;
 }
 .NABERbody .dashboard .details .heading {
 	font-family: sans-serif;
 	color: #939598;
 	font-size: 1rem;
 	text-align: center;
-	margin-bottom: 0.5rem;
+	margin-bottom: 1.2rem;
+	margin-top: 0.4rem;
 }
 .NABERbody .dashboard .details .target-container {
 	display: grid;
@@ -2018,7 +2058,6 @@ svg path {
 .target-container p {
 	color: #939598;
 	font-family: sans-serif;
-	font-weight: 550;
 	font-size: 1.3rem;
 }
 .hLine {
@@ -2050,20 +2089,26 @@ svg path {
 	font-size: 2rem;
 	color: #0B799C;
 	font-family: sans-serif;
+	margin-bottom: 0.5rem;
+	margin-top: 1rem;
+	font-weight: 600;
 }
 .NABERbody .dashboard .details .box .unit-details p {
 	font-size: 1rem;
 }
 
 .NABERbody .graph {
-	flex-grow: 100;
-	height: 42rem;
+	height: 40rem;
+	width: 67rem;
 	background-color: white;
 	border-radius: 1.5rem;
 	padding: 1rem 1rem;
 	margin-bottom: 1rem;
 	padding: 2rem 2rem;
 	box-shadow: 0.4rem 0.4rem 1.2rem 0.1rem #3b34622f;
+}
+.NABERbody .graph canvas {
+	max-height: 30rem;
 }
 .NABERbody .graph:hover {
 	transform: scale(1.01);
@@ -2073,12 +2118,12 @@ svg path {
 
 #center-circle-nabour {
 	position: absolute;
-	width: 90px;
-	height: 90px;
+	width: 126px;
+	height: 126px;
 	background: linear-gradient(180deg, #ffffff 0%, #e7ecf1 100%);
 	border-radius: 50%;
 	margin-bottom: 6px;
-	box-shadow: 0px 10px 100px 1px rgba(115, 80, 204, 0.25);
+	box-shadow: 0px 10px 50px 1px rgba(80, 123, 204, 0.2);
 	text-align: center;
 	justify-content: center;
 }
@@ -2086,12 +2131,12 @@ svg path {
 #center-circle-nabour::before {
 	content: '';
 	position: absolute;
-	width: 70px;
-	height: 70px;
+	width: 102px;
+	height: 102px;
 	background: linear-gradient(0deg, #ffffff, #D9DBDD);
 	border-radius: 50%;
-	right: 10px;
-	top: 10px
+	right: 12px;
+	top: 12px
 }
 #center-circle-nabour:hover {
 	cursor: pointer;
@@ -2100,12 +2145,74 @@ svg path {
 }
 .nabourGaugeValue {
 	position: absolute;
-	font-size: 20px;
-	font-weight: 600;
+	font-size: 2.5rem;
+	font-weight: 700;
 	font-family: sans-serif;
-	color: #3B3462;
 	text-align: center;
 	right: 20px;
-	top: 34px;
+	top: 40px;
+	color: #0B799C;
+}
 
+.naboursRating {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+	align-content: center;
+}
+.naboursRating .heading p {
+	color: #939598;
+	font-family: sans-serif;
+	font-size: 1.25rem;
+	margin-top: 1rem;
+}
+.naboursRating .unit p {
+	font-family: sans-serif;
+	font-size: 1rem;
+	color: #939598;
+	margin-bottom: 1rem;
+}
+
+.naboursRating .first-rate{
+	color: #939598;
+	font-size: 6rem;
+	font-family: sans-serif;
+	vertical-align: bottom;
+	margin-top: auto;
+	margin-bottom: 0;
+}
+.naboursRating .second-rate{
+	color: #939598;
+	font-size: 3rem;
+	text-align:end;
+	font-family: sans-serif;
+}
+.NABERtext {
+	font-size: 2rem;
+	font-weight: 600;
+	background: -webkit-linear-gradient(0deg, #056A87, #5096ab);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+.naberBar {
+	height: 0.6rem;
+	width: 1.8rem;
+	background-color: #056A87;
+	margin-right: 0.1rem;
+}
+.star-details input {
+	border: none;
+	font-size: 2rem;
+	color: #0B799C;
+	font-family: sans-serif;
+	margin-bottom: 0.5rem;
+	margin-top: 1rem;
+	font-weight: 600;
+	background-color: white;
+	max-width: 45px;
+	text-align: right;
+	height: 2rem;
 }
