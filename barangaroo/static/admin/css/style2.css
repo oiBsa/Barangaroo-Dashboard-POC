@@ -1797,14 +1797,13 @@ svg path {
 	font-size: 1.3rem;
 }
 .EVSelection .active{
-	color: #B4B1C9;
+	color: #ffcf40;
 	text-decoration: underline;
 }
 
 .EVSelection .bx:hover {
 	transform: scale(1.01);
 	color: var(--main-color);
-	text-decoration: underline;
 }
 
 
