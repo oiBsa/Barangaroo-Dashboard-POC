@@ -48,7 +48,7 @@
     <section id="content" style="background-color: white;">
         <!-- NAVBAR -->
         <nav style="height: 52px;">
-            <a href="#" class="nav-link">Thermal Comfort</a>
+            <a href="#" class="nav-link">EV Charging</a>
         </nav>
         <!-- NAVBAR -->
 
@@ -72,11 +72,10 @@
                 <!-- Heading -->
 
                 <!-- TCD Main Content -->
-                <div class="EVChargingMain" style="margin-top: 3rem;">
+                <div class="EVChargingMain" style="margin-top: 2rem;">
                     <div class="EVC_gauge" style="align-content: center;">
                         <div id="EVCgauge" class="belowButton">
-                            <div id="EVgauge" style="width: 100%; height: 100%; margin: 0 auto">
-                            </div>
+                            <div id="EVgauge"></div>
                             <button id="center-circle" style="border:none;" class='btn gaugeBelowClick'
                                 data-toggle="modal" data-target="#myModal" label='below'>
                                 <span id="belowAvg" class="TCDgaugeValue">933 kWh</span>
@@ -126,12 +125,12 @@
                         <div style="display: flex; margin-bottom:3rem;">
                             <div>
                                 <label for="startDate" style="font-family: Lato, sans-serif;">Start Date:</label>
-                                <input type="datetime-local" id="startDate" name="Start Date"
+                                <input type="datetime-local" id="startDate" name="Start Date" style="width: 200px;"
                                     value="2022-08-28 00:00:00">
                             </div>
                             <div>
                                 <label for="ebdDate" style="font-family: Lato, sans-serif;">End Date:</label>
-                                <input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
+                                <input type="datetime-local" id="endDate" name="End Date" style="width: 200px;" value="2022-09-28 00:00:00">
                             </div>
                             <div style="margin-right: 10px; margin-left:auto;" class="graphButtons">
                                 <button type="button" class="btn">Today</button>
@@ -232,17 +231,18 @@
     <script src="{% static 'admin/js/script.js' %}"></script>
     <script>
         const gaug = Highcharts.chart('EVgauge', {
-            chart: { type: 'solidgauge', backgroundColor: '#FBFBFB', },
+            chart: { type: 'solidgauge', backgroundColor: '#FAFAFA', spacingTop:20, verticalAlign: 'middle'
+                    },
             tooltip: {
                 borderWidth: 0,
                 backgroundColor: 'none',
                 shadow: false,
                 style: { fontSize: '16px' },
-                pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} &deg;C</span>',
+                pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} kW</span>',
                 positioner: function (labelWidth, labelHeight) {
                     return {
-                        x: 152 - labelWidth / 2,
-                        y: 200
+                        x: 205 - labelWidth / 2,
+                        y: 265
                     };
                 }
             },
@@ -277,19 +277,19 @@
                 max: 1000,
                 tickAmount:7,
                 lineWidth: 0,
-                tickLength: 0,
-                tickWidth: 6,
+                tickLength: 10,
+                tickWidth: 3,
                 tickColor: 'black',
                 tickPosition: 'inside',
-                minorTickLength: 8,
+                minorTickLength: 10,
                 labels: {
-                    distance: 20,
+                    distance: 28,
                     enabled: true,
                     x: 0,
                     y: 0,
-                    format: '{value} kWh',
+                    format: '{value} kW',
                     style: {
-                        fontSize: 12,
+                        fontSize: 13,
                         fontFamily: "sans-serif"
                     }
                 }
@@ -301,7 +301,7 @@
 
             plotOptions: {
                 solidgauge: {
-                    borderWidth: '14px',
+                    borderWidth: '18px',
                     dataLabels: {
                         enabled: false
                     },
@@ -311,11 +311,29 @@
             },
 
             series: [{
-                name: 'Average',
+                name: 'Energy',
                 animation: false,
-                borderColor: '#6F32FF',
+                borderColor: {
+                    linearGradient: { x1: 0, x2: 1, y1: 0, y2: 0 },
+                    stops: [
+                        [0, '#fff9ae'],
+                        [0.25, '#f8ed62'],
+                        [0.5, '#e9d700'],
+                        [0.75, '#dab600'],
+                        [1, '#a98600'],
+                    ]
+                },
                 data: [{
-                    color: '#6F32FF',
+                    color: {
+                        linearGradient: { x1: 0, x2: 1, y1: 0, y2: 0 },
+                        stops: [
+                        [0, '#fff9ae'],
+                        [0.25, '#f8ed62'],
+                        [0.5, '#e9d700'],
+                        [0.75, '#dab600'],
+                        [1, '#a98600'],
+                        ]
+                    },
                     radius: '80%',
                     innerRadius: '80%',
                     y: 933
@@ -330,11 +348,11 @@
                 labels: ['January', 'Feburary', 'March', 'April', 'May', 'June',
                     'July', 'Augest', 'September', 'October', 'November', 'December'],
                 datasets: [{
-                    label: 'Consumption',
+                    label: 'Energy',
                     data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
                     borderWidth: 1,
-                    borderColor: '#8AC3EE',
-                    backgroundColor: "#8AC3EE",
+                    borderColor: '#f8ed62',
+                    backgroundColor: "#f8ed62",
                     tension: 1,
                     borderRadius: 8,
                     type: 'bar',
@@ -362,7 +380,7 @@
                         },
                         ticks: {
                             display: true,
-                            callback: function (value, index, ticks) { return value + 'kWh'; }
+                            callback: function (value, index, ticks) { return value + 'kW'; }
                         }
                     },
                     x: {
@@ -379,95 +397,7 @@
 
         };
         var Chart1 = new Chart(nabersGraph, chartConfig);
-        const gauge1 = Highcharts.chart('nabersGauge', {
-            chart: { type: 'solidgauge', backgroundColor: '#FFFFFF', },
-            tooltip: {
-                borderWidth: 0,
-                backgroundColor: 'none',
-                shadow: false,
-                style: { fontSize: '10px' },
-                pointFormat: '<span style="font-size:18px; color: {point.color}; font-weight: bold; text-align: center">{point.y} kWh</span>',
-                positioner: function (labelWidth, labelHeight) {
-                    return {
-                        x: 90 - labelWidth / 2,
-                        y: 148
-                    };
-                }
-            },
-
-            pane: [{
-                startAngle: -140,
-                endAngle: 140,
-                background: [{ // Track for Move
-                    outerRadius: '118%',
-                    innerRadius: '95%',
-                    backgroundColor: '#F1F0F5',
-                    borderWidth: 0,
-                    shape: 'arc'
-                }, { // Track for Stand
-                    outerRadius: '95%',
-                    innerRadius: '0%',
-                    backgroundColor: "#FFFFFF",
-                    borderWidth: 0,
-                    shape: 'arc'
-                }]
-            }, {
-                startAngle: -140,
-                endAngle: 140,
-                size: '100%',
-                background: []
-            }],
-            credits: {
-                enabled: false
-            },
-            yAxis: [{
-                lineWidth: 0,
-                tickLength: 0,
-                tickWidth: 0,
-                tickColor: 'black',
-                tickPosition: 'inside',
-                minorTickLength: 0,
-                labels: {
-                    distance: 5,
-                    enabled: false,
-                    x: 0,
-                    y: 0,
-                    format: '',
-                    style: {
-                        fontSize: 12,
-                        fontFamily: "sans-serif"
-                    }
-                }
-
-            }],
-            title: {
-                text: '',
-            },
-
-            plotOptions: {
-                solidgauge: {
-                    borderWidth: '13px',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    linecap: 'round',
-                    stickyTracking: false,
-                }
-            },
-
-            series: [{
-                name: 'Average',
-                animation: false,
-                borderColor: '#0B799C',
-                data: [{
-                    color: '#0B799C',
-                    radius: '108%',
-                    innerRadius: '108%',
-                    y: 20
-                }]
-            },
-            ]
-        });
+        
     </script>
 </body>
 
