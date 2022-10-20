@@ -48,17 +48,46 @@
         <!-- NAVBAR -->
 
         <!-- MAIN -->
-        <main id="NABER">
-            <!-- #region Heading of the Nabers page-->
-            <div class="NABERheading">
-                <p class="mainHeading">PS-B-ELE-L03-EM001</p>
-                <p class="subHeading">NABERS Tracking</p>
+        <main id="NABER" style="background-color: #d4ebf7;">
+            <div class="NABERheading" style="margin-bottom:3rem;">
+                <p class="mainHeading" style="font-size: 2rem;">PS-B-ELE-L03-EM001</p>
+                <p class="subHeading" style="font-size: 1.5rem;">NABERS Tracking</p>
             </div>
-            <!-- #endregion End opf heading of the Nabers page-->
 
             <!-- #region Body of the Nabers page-->
             <div class="NABERbody">
-                <div class="dashboard">
+                <div class="graph">
+                    <div style="display: flex; margin-bottom:3rem;">
+                        <div>
+                            <label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
+                            <input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00">
+                        </div>
+                        <div>
+                            <label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
+                            <input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
+                        </div>
+                        <div style="margin-right: 20px; margin-left:auto;" class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary">Monthly</button>
+                        </div>
+                        <div style="margin-right: 20px;" class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary">Yearly</button>
+                        </div>
+                        <div class="vertical" style="margin-right: 20px; 
+                                                                border-left: 2px solid black; 
+                                                                height:32px;
+                                                                "></div>
+                        <div class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary"
+                                onclick="document.getElementById('link').click()">Report</button>
+                            <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="nabersGraph"></canvas>
+                    </div>
+                </div>
+
+                <div class="dashboard" style="margin-left: 1rem; margin-right:0rem;">
                     <div class="ratings">
                         <div class="naboursRating">
                             <div class="heading">
@@ -70,8 +99,9 @@
                                 <div style="display:flex; ">
                                     <p class="first-rate">5</p>
                                 </div>
-                                <div style="display: flex; flex-direction:column; justify-content: flex-end; width:5.5rem">
-                                    <i class='bx bxs-star bx-lg bx-spin' style='color:#0F799E; align-items:right' ></i>
+                                <div
+                                    style="display: flex; flex-direction:column; justify-content: flex-end; width:5.5rem">
+                                    <i class='bx bxs-star bx-lg bx-spin' style='color:#0F799E; align-items:right'></i>
                                     <p class="second-rate" style="text-align: left;">
                                         .5
                                     </p>
@@ -81,13 +111,18 @@
                                 <p class="NABERtext">
                                     NABERS
                                 </p>
-                                <div style="display: flex; flex-direction:row; align-content:center; justify-content:center; align-items:center;">
-                                    <div class="naberBar" style="border-top-left-radius: 0.3rem; border-bottom-left-radius: 0.3rem;"></div>
+                                <div
+                                    style="display: flex; flex-direction:row; align-content:center; justify-content:center; align-items:center;">
+                                    <div class="naberBar"
+                                        style="border-top-left-radius: 0.3rem; border-bottom-left-radius: 0.3rem;">
+                                    </div>
                                     <div class="naberBar"></div>
                                     <div class="naberBar"></div>
                                     <div class="naberBar"></div>
                                     <div class="naberBar"></div>
-                                    <div class="naberBar" style="border-top-right-radius: 0.3rem; border-bottom-right-radius: 0.3rem; background-color: #939598;"></div>
+                                    <div class="naberBar"
+                                        style="border-top-right-radius: 0.3rem; border-bottom-right-radius: 0.3rem; background-color: #939598;">
+                                    </div>
                                 </div>
                             </div>
                             <div class="hLine3" style="height: 1.4%;"></div>
@@ -111,7 +146,7 @@
                             <div class="hLine3"></div>
                         </div>
                     </div>
-                    <div class="details">
+                    <div class="details" style="height: 20rem;">
                         <div class="heading">
                             <p>
                                 Target for NABERS Rating This Month
@@ -121,14 +156,25 @@
                             <div style="display: flex; flex-direction: column; align-items:center;">
                                 <p>Rating</p>
                                 <div class="hLine"></div>
-                                <div class="box">
+                                <div class="box" style="height: 12rem; justify-content: space-evenly">
                                     <div class="star-details">
-                                        <p><input type="setRating" value="6.0"> STARS</p>
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem;">6.0 STARS
+                                        </p>
                                     </div>
-                                    <div class="hLine2"></div>
-                                    <div class="unit-details">
-                                        <p>
-                                            Market Leading
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem;">5.5 STARS
+                                        </p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem;">5.0 STARS
+                                        </p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem;">4.5 STARS
+                                        </p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem;">4.0 STARS
                                         </p>
                                     </div>
                                 </div>
@@ -136,15 +182,36 @@
                             <div div style="display: flex; flex-direction: column; align-items:center;">
                                 <p>Target</p>
                                 <div class="hLine"></div>
-                                <div class="box">
+                                <div class="box" style="height: 12rem; justify-content: space-evenly">
                                     <div class="star-details">
-                                        <p><input type="setRating" style="max-width: 10rem; text-align:center;" value="250000"></p>
+                                        <p style="margin-top: 0.1rem; margin-bottom:0.3rem; height:1.5rem; font-size:1.3rem;"><input
+                                                type="setRating"
+                                                style="max-width: 6rem; text-align:center; margin-top: 0.2rem; margin-bottom:0.2rem; height:1.5rem; font-size:1.3rem;"
+                                                value="250000">kWh</p>
                                     </div>
-                                    <div class="hLine2"></div>
-                                    <div class="unit-details">
-                                        <p>
-                                            kWh
-                                        </p>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.1rem; margin-bottom:0.3rem; height:1.5rem; font-size:1.3rem;"><input
+                                                type="setRating"
+                                                style="max-width: 6rem; text-align:center; margin-top: 0.2rem; margin-bottom:0.2rem; height:1.5rem; font-size:1.3rem;"
+                                                value="250000">kWh</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.1rem; margin-bottom:0.3rem; height:1.5rem; font-size:1.3rem;"><input
+                                                type="setRating"
+                                                style="max-width: 6rem; text-align:center; margin-top: 0.2rem; margin-bottom:0.2rem; height:1.5rem; font-size:1.3rem;"
+                                                value="250000">kWh</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.1rem; margin-bottom:0.3rem; height:1.5rem; font-size:1.3rem;"><input
+                                                type="setRating"
+                                                style="max-width: 6rem; text-align:center; margin-top: 0.2rem; margin-bottom:0.2rem; height:1.5rem; font-size:1.3rem;"
+                                                value="250000">kWh</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.1rem; margin-bottom:0.3rem; height:1.5rem; font-size:1.3rem;"><input
+                                                type="setRating"
+                                                style="max-width: 6rem; text-align:center; margin-top: 0.2rem; margin-bottom:0.2rem; height:1.5rem; font-size:1.3rem;"
+                                                value="250000">kWh</p>
                                     </div>
                                 </div>
                             </div>
@@ -153,47 +220,28 @@
                                     Consume
                                 </p>
                                 <div class="hLine"></div>
-                                <div class="box">
-                                    <div id="nabersGauge" style="width: 11rem; height: 11rem; margin: 0 auto">
+                                <div class="box" style="height: 12rem; justify-content: space-evenly">
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem">65%</p>
                                     </div>
-                                    <div id="center-circle-nabour">
-                                        <span id="totalConsumptionValue" class="nabourGaugeValue">65%</span>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem">65%</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem">65%</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem">65%</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem">65%</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="graph">
-                    <div style="display: flex; margin-bottom:3rem;">
-                        <div>
-                            <label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
-                            <input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00">
-                        </div>
-                        <div>
-                            <label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
-                            <input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
-                        </div>
-                        <div style="margin-right: 20px; margin-left:auto;" class="graphButtons">
-                            <button type="button" class="btn btn-outline-primary">Monthly</button>
-                        </div>
-                        <div style="margin-right: 20px;" class="graphButtons">
-                            <button type="button" class="btn btn-outline-primary">Yearly</button>
-                        </div>
-                        <div class="vertical" style="margin-right: 20px; 
-															border-left: 2px solid black; 
-															height:32px;
-															"></div>
-                        <div class="graphButtons">
-                            <button type="button" class="btn btn-outline-primary"
-                                onclick="document.getElementById('link').click()">Report</button>
-                            <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
-                        </div>
-                    </div>
-                    <div>
-                        <canvas id="nabersGraph"></canvas>
-                    </div>
-                </div>
+
             </div>
             <!-- #endregion End opf Body of the Nabers page-->
         </main>
@@ -214,7 +262,7 @@
                     label: 'Consumption',
                     data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
                     borderWidth: 1,
-                    borderColor: '#8AC3EE',
+                    borderWidth: '0',
                     backgroundColor: "#8AC3EE",
                     tension: 1,
                     borderRadius: 8,
