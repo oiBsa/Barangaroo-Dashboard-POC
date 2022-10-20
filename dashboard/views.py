@@ -76,3 +76,15 @@ def car_park_page(request):
 def ev_charging(request):
     if request.user.is_authenticated: return render(request=request, template_name="EVCharging_new.html")
     else: return redirect("home")
+    
+def ev_cost_per_charge(request):
+    if request.user.is_authenticated: return render(request=request, template_name="EVChargingCostPerCharge.html")
+    else: return redirect("home")
+
+def ev_avg_eng_per_charge(request):
+    if request.user.is_authenticated: return render(request=request, template_name="EVChargingAvgEngPerCharge.html")
+    else: return redirect("home")
+
+def ev_charging_emission_reduction(request):
+    if request.user.is_authenticated: return render(request=request, template_name="EVChargingEmissionReduction.html")
+    else: return redirect("home")

@@ -72,93 +72,8 @@
                 <!-- Heading -->
 
                 <!-- TCD Main Content -->
-                <div class="EVChargingMain" style="margin-top: 3rem;">
-                    <div class="EVC_gauge" style="align-content: center;">
-                        <div id="EVCgauge" class="belowButton">
-                            <div id="EVgauge" style="width: 100%; height: 100%; margin: 0 auto">
-                            </div>
-                            <button id="center-circle" style="border:none;" class='btn gaugeBelowClick'
-                                data-toggle="modal" data-target="#myModal" label='below'>
-                                <span id="belowAvg" class="TCDgaugeValue">933 kWh</span>
-                            </button>
-                            <div class="modal" id="myModal">
-                                <div class="modal-dialog">
-                                    <div class="modal-content"
-                                        style="min-width:30vw;border-radius:20px;padding:5px 5px;">
+                <div class="EVChargingMain">
 
-                                        <!-- Modal Header -->
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Consumption</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-
-                                        <!-- Modal body -->
-                                        <div class="modal-body" style="max-height:50vh; overflow-y:auto;">
-                                            <table class="table table-striped" id="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Equipment</th>
-                                                        <th>Consumption</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id='dialog-tbody'>
-                                                    <tr>
-                                                        <td> Please wait....</td>
-                                                        <td> <i class="bx bx-loader-alt bx-spin"></i> </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <!-- Modal footer -->
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal">Close</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="EVC_graph">
-                        <div style="display: flex; margin-bottom:3rem;">
-                            <div>
-                                <label for="startDate" style="font-family: Lato, sans-serif;">Start Date:</label>
-                                <input type="datetime-local" id="startDate" name="Start Date"
-                                    value="2022-08-28 00:00:00">
-                            </div>
-                            <div>
-                                <label for="ebdDate" style="font-family: Lato, sans-serif;">End Date:</label>
-                                <input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
-                            </div>
-                            <div style="margin-right: 10px; margin-left:auto;" class="graphButtons">
-                                <button type="button" class="btn">Today</button>
-                            </div>
-                            <div style="margin-right: 10px;" class="graphButtons">
-                                <button type="button" class="btn">Weekly</button>
-                            </div>
-                            <div style="margin-right: 10px; margin-left:auto;" class="graphButtons">
-                                <button type="button" class="btn">Monthly</button>
-                            </div>
-                            <div style="margin-right: 10px;" class="graphButtons">
-                                <button type="button" class="btn">Yearly</button>
-                            </div>
-                            <div class="vertical" style="margin-right: 10px; 
-                                                                border-left: 2px solid black; 
-                                                                height:32px;
-                                                                "></div>
-                            <div class="graphButtons">
-                                <button type="button" class="btn"
-                                    onclick="document.getElementById('link').click()">Report</button>
-                                <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
-                            </div>
-                        </div>
-                        <div>
-                            <canvas id="nabersGraph"></canvas>
-                        </div>
-                    </div>
 
                 </div>
 
@@ -173,22 +88,20 @@
                 </div>
                 <div class="EVChargingSideBar">
                     <div class="EVSelection">
-                        <div class="active"
+                        <div
                             style="display:flex;align-items: center;justify-content: flex-start;align-content: center;flex-direction: row;">
-                            <a class='bx bxs-zap bx-lg' style="--main-color: #ffcf40; text-decoration:none;"
-                                href="{% url 'evCharging' %}"></a>
+                            <a class='bx bxs-zap bx-lg' style="--main-color: #ffcf40; text-decoration:none;" href="{% url 'evCharging' %}"></a>
                             <div style="margin-left:20px;" class="selectionLabel">
                                 <p class="active">
-                                    Energy Per Charge
+                                    Cost Per Charge
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="EVSelection">
-                        <div
+                        <div class="active"
                             style="display:flex;align-items: center;justify-content: flex-start;align-content: center;flex-direction: row;">
-                            <a class='bx bx-dollar-circle bx-lg' style="--main-color: #54B127; text-decoration:none;"
-                                href="{% url 'EV_CPC' %}"></a>
+                            <a class='bx bx-dollar-circle bx-lg' style="--main-color: #54B127; text-decoration:none;" href="{% url 'EV_CPC' %}"></a>
                             <div style="margin-left:20px;" class="selectionLabel">
                                 <p>
                                     Cost Per Charge
@@ -199,8 +112,7 @@
                     <div class="EVSelection">
                         <div
                             style="display:flex;align-items: center;justify-content: flex-start;align-content: center;flex-direction: row;">
-                            <a class='bx bxl-tailwind-css bx-lg' style="--main-color: #08A4C3; text-decoration:none;"
-                                href="{% url 'EV_AEPC' %}"></a>
+                            <a class='bx bxl-tailwind-css bx-lg' style="--main-color: #08A4C3; text-decoration:none;" href="{% url 'EV_AEPC' %}"></a>
                             <div style="margin-left:20px;" class="selectionLabel">
                                 <p>
                                     Avg Energy Per Charge
@@ -211,8 +123,7 @@
                     <div class="EVSelection">
                         <div
                             style="display:flex;align-items: center;justify-content: flex-start;align-content: center;flex-direction: row;">
-                            <a class='bx bx-leaf bx-lg' style="--main-color: #3D6A52; text-decoration:none;"
-                                href="{% url 'EV_ER' %}"></a>
+                            <a class='bx bx-leaf bx-lg' style="--main-color: #3D6A52; text-decoration:none;" href="{% url 'EV_ER' %}"></a>
                             <div style="margin-left:20px;" class="selectionLabel">
                                 <p>
                                     Emission Reduction
@@ -231,7 +142,74 @@
 
     <script src="{% static 'admin/js/script.js' %}"></script>
     <script>
-        const gaug = Highcharts.chart('EVgauge', {
+        var showData = 1;
+        var meterName = document.getElementById("meterName");
+        var meterDescription = document.getElementById('meterDescription');
+        var xValues = ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'];
+        var yValuesAbove = [22, 18, 15, 25, 10, 15, 22, 32, 22, 20, 14, 25, 20, 18, 14, 20, 18, 20, 22, 21, 30, 35, 20, 25, 21, 25];
+        var yValuesBelow = [78, 82, 85, 75, 90, 23, 78, 68, 78, 80, 86, 75, 80, 78, 86, 80, 82, 80, 78, 79, 70, 65, 80, 75, 79, 75];
+        var colorListAbove = new Array(yValuesAbove.length).fill('#ec6f41d7');
+        var colorListBelow = new Array(yValuesAbove.length).fill('#9b70ff');
+        var ctx = document.getElementById('TDCgraph').getContext('2d');
+        $(".TCDButtons").on("click", "button", function () {
+            $(this).parent().find('button').removeClass('clicked');
+            $(this).addClass('clicked');
+        })
+        var chartConfig = {
+            type: 'bar',
+            data: {
+                labels: xValues,
+                datasets: [{
+                    label: "Above",
+                    data: yValuesAbove,
+                    backgroundColor: '#ec6f41d7',
+                    borderRadius: 5,
+                },
+                {
+                    label: "Below",
+                    data: yValuesBelow,
+                    backgroundColor: colorListBelow,
+                    borderRadius: 5,
+                }],
+
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        align: 'end',
+                        position: 'top',
+                    }
+                },
+
+                scales: {
+                    y: {
+                        grid: {
+                            display: false,
+                            drawBorder: true,
+                            drawTicks: true,
+                        },
+                        ticks: {
+                            display: true,
+                            callback: function (value, index, ticks) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        type: 'category',
+                        grid: {
+                            display: false,
+                            drawBorder: true,
+                            drawTicks: true,
+                        },
+                    },
+                },
+                responsive: true,
+            }
+
+        };
+        const gauge1 = Highcharts.chart('gaugecontainers1', {
             chart: { type: 'solidgauge', backgroundColor: '#FBFBFB', },
             tooltip: {
                 borderWidth: 0,
@@ -242,7 +220,7 @@
                 positioner: function (labelWidth, labelHeight) {
                     return {
                         x: 152 - labelWidth / 2,
-                        y: 200
+                        y: 230
                     };
                 }
             },
@@ -259,7 +237,7 @@
                 }, { // Track for Stand
                     outerRadius: '70%',
                     innerRadius: '0%',
-                    backgroundColor: '#FAFAFA',
+                    backgroundColor: Highcharts.getOptions().colors[2],
                     borderWidth: 0,
                     shape: 'arc'
                 }]
@@ -274,20 +252,20 @@
             },
             yAxis: [{
                 min: 0,
-                max: 1000,
-                tickAmount:7,
+                max: 50,
                 lineWidth: 0,
                 tickLength: 0,
                 tickWidth: 6,
                 tickColor: 'black',
                 tickPosition: 'inside',
                 minorTickLength: 8,
+                tickPositions: [0, 10, 20, 30, 40, 50],
                 labels: {
                     distance: 20,
                     enabled: true,
                     x: 0,
                     y: 0,
-                    format: '{value} kWh',
+                    format: '{value} &deg;C',
                     style: {
                         fontSize: 12,
                         fontFamily: "sans-serif"
@@ -318,79 +296,28 @@
                     color: '#6F32FF',
                     radius: '80%',
                     innerRadius: '80%',
-                    y: 933
+                    y: 20
                 }]
             },
             ]
         });
-        var nabersGraph = document.getElementById('nabersGraph').getContext('2d');
-        var chartConfig = {
-            type: 'bar',
-            data: {
-                labels: ['January', 'Feburary', 'March', 'April', 'May', 'June',
-                    'July', 'Augest', 'September', 'October', 'November', 'December'],
-                datasets: [{
-                    label: 'Consumption',
-                    data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
-                    borderWidth: 1,
-                    borderColor: '#8AC3EE',
-                    backgroundColor: "#8AC3EE",
-                    tension: 1,
-                    borderRadius: 8,
-                    type: 'bar',
-                    order: 1
-                }],
-
-            },
+        const gauge2 = Highcharts.chart('gaugecontainers2', {
             chart: {
-                height: '500px'
+                backgroundColor: '#FBFBFB',
+                type: 'solidgauge'
             },
-            options: {
-                plugins: {
-                    legend: {
-                        display: true,
-                    }
-                },
-                scales: {
-
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            display: false,
-                            drawBorder: true,
-                            drawTicks: true,
-                        },
-                        ticks: {
-                            display: true,
-                            callback: function (value, index, ticks) { return value + 'kWh'; }
-                        }
-                    },
-                    x: {
-                        type: 'category',
-                        grid: {
-                            display: false,
-                            drawBorder: true,
-                            drawTicks: true,
-                        }
-                    },
-                },
-                responsive: true,
-            }
-
-        };
-        var Chart1 = new Chart(nabersGraph, chartConfig);
-        const gauge1 = Highcharts.chart('nabersGauge', {
-            chart: { type: 'solidgauge', backgroundColor: '#FFFFFF', },
             tooltip: {
                 borderWidth: 0,
                 backgroundColor: 'none',
                 shadow: false,
-                style: { fontSize: '10px' },
-                pointFormat: '<span style="font-size:18px; color: {point.color}; font-weight: bold; text-align: center">{point.y} kWh</span>',
+                style: {
+                    fontSize: '16px'
+                },
+                pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} &deg;C</span>',
                 positioner: function (labelWidth, labelHeight) {
                     return {
-                        x: 90 - labelWidth / 2,
-                        y: 148
+                        x: 152 - labelWidth / 2,
+                        y: 230
                     };
                 }
             },
@@ -399,15 +326,15 @@
                 startAngle: -140,
                 endAngle: 140,
                 background: [{ // Track for Move
-                    outerRadius: '118%',
-                    innerRadius: '95%',
+                    outerRadius: '85%',
+                    innerRadius: '70%',
                     backgroundColor: '#F1F0F5',
                     borderWidth: 0,
                     shape: 'arc'
                 }, { // Track for Stand
-                    outerRadius: '95%',
+                    outerRadius: '70%',
                     innerRadius: '0%',
-                    backgroundColor: "#FFFFFF",
+                    backgroundColor: '#FBFBFB',
                     borderWidth: 0,
                     shape: 'arc'
                 }]
@@ -417,22 +344,24 @@
                 size: '100%',
                 background: []
             }],
-            credits: {
-                enabled: false
-            },
+            credits: { enabled: false },
+
             yAxis: [{
+                min: 0,
+                max: 50,
                 lineWidth: 0,
                 tickLength: 0,
-                tickWidth: 0,
+                tickWidth: 6,
                 tickColor: 'black',
                 tickPosition: 'inside',
-                minorTickLength: 0,
+                minorTickLength: 8,
+                tickPositions: [0, 10, 20, 30, 40, 50],
                 labels: {
-                    distance: 5,
-                    enabled: false,
+                    distance: 20,
+                    enabled: true,
                     x: 0,
                     y: 0,
-                    format: '',
+                    format: '{value} &deg;C',
                     style: {
                         fontSize: 12,
                         fontFamily: "sans-serif"
@@ -443,10 +372,9 @@
             title: {
                 text: '',
             },
-
             plotOptions: {
                 solidgauge: {
-                    borderWidth: '13px',
+                    borderWidth: '14px',
                     dataLabels: {
                         enabled: false
                     },
@@ -458,16 +386,41 @@
             series: [{
                 name: 'Average',
                 animation: false,
-                borderColor: '#0B799C',
+                borderColor: '#ec6f41d7',
                 data: [{
-                    color: '#0B799C',
-                    radius: '108%',
-                    innerRadius: '108%',
-                    y: 20
+                    color: '#ec6f41d7',
+                    radius: '82%',
+                    innerRadius: '82%',
+                    y: 25
                 }]
             },
             ]
         });
+        $('#levels').on("click", "li", function () {
+            $(this).parent().find('li').removeClass('active');
+            $(this).addClass('active');
+            document.getElementById("thermalComfortAll").innerHTML = "Thermal Comfort For"
+            gauge1.update({
+                series: [{
+                    animation: false,
+                    data: [{ y: 22 }]
+                }]
+            }, true, false, false);
+            gauge2.update({
+                series: [{
+                    animation: false,
+                    data: [{ y: 25 }]
+                }]
+            }, true, false, false);
+            document.getElementById("aboveAvg").innerHTML = "16%";
+            document.getElementById("belowAvg").innerHTML = "84%";
+            chartConfig.data.datasets[0].data = [11, 9, 10, 12, 8, 7, 2, 20, 22, 10, 8, 12, 5, 9, 6, 5, 9, 10, 11, 7, 15, 20, 15, 11, 9, 12]
+            chartConfig.data.datasets[1].data = [89, 91, 90, 88, 92, 93, 98, 80, 78, 90, 92, 85, 95, 91, 94, 95, 91, 90, 89, 93, 85, 80, 85, 89, 91, 88]
+            Chart1.update("active")
+
+        });
+        var Chart1 = new Chart(ctx, chartConfig);
+
     </script>
 </body>
 

@@ -38,8 +38,11 @@ urlpatterns = [
     path("thermal_comfort_humidity/", view=views.thermal_comfort_humidity, name="thermalComfortHumidity"),
     path("thermal_comfort_co2", view=views.thermal_comfort_co2, name="thermalComfortCo2"),
     path("carpark/", view=views.car_park, name="carPark"),
-    path("carpark_summary", view=views.car_park_page, name="carparkSummary"),
-    path("ev_charging", view=views.ev_charging, name="evCharging"),
+    path("carpark_summary/", view=views.car_park_page, name="carparkSummary"),
+    path("ev_charging/", view=views.ev_charging, name="evCharging"),
+    path("ev_charging_cost_per_charge/", view=views.ev_cost_per_charge, name='EV_CPC'),
+    path("ev_charging_avg_energy_per_charge/", view=views.ev_avg_eng_per_charge, name="EV_AEPC"),
+    path("ev_charging_emission_reduction/", view=views.ev_charging_emission_reduction, name="EV_ER"),
     
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),   

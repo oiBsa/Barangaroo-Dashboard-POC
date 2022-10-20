@@ -1793,17 +1793,46 @@ svg path {
 	margin-bottom: 2rem;
 }
 .EVSelection p {
+	margin-top: 1rem;
 	color: #3B3462;
 	font-size: 1.3rem;
+	text-decoration: none;
 }
-.EVSelection .active{
-	color: #ffcf40;
+.EVSelection .bx{
+	color: #3B3462;
+}
+.EVSelection .active p{
+	color: #B4B1C9;
 	text-decoration: underline;
+}
+.EVSelection .active .bx{
+	color: var(--main-color);
 }
 
 .EVSelection .bx:hover {
-	transform: scale(1.01);
+	transform: scale(1.09);
 	color: var(--main-color);
+}
+.EVChargingMain {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+}
+.EVC_gauge {
+	width: 420px;
+}
+.EVC_graph {
+	width: 1000px;
+	background-color: white;
+	border-radius: 2rem;
+	padding: 2rem 2rem;
+	box-shadow: 0.2rem 0.2rem 1rem 0.05rem #00000046;
+}
+.EVC_graph:hover {
+	box-shadow: 0.2rem 0.2rem 1rem 0.05rem #00000046,
+	0rem 0rem 1rem 0.05rem #00000028 inset;
+	transform: scale(1.01);
 }
 
 
@@ -2246,4 +2275,50 @@ svg path {
 	max-width: 45px;
 	text-align: right;
 	height: 2rem;
+}
+
+#EVCgauge {
+	position: relative;
+	height: 600px;
+	background: transparent;
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 1rem;
+}
+
+
+
+
+#EVCgauge #center-circle {
+	position: absolute;
+	width: 160px;
+	height: 160px;
+	background: linear-gradient(180deg, #ffffff 0%, #e7ecf1 100%);
+	border-radius: 50%;
+	margin-bottom: 6px;
+	box-shadow: 0px 10px 100px 1px rgba(115, 80, 204, 0.25);
+}
+
+#EVCgauge #center-circle::before {
+	content: '';
+	position: absolute;
+	width: 130px;
+	height: 130px;
+	background: linear-gradient(0deg, #ffffff, #D9DBDD);
+	border-radius: 50%;
+}
+#EVCgauge #center-circle:hover {
+	cursor: pointer;
+	box-shadow: 0px 0px 20px 0.5px #8d7de41f inset,
+	 0px 10px 100px 1px rgba(115, 80, 204, 0.25);;
+}
+.TCDgaugeValue {
+	position: absolute;
+	font-size: 30px;
+	font-weight: 600;
+	font-family: sans-serif;
+	color: #3B3462;
+	text-align: center;
 }
