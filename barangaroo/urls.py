@@ -33,6 +33,7 @@ urlpatterns = [
     path('thermal/', view=views.thermal, name='thermal'),
     path("gas/", view=views.gas, name="gas"),
     path('nabers/', view=views.nabers, name='nabers'),
+    path('nabers_2/', view=views.nabers_new, name='nabers_new'),
     path("mater_page/", view=views.meter_page, name="meterPage"),
     path("thermal_comfort/", view=views.thermal_comfort, name="thermalComfort"),
     path("thermal_comfort_humidity/", view=views.thermal_comfort_humidity, name="thermalComfortHumidity"),
