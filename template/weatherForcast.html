@@ -1,0 +1,291 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static 'admin/css/style2.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+        integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <title>Weather Forecast</title>
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+    <section id="sidebar" class="hide">
+        <a href="{% url 'home' %}" class="brand">
+            <img class="oi-icon"
+                src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw"
+                alt="Operational Interlligence">
+            <span class="text">Operational Intelligence</span>
+        </a>
+    </section>
+    <!-- SIDEBAR -->
+
+
+
+    <!-- CONTENT -->
+    <section id="content" style="background-color: white;">
+        <!-- NAVBAR -->
+        <nav style="height: 52px;">
+            <a href="#" class="nav-link">Weather</a>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main id="weather">
+            <div id="weatherdashboard">
+                <!-- Heading -->
+                <div class="headings">
+                    <p>
+                        Weather
+                    </p>
+                    <p>
+                        <span>
+
+                        </span>
+                        <span class="dashboard">
+                            Dashboard
+                        </span>
+                    </p>
+                </div>
+                <!-- Heading -->
+
+                <!-- TCD Main Content -->
+                <div class="weatherCard">
+                    <div class="card">
+                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Temperature</p>
+                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
+                            <img src="https://img.icons8.com/office/80/000000/temperature--v2.png" style="margin-right:1rem; margin-left:0rem">
+                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;">36</span>&deg;C
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Air Pressure</p>
+                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
+                            <img src="https://img.icons8.com/color/80/000000/pressure.png" style="margin-right:1rem; margin-left:0rem">
+                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;">1</span>ATM
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Daily Rainfall</p>
+                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
+                            <img src="https://img.icons8.com/external-vectorslab-flat-vectorslab/80/000000/external-rainfall-weather-and-season-vectorslab-flat-vectorslab-3.png" style="margin-right:1rem; margin-left:0rem">
+                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;">1</span>mm
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Rain Intensity</p>
+                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
+                            <img src="https://img.icons8.com/external-smashingstocks-flat-smashing-stocks/80/000000/external-rainfall-weather-smashingstocks-flat-smashing-stocks.png" style="margin-right:1rem; margin-left:0rem">
+                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;">2</span>mm/hr
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Wind Speed</p>
+                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
+                            <img src="https://img.icons8.com/fluency/48/000000/wind.png" style="margin-right:1rem; margin-left:0rem">
+                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;">8</span>km/hr
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Humidity</p>
+                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
+                            <img src="https://img.icons8.com/external-justicon-flat-justicon/80/000000/external-humidity-weather-justicon-flat-justicon.png" style="margin-right:1rem; margin-left:0rem">
+                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;">1</span>%RH
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Dew Point</p>
+                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
+                            <img src="https://img.icons8.com/officel/80/000000/dew-point.png" style="margin-right:1rem; margin-left:0rem">
+                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;">21</span>&deg;C
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Solar irradiation</p>
+                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
+                            <img src="https://img.icons8.com/cute-clipart/80/000000/do-not-expose-to-sunlight.png" style="margin-right:1rem; margin-left:0rem">
+                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;">2</span>W/m2
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Wind Direction</p>
+                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
+                            <img src="https://img.icons8.com/cute-clipart/80/000000/windsock.png" style="margin-right:1rem; margin-left:0rem">
+                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;">221</span>&deg;
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- TCD Main Content -->
+            </div>
+            <div id="weatherSideBar">
+                <div class="today-weather">
+                    <div class="location"
+                        style="display: flex;flex-direction:row;align-content: center;align-items: center;justify-content: flex-start;">
+                        <i class='bx bx-current-location'></i>
+                        <p style="text-align: center; vertical-align:middle; margin-bottom: 0rem; margin-left:0.5rem;">
+                            Sydney</p>
+                    </div>
+                    <div class="current">
+                        <img src="{% static 'admin\img\unknown.png' %}" alt="">
+                        <p style="font-size: 1.5rem; font-weight:550; color:#3b3462;">
+                            Today, 21 OCT
+                        </p>
+                        <p style="font-size: 3rem; font-weight:600; color:#ccce4e; margin-bottom:0rem;">
+                            <span>30</span>&deg;
+                        </p>
+                        <p style="font-size: 1.5rem; font-weight:600; color:#0b0025; margin-top:0rem">
+                            Sunny
+                        </p>
+                    </div>
+                    <div class="details">
+                        <div class="details-column">
+                            <div
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                <i class='bx bxs-thermometer bx-sm'></i>
+                                <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Feel Like</p>
+                                <p style="margin-bottom:0rem;"><span>35</span>&deg;</p>
+                            </div>
+                            <div
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                <i class='bx bx-collapse bx-sm'></i>
+                                <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Pressure</p>
+                                <p style="margin-bottom:0rem;"><span>1</span>atm</p>
+                            </div>
+                            <div
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                <i class='bx bx-droplet bx-sm'></i>
+                                <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Humidity</p>
+                                <p style="margin-bottom:0rem;"><span>5</span>%</p>
+                            </div>
+                        </div>
+                        <div class="details-column">
+                            <div
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                <i class='bx bx-wind bx-sm'></i>
+                                <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Wind</p>
+                                <p style="margin-bottom:0rem;"><span>35</span>km/hr</p>
+                            </div>
+                            <div
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                <i class='bx bx-directions bx-sm'></i>
+                                <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Direction</p>
+                                <p style="margin-bottom:0rem;"><span>1</span>&deg;</p>
+                            </div>
+                            <div
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                <i class='bx bx-low-vision bx-sm'></i>
+                                <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Vision</p>
+                                <p style="margin-bottom:0rem;"><span>5</span>m</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="forecast-container">
+                    <img src="{% static 'admin\img\01d.png' %}" alt="" style="width: 48px; height: 48px;">
+                    <p style="margin-bottom:0px; margin-left:2rem; font-size:2rem; font-weight:550; color:#3B3462;">
+                        <span>30</span>&deg;</p>
+                    <p
+                        style="margin-bottom:0px; margin-left:10%; margin-right:10%; font-size:1.3rem; font-weight:500; color:#3B3462;">
+                        Sunny</p>
+                    <span
+                        style="text-align: right; right:0; width:35%; font-size:1.5rem; font-weight:550; color:#3B3462;">Tuesday</span>
+                </div>
+                <div class="forecast-container">
+                    <img src="{% static 'admin\img\03d.png' %}" alt="" style="width: 48px; height: 48px;">
+                    <p style="margin-bottom:0px; margin-left:2rem; font-size:2rem; font-weight:550; color:#3B3462;">
+                        <span>28</span>&deg;</p>
+                    <p
+                        style="margin-bottom:0px; margin-left:10%; margin-right:10%; font-size:1.3rem; font-weight:500; color:#3B3462;">
+                        Cloudy</p>
+                    <span
+                        style="text-align: right; right:0; width:35%; font-size:1.5rem; font-weight:550; color:#3B3462;">Wednesday</span>
+                </div>
+                <div class="forecast-container">
+                    <img src="{% static 'admin\img\11d.png' %}" alt="" style="width: 48px; height: 48px;">
+                    <p style="margin-bottom:0px; margin-left:2rem; font-size:2rem; font-weight:550; color:#3B3462;">
+                        <span>27</span>&deg;</p>
+                    <p
+                        style="margin-bottom:0px; margin-left:10%; margin-right:10%; font-size:1.3rem; font-weight:500; color:#3B3462;">
+                        Rainy</p>
+                    <span
+                        style="text-align: right; right:0; width:35%; font-size:1.5rem; font-weight:550; color:#3B3462;">Thursday</span>
+                </div>
+                <div class="forecast-container">
+                    <img src="{% static 'admin\img\11d.png' %}" alt="" style="width: 48px; height: 48px;">
+                    <p style="margin-bottom:0px; margin-left:2rem; font-size:2rem; font-weight:550; color:#3B3462;">
+                        <span>25</span>&deg;</p>
+                    <p
+                        style="margin-bottom:0px; margin-left:10%; margin-right:10%; font-size:1.3rem; font-weight:500; color:#3B3462;">
+                        Rainy</p>
+                    <span
+                        style="text-align: right; right:0; width:35%; font-size:1.5rem; font-weight:550; color:#3B3462;">Friday</span>
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+    <script>
+        var weather_01 = 'url("https://i.gifer.com/Lx0q.gif")';
+        var weather_02 = 'url("https://i.gifer.com/6HU.gif")';
+        var weather_03 = 'url("https://i.gifer.com/yY8.gif")';
+        var weather_04 = 'url("https://i.gifer.com/yY8.gif")';
+        var weather_09 = 'url("https://i.gifer.com/32Zh.gif")';
+        var weather_10 = 'url("https://i.gifer.com/QAOA.gif")';
+        var weather_11 = 'url("https://i.gifer.com/7TDG.gif")';
+        var weather_13 = 'url("https://i.gifer.com/4FPq.gif")';
+        var weather_50 = 'url("https://i.gifer.com/V0M.gif")';
+
+        document.getElementById("weather").style.backgroundImage = weather_10
+
+
+    </script>
+
+
+
+</body>
+
+</html>

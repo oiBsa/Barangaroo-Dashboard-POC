@@ -93,3 +93,7 @@ def ev_avg_eng_per_charge(request):
 def ev_charging_emission_reduction(request):
     if request.user.is_authenticated: return render(request=request, template_name="EVChargingEmissionReduction.html")
     else: return redirect("home")
+    
+def weather_forcast(request):
+    if request.user.is_authenticated: return render(request=request, template_name="weatherForcast.html")
+    else: return redirect("home")
