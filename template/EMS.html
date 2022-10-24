@@ -10,12 +10,21 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- My CSS -->
     <link rel="stylesheet" href="{% static 'admin/css/style.css' %}">
-    <!-- Chart.js CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
         integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
     <title>Electric Meter</title>
 </head>
 
@@ -23,7 +32,7 @@
 
 
     <!-- SIDEBAR -->
-    <section id="sidebar">
+    <section id="sidebar" class="hide">
         <a href="{% url 'home' %}" class="brand">
             <img class="oi-icon"
                 src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw"
@@ -98,7 +107,7 @@
                     <i class='bx bx-bar-chart-square'>
                     </i>
                     <span class="text">
-                        <h3>36,000 (kWh)</h3>
+                        <h3>{{total_consumption}} kWh</h3>
                         <p>Total Consumption</p>
 
                     </span>
@@ -106,16 +115,21 @@
                 <li class="online">
                     <i class='bx bx-tachometer'></i>
                     <span class="text">
-                        <h3>241</h3>
+                        <h3>{{total_online}}</h3>
                         <p>Online Meters</p>
                     </span>
                 </li>
-                <li class="offline">
+                <li class="offline" id="offlineTab" data-toggle="modal" data-target="#myModal" label='below'>
+                    {% if check_offline %}
+                    <i class='bx bx-tachometer bx-tada'></i>
+                    {% else %}
                     <i class='bx bx-tachometer'></i>
+                    {% endif %}
                     <span class="text">
-                        <h3>16</h3>
+                        <h3>{{total_offline}}</h3>
                         <p>Offline Meters</p>
                     </span>
+
                 </li>
                 <li class="nabers" onclick="nabers()">
                     <i class='bx bxs-doughnut-chart'></i>
@@ -126,11 +140,47 @@
                         </p>
                     </span>
                 </li>
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="min-width:30vw;border-radius:20px;padding:5px 5px;">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Offline Meters</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body" style="max-height:50vh; overflow-y:auto;">
+                                <table class="table table-striped" id="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Meter ID</th>
+                                            <th> Last Seen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id='dialog-tbody'>
+                                        <tr>
+                                            <td> Please wait....</td>
+                                            <td> <i class="bx bx-loader-alt bx-spin"></i> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </ul>
             <div style="width: 40%; float:left;" class="table-data">
                 <div class="order">
                     <div class="head">
-                        <h3>Electric Meters</h3>
+                        <h3>Electric Meters ({{total_meters}})</h3>
                         <form action="#" method="POST">
                             <div class="form-input" style="align-content: right;">
                                 <input type="search" placeholder="Search Electric Meters">
@@ -152,214 +202,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            {% for meter in EMS %}
+                            <tr value="{{ meter.0 }}">
                                 <td>
                                     <i class='bx bx-bolt-circle bx-sm'></i>
                                 </td>
                                 <td>
                                     <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm" id="meter-id">PS-B-ELE-L03-EM001</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
+                                        <h6 class="mb-0 text-sm" id="meter-id">{{meter.1}}</h6>
+                                        <p class="text-xs text-secondary mb-0">{{meter.5}}</p>
                                     </div>
                                 </td>
+                                {% if meter.6 %}
+                                <td><i class='bx' id='led-green'></i></td>
+                                {% else %}
                                 <td><i class='bx' id='led-red'></i></td>
-                                <td style="text-align: center;">21000</td>
+                                {% endif %}
+                                <td style="text-align: center;">{{meter.3}}</td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">PS-B-ELE-L03-EM002</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><span class="bx" id="led-green"></span></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">PS-B-ELE-L03-EM003</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><span class="bx" id="led-green"></span></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm" id="meter-id">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><i class='bx' id='led-red'></i></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><span class="bx" id="led-green"></span></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm" id="meter-id">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><i class='bx' id='led-red'></i></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm" id="meter-id">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><i class='bx' id='led-red'></i></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><span class="bx" id="led-green"></span></td>
-                                <td style="text-align: center;">18000</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm" id="meter-id">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><i class='bx' id='led-red'></i></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><span class="bx" id="led-green"></span></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><span class="bx" id="led-green"></span></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm" id="meter-id">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><i class='bx' id='led-red'></i></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><span class="bx" id="led-green"></span></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm" id="meter-id">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><i class='bx' id='led-red'></i></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm" id="meter-id">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><i class='bx' id='led-red'></i></td>
-                                <td style="text-align: center;">360</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class='bx bx-bolt-circle bx-sm'></i>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">PS-B-ELE-L03-EM063</h6>
-                                        <p class="text-xs text-secondary mb-0">PS-B-ELE-L03-EM063 Lighting</p>
-                                    </div>
-                                </td>
-                                <td><span class="bx" id="led-green"></span></td>
-                                <td style="text-align: center;">18000</td>
-                            </tr>
+                            {% endfor %}
 
 
 
@@ -407,20 +268,8 @@
                     <div style="margin-right: 20px;">
                         <button type="button" class="btn btn-outline-primary">Weekly</button>
                     </div>
-                    <div style="margin-right: 20px;">
+                    <div style="margin-right: 0px;">
                         <button type="button" class="btn btn-outline-primary">Monthly</button>
-                    </div>
-                    <div style="margin-right: 20px;">
-                        <button type="button" class="btn btn-outline-primary">Yearly</button>
-                    </div>
-                    <div class="vertical" style="margin-right: 20px; 
-                                                        border-left: 2px solid black; 
-                                                        height:32px;
-                                                        "></div>
-                    <div>
-                        <button type="button" class="btn btn-outline-primary"
-                            onclick="document.getElementById('link').click()">Report</button>
-                        <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
                     </div>
 
                 </div>
@@ -437,8 +286,9 @@
     <!-- CONTENT -->
 
 
-    <script src="{% static 'admin/js/script.js' %}"></script>
     <script>
+        document.body.style.zoom = "90%";
+        var OfflineMeters = {{offline|safe}};
         var showData = 1;
         var meterName = document.getElementById("meterName");
         var meterDescription = document.getElementById('meterDescription');
@@ -550,56 +400,32 @@
         };
 
         var Chart1 = new Chart(ctx, chartConfig);
-
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF'.split('');
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
+        $("#offlineTab").on("click", function () {
+            console.log(OfflineMeters)
+            var table = $("#table tbody")
+            $("#table tbody").find("tr").remove();
+            for (var i = 0; i < OfflineMeters.length; i++) {
+                var Equip = OfflineMeters[i].AssetID;
+                console.log(Equip)
+                var Temp = OfflineMeters[i].Last;
+                table.append("<tr><td>"+Equip+"</td><td>"+Temp+"</td></tr>")
             }
-            return color + 'B3';
-        }
-        function selectedRow() {
+        })
 
-            var index, table = document.getElementById("meterTable");
-            for (var i = 1; i < table.rows.length; i++) {
-                table.rows[i].onclick = function () {
-                    // remove the background from the previous selected row
-                    if (typeof index !== "undefined") {
-                        table.rows[index].classList.toggle("selected");
-                    }
-                    // get the selected row index
-                    index = this.rowIndex;
-                    // add class selected to the row
-                    this.classList.toggle("selected");
-                    if (index <= 3) {
-                        if (index == 1) {
-                            chartConfig.data.labels = x1;
-                            chartConfig.data.datasets[0].data = y1;
-                            meterName.innerHTML = 'PS-B-ELE-L03-EM001';
-                            meterDescription.innerHTML = 'PS-B-ELE-L03-EM001 EMS Lighting'
-                        } else if (index == 2) {
-                            meterName.innerHTML = 'PS-B-ELE-L03-EM002';
-                            meterDescription.innerHTML = 'PS-B-ELE-L03-EM002 EMS Power'
-                        }
-                        else if (index == 3) {
-                            meterName.innerHTML = 'PS-B-ELE-L03-EM003';
-                            meterDescription.innerHTML = 'PS-B-ELE-L03-EM003 EMS Lighting'
-                        }
-                        chartConfig.options.scales.y.beginAtZero = false;
-                        Chart1.update('active');
-                    } else {
-                        meterName.innerHTML = 'EMS';
-                        meterDescription.innerHTML = 'Total consuption of all meters';
-                        chartConfig.options.scales.y.beginAtZero = true;
-                        chartConfig.data.labels = xValues;
-                        chartConfig.data.datasets[0].data = yValues;
-                        Chart1.update('active');
-                    }
-                };
-            }
+        $("#meterTable").on("click", "tr", function () {
+            pointKey = $(this).attr("value");
+            console.log(pointKey)
+            $.ajax({
+                utl: {% url 'ems' %},
+                data: {
+                pointKey: pointKey,
+            },
+                method: 'GET',
+                success: function (data) {
 
-        }
+                }
+            })
+        });
         function jsFunction(value) {
 
             if (value == 1) {
@@ -621,9 +447,10 @@
             Chart1.update('active');
         };
 
-        function nabers() {
-            window.location.href = "{% url 'nabers' %}";
-        }
+        function nabers() { window.location.href = "{% url 'nabers' %}"; };
+
+
+
 
 
 

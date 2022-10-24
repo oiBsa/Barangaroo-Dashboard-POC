@@ -5,6 +5,29 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+import pymssql
+from datetime import datetime
+import json
+
+QUERY_get_ems = '''use [barangaroo]
+
+	SELECT	IPLV.PointKey AS PointKey,
+			AM.AssetID,
+			IPT.PointTemplateName,
+			IPLV.PointValue,
+			IPLV.LastReceivedTime,
+			AM.Description,
+			IPS.IsOnline
+
+	FROM IBMSPointLastValues IPLV
+		INNER JOIN IBMSPoints IPS ON IPS.PointKey = IPLV.PointKey
+		INNER JOIN IBMSPointTemplates IPT ON IPT.PointTemplateKey = IPS.PointTemplateKey
+		INNER JOIN AssetMaster AM ON AM.AssetKey = IPS.AssetKey
+
+	WHERE PointTemplateName LIKE '%Active Energy%'
+	AND AssetID LIKE '%-EM-%'
+
+	ORDER By LastReceivedTime DESC'''
 
 # Create your views here.
 def login_view(request):
@@ -33,7 +56,35 @@ def ems_dashboard(request):
 def ems(request):
     #if request.user.is_authenticated: return render(request=request, template_name="EMS.html")
     #else: return redirect("home")
-    return render(request=request, template_name="EMS.html")
+    if request.method == 'GET': req_pointKey = request.GET.get("pointKey")
+    dbhost = '10.0.65.231'
+    dbuser = 'sa'
+    dbpassword = 'C0mplex@1234'
+    dbdatabase = 'barangaroo'
+    conn = pymssql.connect(host=dbhost, user=dbuser, password=dbpassword, database=dbdatabase)
+    cur = conn.cursor()
+    cur.execute(QUERY_get_ems)
+    result = cur.fetchall()
+    cur.close()
+    conn.close()
+    EMS_result = []
+    total_consumption = 0
+    total_online = []
+    total_offline = []
+    for pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in result:
+        try: 
+            PointValue = int(PointValue)
+            EMS_result.append([pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline])
+            total_consumption+=PointValue
+            if IsOnline==1:total_online.append(AssetID)
+            if IsOnline==0:total_offline.append({"AssetID":AssetID, "Last":str(LastRecievedTime.strftime("%Y-%m-%d %H:%M:%S"))})
+        except: pass
+    check_ofline = False
+    if len(total_offline)>0:check_ofline=True
+    data = {"EMS":EMS_result, "total_consumption":total_consumption, "total_online":len(total_online), "total_offline":len(total_offline), 
+            "check_offline":check_ofline, "total_meters":len(total_online)+len(total_offline), "offline":total_offline}
+    
+    return render(request=request, template_name="EMS.html", context=data)
 
 def water(request):
     #if request.user.is_authenticated: return render(request=request, template_name="WATER.html")
