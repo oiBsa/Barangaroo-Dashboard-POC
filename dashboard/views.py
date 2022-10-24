@@ -21,13 +21,14 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request=request, template_name="login.html", context={'form':form})
 
-@login_required(login_url='/login/')
+#@login_required(login_url='/login/')
 def home(request):
     return render(request=request, template_name="home.html")
 
 def ems_dashboard(request):
     if request.user.is_authenticated: return render(request=request, template_name="index.html")
     else: return redirect("home")
+    
 
 def ems(request):
     if request.user.is_authenticated: return render(request=request, template_name="EMS.html")
