@@ -27,6 +27,9 @@ SECRET_KEY = 'django-insecure-05h3xkqeyk=8r!t+-@wuf-spscypklu9g0vvvkclr+&ak*#76f
 DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'barangaroo.herokuapp.com', 'barangaroo.herokuapp.com', ".herokuapp.com", "*"]
+X_FRAME_OPTIONS = 'ALLOWALL'
+
+XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
 
 
 # Application definition
