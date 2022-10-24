@@ -26,9 +26,9 @@ def home(request):
     return render(request=request, template_name="home.html")
 
 def ems_dashboard(request):
-    if request.user.is_authenticated: return render(request=request, template_name="index.html")
-    else: return redirect("home")
-    
+    #if request.user.is_authenticated: return render(request=request, template_name="index.html")
+    #else: return redirect("home")
+    return render(request=request, template_name="index.html")
 
 def ems(request):
     if request.user.is_authenticated: return render(request=request, template_name="EMS.html")
