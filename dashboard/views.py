@@ -81,6 +81,7 @@ def ems(request):
         except: pass
     check_ofline = False
     if len(total_offline)>0:check_ofline=True
+    print(check_ofline)
     data = {"EMS":EMS_result, "total_consumption":total_consumption, "total_online":len(total_online), "total_offline":len(total_offline), 
             "check_offline":check_ofline, "total_meters":len(total_online)+len(total_offline), "offline":total_offline}
     
