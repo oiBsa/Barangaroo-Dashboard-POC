@@ -2445,6 +2445,9 @@ svg path {
 	min-width: 220px;
 	display: flex;
 	flex-direction: column;
+	font-family: sans-serif;
+	font-size: 1rem;
+	font-weight: 550;
 }
 
 .weatherCard {

@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 import pymssql
 from datetime import datetime
-import json
+import json, requests
 
 QUERY_get_ems = '''use [barangaroo]
 
@@ -166,4 +166,27 @@ def ev_charging_emission_reduction(request):
 def weather_forcast(request):
     #if request.user.is_authenticated: return render(request=request, template_name="weatherForcast.html")
     #else: return redirect("home")
-    return render(request=request, template_name="weatherForcast.html")
+    results = requests.get("http://api.openweathermap.org/data/2.5/forecast?id=2147714&units=metric&appid=c394c5e0aec171094aa6e1083e1e40e1").json()
+    current_datetime = datetime.now()
+    for cuurent_weather_data in results['list']:
+        date_varialble = datetime.strptime(cuurent_weather_data["dt_txt"], "%Y-%m-%d %H:%M:%S")
+        starting_weekday = date_varialble.weekday()
+        starting_date = date_varialble.date()
+        if abs((current_datetime - date_varialble).total_seconds())<5400: break
+    print(str(starting_date.strftime("%b")).upper())
+    data = {"0":{"temp":cuurent_weather_data["main"]["temp"], "feels_like":cuurent_weather_data["main"]["feels_like"], "pressure":cuurent_weather_data["main"]["pressure"]/1000,
+        "humidity":cuurent_weather_data["main"]["humidity"], "status":cuurent_weather_data["weather"][0]["main"], "icon":cuurent_weather_data["weather"][0]["icon"], "wind_speed":cuurent_weather_data["wind"]["speed"],
+        "wind_direction":cuurent_weather_data["wind"]["deg"], "vision":cuurent_weather_data["visibility"]/1000, "day":f"{starting_weekday}", "date":starting_date.day, "month":str(starting_date.strftime("%b")).upper()},
+    "1":{"temp":results['list'][8]["main"]["temp"], "feels_like":results['list'][8]["main"]["feels_like"], "pressure":results['list'][8]["main"]["pressure"]/1000,
+        "humidity":results['list'][8]["main"]["humidity"], "status":results['list'][8]["weather"][0]["main"], "icon":results['list'][8]["weather"][0]["icon"], "wind_speed":results['list'][8]["wind"]["speed"],
+        "wind_direction":results['list'][8]["wind"]["deg"], "vision":results['list'][8]["visibility"]/1000, "day":f"{starting_weekday+1}", "date":str(starting_date.day)},
+    "2":{"temp":results['list'][16]["main"]["temp"], "feels_like":results['list'][16]["main"]["feels_like"], "pressure":results['list'][16]["main"]["pressure"]/1000,
+        "humidity":results['list'][16]["main"]["humidity"], "status":results['list'][16]["weather"][0]["main"], "icon":results['list'][16]["weather"][0]["icon"], "wind_speed":results['list'][16]["wind"]["speed"],
+        "wind_direction":results['list'][16]["wind"]["deg"], "vision":results['list'][16]["visibility"]/1000,"day":f"{starting_weekday+2}"},
+    "3":{"temp":results['list'][24]["main"]["temp"], "feels_like":results['list'][24]["main"]["feels_like"], "pressure":results['list'][24]["main"]["pressure"]/1000,
+        "humidity":results['list'][24]["main"]["humidity"], "status":results['list'][24]["weather"][0]["main"], "icon":results['list'][24]["weather"][0]["icon"], "wind_speed":results['list'][24]["wind"]["speed"],
+        "wind_direction":results['list'][24]["wind"]["deg"], "vision":results['list'][24]["visibility"]/1000, "day":f"{starting_weekday+3}"},
+    "4":{"temp":results['list'][32]["main"]["temp"], "feels_like":results['list'][32]["main"]["feels_like"], "pressure":results['list'][32]["main"]["pressure"]/1000,
+        "humidity":results['list'][32]["main"]["humidity"], "status":results['list'][32]["weather"][0]["main"], "icon":results['list'][32]["weather"][0]["icon"], "wind_speed":results['list'][32]["wind"]["speed"],
+        "wind_direction":results['list'][32]["wind"]["deg"], "vision":results['list'][32]["visibility"]/1000,"day":f"{starting_weekday+4}"}}
+    return render(request=request, template_name="weatherForcast.html", context={"weather":data})

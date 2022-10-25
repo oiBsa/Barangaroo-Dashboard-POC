@@ -168,14 +168,14 @@
                             Sydney</p>
                     </div>
                     <div class="current">
-                        <img src="{% static 'admin\img\unknown.png' %}" alt="">
+                        <img src="{% static 'admin\img\unknown.png' %}" alt="" id="mainIcon">
                         <p style="font-size: 1.5rem; font-weight:550; color:#3b3462;">
-                            Today, 21 OCT
+                            <span id="today_weekday">Today</span>, <span id="today_date">2</span> <span id="today_month">OCT</span>
                         </p>
                         <p style="font-size: 3rem; font-weight:600; color:#ccce4e; margin-bottom:0rem;">
-                            <span>30</span>&deg;
+                            <span id="today_temp">30</span>&deg;
                         </p>
-                        <p style="font-size: 1.5rem; font-weight:600; color:#0b0025; margin-top:0rem">
+                        <p id="today_desc" style="font-size: 1.5rem; font-weight:600; color:#0b0025; margin-top:0rem">
                             Sunny
                         </p>
                     </div>
@@ -185,19 +185,19 @@
                                 style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
                                 <i class='bx bxs-thermometer bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Feel Like</p>
-                                <p style="margin-bottom:0rem;"><span>35</span>&deg;</p>
+                                <p style="margin-bottom:0rem;"><span id="today_temp_feelike">35</span>&deg;</p>
                             </div>
                             <div
                                 style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
                                 <i class='bx bx-collapse bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Pressure</p>
-                                <p style="margin-bottom:0rem;"><span>1</span>atm</p>
+                                <p style="margin-bottom:0rem;"><span id="today_pressure">1</span>atm</p>
                             </div>
                             <div
                                 style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
                                 <i class='bx bx-droplet bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Humidity</p>
-                                <p style="margin-bottom:0rem;"><span>5</span>%</p>
+                                <p style="margin-bottom:0rem;"><span id="today_humidity">5</span>%</p>
                             </div>
                         </div>
                         <div class="details-column">
@@ -205,19 +205,19 @@
                                 style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
                                 <i class='bx bx-wind bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Wind</p>
-                                <p style="margin-bottom:0rem;"><span>35</span>km/hr</p>
+                                <p style="margin-bottom:0rem;"><span id="today_wind">35</span>km/hr</p>
                             </div>
                             <div
                                 style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
                                 <i class='bx bx-directions bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Direction</p>
-                                <p style="margin-bottom:0rem;"><span>1</span>&deg;</p>
+                                <p style="margin-bottom:0rem;"><span id="today_direction">1</span>&deg;</p>
                             </div>
                             <div
                                 style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
                                 <i class='bx bx-low-vision bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Vision</p>
-                                <p style="margin-bottom:0rem;"><span>5</span>m</p>
+                                <p style="margin-bottom:0rem;"><span id="today_vision">5</span>km</p>
                             </div>
                         </div>
                     </div>
@@ -278,7 +278,38 @@
         var weather_11 = 'url("https://i.gifer.com/7TDG.gif")';
         var weather_13 = 'url("https://i.gifer.com/4FPq.gif")';
         var weather_50 = 'url("https://i.gifer.com/V0M.gif")';
+        function weekdaysConvertor(d){
+            if (d==0){ 
+                return "Monday"
+            } else if (d==1){
+                return "Tuesday"
+            }else if (d==2){
+                return "Wednesday"
+            }else if (d==3){
+                return "Thursday"
+            }else if (d==4){
+                return "Friday"
+            }else if (d==5){
+                return "Saturday"
+            }else if (d==6){
+                return "Sunday"
+            }
 
+        }
+        var weather_data = {{weather|safe}};
+        document.getElementById("mainIcon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["0"]["icon"])
+        document.getElementById("today_temp").innerText = Number(weather_data["0"]["temp"]).toFixed(1)
+        document.getElementById("today_desc").innerText = weather_data["0"]["status"]
+        document.getElementById("today_temp_feelike").innerText = Number(weather_data["0"]["feels_like"]).toFixed(1)
+        document.getElementById("today_pressure").innerText = weather_data["0"]["pressure"]
+        document.getElementById("today_humidity").innerText = weather_data["0"]["humidity"]
+        document.getElementById("today_wind").innerText = weather_data["0"]["wind_speed"]
+        document.getElementById("today_direction").innerText = weather_data["0"]["wind_direction"]
+        document.getElementById("today_vision").innerText = weather_data["0"]["vision"]
+        document.getElementById("today_weekday").innerText = weekdaysConvertor(weather_data["0"]["day"])
+        document.getElementById("today_date").innerText = weather_data["0"]["date"]
+        document.getElementById("today_month").innerText = weather_data["0"]["month"]
+        console.log(weekdaysConvertor(weather_data["0"]["day"]))
         document.getElementById("weather").style.backgroundImage = weather_10
 
 
