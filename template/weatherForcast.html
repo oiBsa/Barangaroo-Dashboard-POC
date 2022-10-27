@@ -182,19 +182,19 @@
                     <div class="details">
                         <div class="details-column">
                             <div
-                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:20%;">
                                 <i class='bx bxs-thermometer bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Feel Like</p>
                                 <p style="margin-bottom:0rem;"><span id="today_temp_feelike">35</span>&deg;</p>
                             </div>
                             <div
-                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:20%;">
                                 <i class='bx bx-collapse bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Pressure</p>
                                 <p style="margin-bottom:0rem;"><span id="today_pressure">1</span>atm</p>
                             </div>
                             <div
-                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:20%;">
                                 <i class='bx bx-droplet bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Humidity</p>
                                 <p style="margin-bottom:0rem;"><span id="today_humidity">5</span>%</p>
@@ -202,19 +202,19 @@
                         </div>
                         <div class="details-column">
                             <div
-                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:20%;">
                                 <i class='bx bx-wind bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Wind</p>
                                 <p style="margin-bottom:0rem;"><span id="today_wind">35</span>km/hr</p>
                             </div>
                             <div
-                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:20%;">
                                 <i class='bx bx-directions bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Direction</p>
                                 <p style="margin-bottom:0rem;"><span id="today_direction">1</span>&deg;</p>
                             </div>
                             <div
-                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:25%;">
+                                style="display: flex;flex-direction:row;text-align:center;vertical-align:middle;align-items: center;justify-content: flex-start;align-content: center; margin-bottom:0.3rem; margin-left:20%;">
                                 <i class='bx bx-low-vision bx-sm'></i>
                                 <p style="margin-bottom:0rem; margin-left:0.3rem; margin-right:0.4rem;">Vision</p>
                                 <p style="margin-bottom:0rem;"><span id="today_vision">5</span>km</p>
@@ -223,44 +223,44 @@
                     </div>
                 </div>
                 <div class="forecast-container">
-                    <img src="{% static 'admin\img\01d.png' %}" alt="" style="width: 48px; height: 48px;">
-                    <p style="margin-bottom:0px; margin-left:2rem; font-size:2rem; font-weight:550; color:#3B3462;">
-                        <span>30</span>&deg;</p>
-                    <p
-                        style="margin-bottom:0px; margin-left:10%; margin-right:10%; font-size:1.3rem; font-weight:500; color:#3B3462;">
+                    <img id="day2_icon" src="{% static 'admin\img\01d.png' %}" alt="" style="width: 48px; height: 48px;">
+                    <p style="margin-bottom:0px; margin-left:2rem; font-size:1.5rem; font-weight:550; color:#3B3462;">
+                        <span id="day2_temp">30</span>&deg;</p>
+                    <p id="day2_status"
+                        style="margin-bottom:0px; margin-left:10%; width:26%; font-size:1.3rem; font-weight:500; color:#3B3462;">
                         Sunny</p>
-                    <span
-                        style="text-align: right; right:0; width:35%; font-size:1.5rem; font-weight:550; color:#3B3462;">Tuesday</span>
+                    <span id="day2_week"
+                        style="text-align: left; right:0; width:25%; font-size:1.5rem; font-weight:550; color:#3B3462;">Tuesday</span>
                 </div>
                 <div class="forecast-container">
-                    <img src="{% static 'admin\img\03d.png' %}" alt="" style="width: 48px; height: 48px;">
-                    <p style="margin-bottom:0px; margin-left:2rem; font-size:2rem; font-weight:550; color:#3B3462;">
-                        <span>28</span>&deg;</p>
-                    <p
-                        style="margin-bottom:0px; margin-left:10%; margin-right:10%; font-size:1.3rem; font-weight:500; color:#3B3462;">
+                    <img id="day3_icon" src="{% static 'admin\img\03d.png' %}" alt="" style="width: 48px; height: 48px;">
+                    <p style="margin-bottom:0px; margin-left:2rem; font-size:1.5rem; font-weight:550; color:#3B3462;">
+                        <span id="day3_temp">28</span>&deg;</p>
+                    <p id="day3_status"
+                        style="margin-bottom:0px; margin-left:10%; width:26%; font-size:1.3rem; font-weight:500; color:#3B3462;">
                         Cloudy</p>
-                    <span
-                        style="text-align: right; right:0; width:35%; font-size:1.5rem; font-weight:550; color:#3B3462;">Wednesday</span>
+                    <span id="day3_week"
+                        style="text-align: left; right:0; width:25%; font-size:1.5rem; font-weight:550; color:#3B3462;">Wednesday</span>
                 </div>
                 <div class="forecast-container">
-                    <img src="{% static 'admin\img\11d.png' %}" alt="" style="width: 48px; height: 48px;">
-                    <p style="margin-bottom:0px; margin-left:2rem; font-size:2rem; font-weight:550; color:#3B3462;">
-                        <span>27</span>&deg;</p>
-                    <p
-                        style="margin-bottom:0px; margin-left:10%; margin-right:10%; font-size:1.3rem; font-weight:500; color:#3B3462;">
+                    <img id="day4_icon" src="{% static 'admin\img\11d.png' %}" alt="" style="width: 48px; height: 48px;">
+                    <p style="margin-bottom:0px; margin-left:2rem; font-size:1.5rem; font-weight:550; color:#3B3462;">
+                        <span id="day4_temp">27</span>&deg;</p>
+                    <p id="day4_status"
+                        style="margin-bottom:0px; margin-left:10%; width:26%; font-size:1.3rem; font-weight:500; color:#3B3462;">
                         Rainy</p>
-                    <span
-                        style="text-align: right; right:0; width:35%; font-size:1.5rem; font-weight:550; color:#3B3462;">Thursday</span>
+                    <span id="day4_week"
+                        style="text-align: left; right:0; width:25%; font-size:1.5rem; font-weight:550; color:#3B3462;">Thursday</span>
                 </div>
                 <div class="forecast-container">
-                    <img src="{% static 'admin\img\11d.png' %}" alt="" style="width: 48px; height: 48px;">
-                    <p style="margin-bottom:0px; margin-left:2rem; font-size:2rem; font-weight:550; color:#3B3462;">
-                        <span>25</span>&deg;</p>
-                    <p
-                        style="margin-bottom:0px; margin-left:10%; margin-right:10%; font-size:1.3rem; font-weight:500; color:#3B3462;">
+                    <img id="day5_icon" src="{% static 'admin\img\11d.png' %}" alt="" style="width: 48px; height: 48px;">
+                    <p style="margin-bottom:0px; margin-left:2rem; font-size:1.5rem; font-weight:550; color:#3B3462;">
+                        <span id="day5_temp">25</span>&deg;</p>
+                    <p id="day5_status"
+                        style="margin-bottom:0px; margin-left:10%; width:26%; font-size:1.3rem; font-weight:500; color:#3B3462;">
                         Rainy</p>
-                    <span
-                        style="text-align: right; right:0; width:35%; font-size:1.5rem; font-weight:550; color:#3B3462;">Friday</span>
+                    <span id="day5_week"
+                        style="text-align: left; right:0; width:1fr; font-size:1.5rem; font-weight:550; color:#3B3462;">Friday</span>
                 </div>
             </div>
         </main>
@@ -294,9 +294,34 @@
             }else if (d==6){
                 return "Sunday"
             }
-
+        };
+        function getBackground(d) {
+            d = d.slice(0, 2);
+            if (d=="01"){
+                return weather_01
+            } else if (d=="02") {
+                return weather_02
+            } else if (d=="03") {
+                return weather_03
+            } else if (d=="04") {
+                return weather_04
+            } else if (d=="09") {
+                return weather_09
+            } else if (d=="10") {
+                return weather_10
+            } else if (d=="11") {
+                return weather_11
+            } else if (d=="13") {
+                return weather_13
+            } else if (d=="15") {
+                return weather_15
+            } else {
+                return weather_01
+            }
         }
         var weather_data = {{weather|safe}};
+        document.getElementById("weather").style.backgroundImage = getBackground(weather_data["0"]["icon"])
+
         document.getElementById("mainIcon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["0"]["icon"])
         document.getElementById("today_temp").innerText = Number(weather_data["0"]["temp"]).toFixed(1)
         document.getElementById("today_desc").innerText = weather_data["0"]["status"]
@@ -309,8 +334,27 @@
         document.getElementById("today_weekday").innerText = weekdaysConvertor(weather_data["0"]["day"])
         document.getElementById("today_date").innerText = weather_data["0"]["date"]
         document.getElementById("today_month").innerText = weather_data["0"]["month"]
-        console.log(weekdaysConvertor(weather_data["0"]["day"]))
-        document.getElementById("weather").style.backgroundImage = weather_10
+        console.log(getBackground(weather_data["0"]["icon"]))
+
+        document.getElementById("day2_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["1"]["icon"])
+        document.getElementById("day3_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["2"]["icon"])
+        document.getElementById("day4_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["3"]["icon"])
+        document.getElementById("day5_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["4"]["icon"])
+
+        document.getElementById("day2_temp").innerText = Number(weather_data["1"]["temp"]).toFixed(1)
+        document.getElementById("day3_temp").innerText = Number(weather_data["2"]["temp"]).toFixed(1)
+        document.getElementById("day4_temp").innerText = Number(weather_data["3"]["temp"]).toFixed(1)
+        document.getElementById("day5_temp").innerText = Number(weather_data["4"]["temp"]).toFixed(1)
+
+        document.getElementById("day2_status").innerText = weather_data["1"]["status"]
+        document.getElementById("day3_status").innerText = weather_data["2"]["status"]
+        document.getElementById("day4_status").innerText = weather_data["3"]["status"]
+        document.getElementById("day5_status").innerText = weather_data["4"]["status"]
+
+        document.getElementById("day2_week").innerText = weekdaysConvertor(weather_data["1"]["day"])
+        document.getElementById("day3_week").innerText = weekdaysConvertor(weather_data["2"]["day"])
+        document.getElementById("day4_week").innerText = weekdaysConvertor(weather_data["3"]["day"])
+        document.getElementById("day5_week").innerText = weekdaysConvertor(weather_data["4"]["day"])
 
 
     </script>

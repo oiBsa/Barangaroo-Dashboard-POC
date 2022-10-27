@@ -1,12 +1,14 @@
 
 import re
+from time import strftime
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 import pymssql
-from datetime import datetime
+from datetime import datetime, timedelta
 import json, requests
 
 QUERY_get_ems = '''use [barangaroo]
@@ -29,6 +31,87 @@ QUERY_get_ems = '''use [barangaroo]
 
 	ORDER By LastReceivedTime DESC'''
 
+QUERY_get_pointKey = '''If OBJECT_ID(N'tempdb..#temp1') IS NOT NULL
+    BEGIN
+        DROP TABLE #temp1
+    END
+
+If OBJECT_ID(N'tempdb..#temp2') IS NOT NULL
+    BEGIN
+        DROP TABLE #temp2
+    END
+
+USE [barangaroo]
+declare @key1 varchar(max)
+DECLARE @From DATETIME	= 'ENDDATE'
+DECLARE @To DATETIME	= 'STARTEDATE'
+
+
+------if you know point key, comment the following part
+select pointkey         into #temp2 from ibmspoints p
+        inner join ibmspointtemplates pt on p.pointtemplatekey=pt.pointtemplatekey
+        inner join assetmaster am on am.assetkey=p.assetkey
+        where pointkey like 'POINTKEYVALUE'
+
+set @key1= stuff( (select ',' + cast(pointkey as varchar(max))
+               from #temp2
+               for xml path ('')
+              ), 1, 1, ''
+            );
+
+
+------if you know point key, comment part above
+----else you can use the following line
+--set @key1='145,148,151'
+----------------
+
+CREATE TABLE #temp1
+(
+   Trendkey INT,
+   Pointkey INT,
+   PointValue Varchar(max),
+   TransactionDateTime datetime
+)
+
+
+
+DECLARE @to_offset_added DATETIME, @from_offset_added DATETIME
+SET @from_offset_added = DATEADD(day,0,dbo.LocaltoUTCDate(@From))
+SET @to_offset_added = DATEADD(day,0,dbo.LocaltoUTCDate(@To))
+
+
+DECLARE @Queries VARCHAR(max)='', @Query VARCHAR(max)
+EXEC GetTrendData_MultiDB_LinkServer_QUE @from_offset_added, @to_offset_added, @key1, @Queries OUTPUT
+
+
+DECLARE @getid CURSOR
+SET @getid = CURSOR FOR SELECT [item] FROM fnSplit_NewTrends(@Queries, ';')
+OPEN  @getid
+FETCH NEXT FROM @getid INTO @Query
+WHILE @@FETCH_STATUS = 0
+	BEGIN
+		INSERT INTO #temp1 EXEC (@Query)
+		FETCH NEXT FROM @getid INTO @Query
+	END
+CLOSE @getid;
+DEALLOCATE @getid;
+
+
+select assetid,rnk.pointkey,pointvalue,CONVERT(VARCHAR(16), transactiondatetime, 120) as time1
+
+from
+(SELECT pointkey,PointValue,transactiondatetime,
+   ROW_NUMBER() OVER (PARTITION BY pointkey,CONVERT(VARCHAR(13), transactiondatetime, 120) Order by trendkey asc) AS rown
+FROM #temp1
+)rnk --- this is the window function (partition by something)
+inner join ibmspoints p on p.PointKey=rnk.pointkey
+inner join assetmaster am on am.assetkey=p.assetkey
+where rown=1
+ORDER BY time1'''
+
+monthly_graph = {}
+weekly_graph = {}
+daily_graph = {}
 # Create your views here.
 def login_view(request):
     if request.method == 'POST':
@@ -52,40 +135,88 @@ def ems_dashboard(request):
     #if request.user.is_authenticated: return render(request=request, template_name="index.html")
     #else: return redirect("home")
     return render(request=request, template_name="index.html")
-
+dbhost = '10.0.65.231'
+dbuser = 'sa'
+dbpassword = 'C0mplex@1234'
+dbdatabase = 'barangaroo'
+conn = pymssql.connect(host=dbhost, user=dbuser, password=dbpassword, database=dbdatabase)
+target_meter = ""
 def ems(request):
+    global conn, target_meter
+    current_datetime = datetime.utcnow() + timedelta(days=1)
+    end_datetime = current_datetime - timedelta(days=31)
+    current_datetime = str(current_datetime.strftime("%Y-%m-%d"))
+    end_datetime = str(end_datetime.strftime("%Y-%m-%d"))
     #if request.user.is_authenticated: return render(request=request, template_name="EMS.html")
     #else: return redirect("home")
-    if request.method == 'GET': req_pointKey = request.GET.get("pointKey")
-    dbhost = '10.0.65.231'
-    dbuser = 'sa'
-    dbpassword = 'C0mplex@1234'
-    dbdatabase = 'barangaroo'
-    conn = pymssql.connect(host=dbhost, user=dbuser, password=dbpassword, database=dbdatabase)
-    cur = conn.cursor()
-    cur.execute(QUERY_get_ems)
-    result = cur.fetchall()
-    cur.close()
-    conn.close()
-    EMS_result = []
-    total_consumption = 0
-    total_online = []
-    total_offline = []
-    for pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in result:
-        try: 
-            PointValue = int(PointValue)
-            EMS_result.append([pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline])
-            total_consumption+=PointValue
-            if IsOnline==1:total_online.append(AssetID)
-            if IsOnline==0:total_offline.append({"AssetID":AssetID, "Last":str(LastRecievedTime.strftime("%Y-%m-%d %H:%M:%S"))})
-        except: pass
-    check_ofline = False
-    if len(total_offline)>0:check_ofline=True
-    print(check_ofline)
-    data = {"EMS":EMS_result, "total_consumption":total_consumption, "total_online":len(total_online), "total_offline":len(total_offline), 
-            "check_offline":check_ofline, "total_meters":len(total_online)+len(total_offline), "offline":total_offline}
+    if request.method == 'GET': 
+        req_pointKey = request.GET.get("pointKey")
+        graphStartDate = request.GET.get("graphStartDate")
+        graphEndDate = request.GET.get("graphEndDate")
+    if req_pointKey!=None:
+        monthly_graph = {}
+        weekly_graph = {}
+        daily_graph = {}
+        cur = conn.cursor()
+        cur.execute(QUERY_get_pointKey.replace("POINTKEYVALUE", req_pointKey).replace("STARTEDATE", current_datetime).replace("ENDDATE", end_datetime))
+        graph_results = cur.fetchall()
+        cur.close()
+        monthly = {}
+        for equip in graph_results:
+            current_date = equip[-1].split(" ")[0]
+            consumption = []
+            for dummy_equip in graph_results:
+                if current_date in dummy_equip[-1]: consumption.append(dummy_equip[2])
+            monthly[current_date] = consumption[-1]
+        weekly = {k: monthly[k] for k in list(monthly)[-7:]}
+        daily = {k[-1].split(":")[0]:k[2] for k in graph_results[-24:]}
+        monthly_graph = {"x":[m for m in monthly.keys()], "y":[n for n in monthly.values()]}
+        weekly_graph = {"x":[m for m in weekly.keys()], "y":[n for n in weekly.values()]}
+        daily_graph = {"x":[m for m in daily.keys()], "y":[n for n in daily.values()]}
+        target_meter = req_pointKey
+        return JsonResponse({"monthly":monthly_graph, "weekly":weekly_graph, "daily":daily_graph}, status=200)
+    elif ((graphStartDate!=None) or (graphEndDate!=None)):
+        monthly_graph = {}
+        cur = conn.cursor()
+        cur.execute(QUERY_get_pointKey.replace("POINTKEYVALUE", target_meter).replace("STARTEDATE", graphEndDate).replace("ENDDATE", graphStartDate))
+        graph_results = cur.fetchall()
+        cur.close()
+        monthly = {}
+        for equip in graph_results:
+            current_date = equip[-1].split(" ")[0]
+            consumption = []
+            for dummy_equip in graph_results:
+                if current_date in dummy_equip[-1]: consumption.append(dummy_equip[2])
+            monthly[current_date] = consumption[-1]
+        monthly_graph = {"x":[m for m in monthly.keys()], "y":[n for n in monthly.values()]}
+        return JsonResponse({"dateWise":monthly_graph}, status=200)
+    else:
+        cur = conn.cursor()
+        cur.execute(QUERY_get_ems)
+        result = cur.fetchall()
+        cur.close()
+        graph_ponts = {"x":[], "y":[]}
+        
+        EMS_result = []
+        total_consumption = 0
+        total_online = []
+        total_offline = []
+        for pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in result:
+            try: 
+                PointValue = int(PointValue)
+                EMS_result.append([pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline])
+                total_consumption+=PointValue
+                if IsOnline==1:total_online.append(AssetID)
+                if IsOnline==0:total_offline.append({"AssetID":AssetID, "Last":str(LastRecievedTime.strftime("%Y-%m-%d %H:%M:%S"))})
+            except: pass
+        check_ofline = False
+        if len(total_offline)>0:check_ofline=True
+        EMS_result = sorted( EMS_result, key=lambda t: t[3], reverse=True)
+        graph_ponts["x"] = [AssetID for pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in EMS_result[:30]]
+        graph_ponts["y"] = [pointKey for pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in EMS_result[:30]]
     
-    return render(request=request, template_name="EMS.html", context=data)
+    return render(request=request, template_name="EMS.html", context={"EMS":EMS_result, "total_consumption":total_consumption, "total_online":len(total_online), "total_offline":len(total_offline), 
+            "check_offline":check_ofline, "total_meters":len(total_online)+len(total_offline), "offline":total_offline, "graphPoints":graph_ponts})
 
 def water(request):
     #if request.user.is_authenticated: return render(request=request, template_name="WATER.html")

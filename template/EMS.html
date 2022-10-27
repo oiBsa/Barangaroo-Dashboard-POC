@@ -181,9 +181,15 @@
                 <div class="order">
                     <div class="head">
                         <h3>Electric Meters ({{total_meters}})</h3>
-                        <form action="#" method="POST">
+                        <form action="#">
                             <div class="form-input" style="align-content: right;">
-                                <input type="search" placeholder="Search Electric Meters">
+                                <input list="ice-cream-flavors" id="ice-cream-choice" name="ice-cream-choice" placeholder="Search Meter" oninput="Select1Changed(this.pointKey);">
+                                <datalist id="ice-cream-flavors">
+                                    {% for meter in EMS %}
+                                    <option pointKey="{{ meter.0 }}" meterName="{{ meter.1 }}" meterDesc="{{ meter.5 }}" value="{{meter.1}}"></option>
+                                    
+                                    {% endfor %}
+                                </datalist>
                                 <button type="submit" class="search-btn">
                                     <i class='bx bx-search'></i>
                                 </button>
@@ -203,7 +209,7 @@
                         </thead>
                         <tbody>
                             {% for meter in EMS %}
-                            <tr value="{{ meter.0 }}">
+                            <tr value="{{ meter.0 }}" meterName="{{ meter.1 }}" meterDesc="{{ meter.5 }}">
                                 <td>
                                     <i class='bx bx-bolt-circle bx-sm'></i>
                                 </td>
@@ -238,11 +244,11 @@
                     </a>
                     <div style="margin-left: auto;">
                         <label for="startDate" style="font-family: Lato, sans-serif;">Start:</label>
-                        <input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00">
+                        <input type="date" id="startDate" name="Start Date" value="2022-08-28">
                     </div>
                     <div>
                         <label for="ebdDate" style="font-family: Lato, sans-serif;">End:</label>
-                        <input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
+                        <input type="date" id="endDate" name="End Date" value="2022-09-28">
                     </div>
                     <div>
                         <div class="dropdown">
@@ -260,16 +266,16 @@
                 </div>
                 <div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:55px">
                     <div style="font-family: Lato, sans-serif; margin-bottom:20px;" id="meterDescription">
-                        <p>Total consumption of all meters</p>
-                    </div class='graphButtons'>
+                        <p>Top 30 meters</p>
+                    </div>
                     <div style="margin-left: auto; margin-right: 20px;">
-                        <button type="button" class="btn btn-outline-primary">Today</button>
+                        <button type="button" class="btn btn-outline-primary" value="daily" onclick="timeButton(this.value)">Today</button>
                     </div>
                     <div style="margin-right: 20px;">
-                        <button type="button" class="btn btn-outline-primary">Weekly</button>
+                        <button type="button" class="btn btn-outline-primary" value="weekly" onclick="timeButton(this.value)">Weekly</button>
                     </div>
                     <div style="margin-right: 0px;">
-                        <button type="button" class="btn btn-outline-primary">Monthly</button>
+                        <button type="button" class="btn btn-outline-primary" value="monthly" onclick="timeButton(this.value)">Monthly</button>
                     </div>
 
                 </div>
@@ -287,26 +293,42 @@
 
 
     <script>
+        var currentTime = new Date()
+        document.getElementById("startDate").value = currentTime.getFullYear()+"-"+make2Digit(currentTime.getMonth())+"-"+make2Digit(currentTime.getDate())
+        document.getElementById("endDate").value = currentTime.getFullYear()+"-"+make2Digit(currentTime.getMonth()+1)+"-"+make2Digit(currentTime.getDate())
+        $('#startDate').change(function(){
+            graphStartDate = new Date($("#startDate").val())
+            graphEndDate = new Date($("#endDate").val())
+            chartConfig["data"]["datasets"][0]["data"] = [0]
+            Chart1.update("active");
+            $.ajax({
+                url: {% url 'ems' %},
+                data: {
+                    graphStartDate: graphStartDate.getFullYear()+"-"+make2Digit(graphStartDate.getMonth())+"-"+make2Digit(graphStartDate.getDate()),
+                    graphEndDate: graphEndDate.getFullYear()+"-"+make2Digit(graphEndDate.getMonth())+"-"+make2Digit(graphEndDate.getDate()),
+                },
+                method: 'GET',
+                success: function(data){
+                    chartConfig["data"]["labels"] = data["dateWise"]["x"]
+                    chartConfig["data"]["datasets"][0]["data"] = data["dateWise"]["y"]
+                    Chart1.update("active");
+                }
+            })
+        })
         var OfflineMeters = {{offline|safe}};
-        var showData = 1;
-        var meterName = document.getElementById("meterName");
-        var meterDescription = document.getElementById('meterDescription');
-        var xValues = ['January', 'Feburary', 'March', 'April', 'May', 'June',
-            'July', 'Augest', 'September', 'October', 'November', 'December'];
-        var yValues = [1100, 800, 400, 700, 300, 950, 880, 650, 600, 600, 990, 1000];
-        var x1 = ['3:00 AM', '3:15 AM', '3:30 AM', '3:45 AM', '4:00 AM', '4:15 AM', '4:30 AM', '4:45 AM', '5:00 AM', '5:15 AM', '5:30 AM', '5:45 AM', '6:00 AM', '6:15 AM', '6:30 AM', '6:45 AM', '7:00 AM', '7:15 AM', '7:30 AM', '7:45 AM', '8:00 AM', '8:15 AM', '8:30 AM', '8:45 AM', '9:00 AM', '9:15 AM', '9:30 AM', '9:45 AM', '10:00 AM', '10:15 AM', '10:30 AM', '10:45 AM', '11:00 AM', '11:15 AM', '11:30 AM', '11:45 AM', '12:00 PM', '12:15 PM', '12:30 PM', '12:45 PM', '1:00 PM', '1:15 PM', '1:30 PM', '1:45 PM', '2:00 PM', '2:15 PM', '2:30 PM', '2:45 PM', '3:00 PM', '3:15 PM'];
-        var y1 = [86493.1875, 86525.953125, 86495.234375, 86018.046875, 86026.2421875, 86519.8046875, 86521.859375, 86054.9140625, 86054.9140625, 86077.4375, 86042.625, 86073.34375, 86054.9140625, 86478.8515625, 86026.2421875, 86517.7578125, 86077.4375, 86523.90625, 86036.4765625, 86046.71875, 86026.2421875, 86497.28125, 86069.25, 86056.9609375, 86026.2421875, 86077.4375, 86489.0859375, 86497.28125, 86480.8984375, 86444.03125, 86521.859375, 86482.9453125, 86497.28125, 86036.4765625, 86472.703125, 86476.796875, 86071.296875, 86484.9921875, 86513.6640625, 86507.5234375, 86484.9921875, 86462.4609375, 86489.0859375, 86482.9453125, 86548.4765625, 86616.0625, 86583.296875, 86996.9921875, 86558.71875, 87009.28125, 86562.8125, 86589.4375, 86982.65625, 86560.765625, 86616.0625, 86583.296875, 86988.796875, 86937.6015625, 87003.1328125, 87025.6640625, 86589.4375, 86597.6328125, 87083.0078125, 87498.75, 87098.640625, 87126.875, 87156.3984375, 87185.6796875, 87213.7578125, 87242.796875, 87270.796875, 87299.6796875, 87318.3203125, 87336, 87337.4375, 87337.515625];
-
+        var graphPoints = {{graphPoints|safe}};
+        var current = "monthly";
+        
         var ctx = document.getElementById('waterMeterChart').getContext('2d');
         var chartConfig = {
             type: 'bar',
             data: {
-                labels: xValues,
+                labels: graphPoints["x"],
                 datasets: [{
                     label: 'Consumption',
-                    data: yValues,
+                    data: graphPoints["y"],
                     borderWidth: 1,
-                    borderColor: 'rgba(0, 0, 0, 0.5)',
+                    borderColor: '#8AC3EE',
                     backgroundColor: "#8AC3EE",
                     borderRadius: 10,
                     tension: 0.25
@@ -314,7 +336,6 @@
 
             },
             options: {
-
                 scales: {
                     y: {
                         beginAtZero: true
@@ -324,81 +345,17 @@
             }
 
         };
-        var chartConfig2 = {
-            type: 'bar',
-            data: {
-                labels: xValues,
-                datasets: [{
-                    label: 'Consumption',
-                    data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
-                    borderWidth: 1,
-                    borderColor: 'rgba(0, 0, 0, 1)',
-                    backgroundColor: "#8AC3EE",
-                    tension: 1,
-                    borderRadius: 8,
-                    type: 'bar',
-                    order: 1
-                },
-                {
-                    label: '6.0',
-                    data: [400, 370, 320, 290, 250, 220, 215, 220, 210, 210],
-                    borderWidth: 2,
-                    borderColor: '#D9C4D7',
-                    backgroundColor: "#D9C4D7",
-                    tension: 0.5,
-                    borderRadius: 8,
-                    type: 'line'
-                },
-                {
-                    label: '5.5',
-                    data: [500, 460, 410, 360, 320, 300, 295, 300, 290, 290],
-                    borderWidth: 2,
-                    borderColor: '#52A98C',
-                    backgroundColor: "#52A98C",
-                    tension: 0.5,
-                    borderRadius: 8,
-                    type: 'line'
-                },
-                {
-                    label: '5.0',
-                    data: [600, 550, 500, 430, 380, 350, 345, 350, 340, 340],
-                    borderWidth: 2,
-                    borderColor: '#8785C7',
-                    backgroundColor: "#8785C7",
-                    tension: 0.5,
-                    borderRadius: 8,
-                    type: 'line'
-                },
-                {
-                    label: '4.5',
-                    data: [800, 750, 650, 560, 505, 490, 485, 490, 480, 480],
-                    borderWidth: 2,
-                    borderColor: '#C6D9E3',
-                    backgroundColor: "#C6D9E3",
-                    tension: 0.4,
-                    borderRadius: 8,
-                    type: 'line'
-                }],
-
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: true,
-                        onClick: null,
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                responsive: true,
-            }
-
-        };
-
+        
         var Chart1 = new Chart(ctx, chartConfig);
+        function make2Digit(d){
+            x = d.toString()
+            if (x.length<2){
+                return "0"+x
+            }
+            else {
+                return x
+            }
+        }
         $("#offlineTab").on("click", function () {
             console.log(OfflineMeters)
             var table = $("#table tbody")
@@ -413,16 +370,25 @@
 
         $("#meterTable").on("click", "tr", function () {
             pointKey = $(this).attr("value");
+            meterName = $(this).attr("meterName");
+            meterDescription = $(this).attr("meterDesc");
+            chartConfig["data"]["datasets"][0]["data"] = [0]
+            Chart1.update("active");
             console.log(pointKey)
             $.ajax({
-                utl: {% url 'ems' %},
+                url: {% url 'ems' %},
                 data: {
                 pointKey: pointKey,
             },
                 method: 'GET',
                 success: function (data) {
-
-                }
+                    document.getElementById("meterName").innerText = meterName
+                    document.getElementById("meterDescription").innerText = meterDescription
+                    chartConfig["data"]["labels"] = data[current]["x"]
+                    chartConfig["data"]["datasets"][0]["data"] = data[current]["y"]
+                    Chart1.update("active");
+                    graphPoints = data;
+                },
             })
         });
         function jsFunction(value) {
@@ -445,11 +411,35 @@
 
             Chart1.update('active');
         };
-
         function nabers() { window.location.href = "{% url 'nabers' %}"; };
-
-
-
+        function selectedRow(){
+                
+            var index, table = document.getElementById("meterTable");
+            for(var i = 1; i < table.rows.length; i++)
+            {
+                table.rows[i].onclick = function()
+                {
+                     // remove the background from the previous selected row
+                    if(typeof index !== "undefined"){
+                       table.rows[index].classList.toggle("selected");
+                    }
+                    // get the selected row index
+                    index = this.rowIndex;
+                    // add class selected to the row
+                    this.classList.toggle("selected");
+                 };
+            }
+            
+        }
+        function timeButton(b){
+            current = b;
+            chartConfig["data"]["labels"] = graphPoints[current]["x"]
+            chartConfig["data"]["datasets"][0]["data"] = graphPoints[current]["y"]
+            Chart1.update("active");
+        }
+        function Select1Changed(pointKey) {
+            console.log(pointKey)
+          }
 
 
 

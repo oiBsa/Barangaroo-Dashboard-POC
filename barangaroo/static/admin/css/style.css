@@ -1611,3 +1611,13 @@ svg path {
 	text-align: center;
 	margin-bottom: 20px;
 }
+
+/* Dropdown Button */
+.dropbtn {
+	background-color: #04AA6D;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+  }

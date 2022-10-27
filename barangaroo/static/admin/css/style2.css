@@ -2442,7 +2442,7 @@ svg path {
 	flex-wrap: wrap;
 }
 .today-weather .details .details-column {
-	min-width: 220px;
+	min-width: 200px;
 	display: flex;
 	flex-direction: column;
 	font-family: sans-serif;
@@ -2469,3 +2469,4 @@ svg path {
     justify-content: center;
 	font-family: sans-serif;
 }
+
