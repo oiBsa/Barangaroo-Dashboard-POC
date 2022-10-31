@@ -1332,7 +1332,6 @@ svg path {
 	border-bottom-right-radius: 24px;
 	padding: 30px 30px;
 	animation: topToBottom 1s ease-in-out;
-	
 }
 @keyframes bottomToTop {
 	0% {
@@ -2500,4 +2499,94 @@ svg path {
 }
 #thermalComfortSideBarDropDown .activeButton {
 	background-color: #a07bb3c5;
+}
+
+#EOTF {
+	display: grid;
+	grid-template-columns: 82% 18%;
+	background-color: #ffffff;
+	border-radius: 24px;
+	height: 100vh;
+	grid-row-start: auto;
+}
+#EOTFDashboard {
+	background-color: #fafafa;
+	grid-column: 1/2;
+	margin-top: -36px;
+	margin-left: -24px;
+	margin-bottom: -36px;
+	border-top-left-radius: 24px;
+	border-bottom-left-radius: 24px;
+	padding: 10px 30px;
+	box-shadow: inset -3px -3px 10px 1px rgba(0, 0, 0, 0.08);
+	animation: bottomToTop 1s ease-in-out;
+	height: 94.5vh;
+}
+#EOTFSideBar {
+    background-image: repeating-radial-gradient(#f9e8fd83, #ebccfa7a);
+    grid-column: 2/2;
+    margin-top: -36px;
+    margin-right: -24px;
+    margin-bottom: -36px;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    padding: 30px 30px;
+    animation: topToBottom 1s ease-in-out;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+@keyframes bottomToTop {
+	0% {
+		box-shadow: inset -3px -3px 10px 1px rgba(0, 0, 0, 0);
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(0%);
+		box-shadow: inset -3px -3px 10px 1px rgba(0, 0, 0, 0.08);
+	}
+}
+@keyframes topToBottom {
+	0% {
+		transform: translateY(100%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
+}
+
+#EOTFDashboard .headings {
+	font-family: sans-serif;
+	font-size: 64px;
+	font-weight: 600;
+	color: #3B3462;
+}
+#EOTFDashboard .headings p {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	max-height: 70px !important;
+}
+
+#EOTFDashboard .headings .dashboard {
+	color: #B4B1C9;
+}
+.EVSelection p{
+	color: #3B3462;
+	font-weight: 550;
+}
+.EOTFContent {
+	border-radius: 2rem;
+	background-color: white;
+	padding: 1.5rem 1.5rem;
+	margin-top: 3rem;
+	box-shadow: 0.4rem 0.4rem 1rem 0.05rem rgba(0, 0, 0, 0.08);
+}
+.EOTFContent:hover{
+	transform: scale(1.008);
+	box-shadow: 0.4rem 0.4rem 1rem 0.05rem rgba(0, 0, 0, 0.08),
+	0rem 0rem 1rem 0.05rem rgba(0, 0, 0, 0.1) inset;
+	transition: 0.5s ease-in-out;
 }

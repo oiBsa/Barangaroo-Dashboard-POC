@@ -41,6 +41,9 @@ urlpatterns = [
     path("ev_charging_avg_energy_per_charge/", view=views.ev_avg_eng_per_charge, name="EV_AEPC"),
     path("ev_charging_emission_reduction/", view=views.ev_charging_emission_reduction, name="EV_ER"),
     path("weather_forcast/", view=views.weather_forcast, name="weather"),
+    path("eotf/", view=views.eotf, name="eotf"),
+    path("eotf_cube/", view=views.eotf_cube, name="eotf_cube"),
+    path("eotf_use/", view=views.eotf_use, name="eotf_use"),
     
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),   

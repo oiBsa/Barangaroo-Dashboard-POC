@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Boxicons -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <!-- My CSS -->
+  <link rel="stylesheet" href="{% static 'admin/css/style2.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+    integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+  <title>EOTF</title>
+</head>
+
+<body>
+
+
+  <!-- SIDEBAR -->
+  <section id="sidebar" class="hide">
+    <a href="{% url 'home' %}" class="brand">
+      <img class="oi-icon"
+        src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw"
+        alt="Operational Interlligence">
+      <span class="text">Operational Intelligence</span>
+    </a>
+  </section>
+  <!-- SIDEBAR -->
+
+
+
+  <!-- CONTENT -->
+  <section id="content" style="background-color: white;">
+    <!-- NAVBAR -->
+    <nav style="height: 52px;">
+      <a href="#" class="nav-link">EOTF</a>
+    </nav>
+    <!-- NAVBAR -->
+
+    <!-- MAIN -->
+    <main id="EOTF">
+      <div id="EOTFDashboard">
+        <!-- Heading -->
+        <div class="headings">
+          <p>
+            EOTF
+          </p>
+          <p>
+            <span class="dashboard">
+              Dashboard
+            </span>
+          </p>
+        </div>
+        <!-- Heading -->
+
+        <!-- TCD Main Content -->
+        <div class="EOTFContent">
+          <div style="display: flex;" class="graphBoxHeader">
+            <h4 id="meterName" href="./index.html" style="color: black; font-size:26px;">Tenant Access</h4>
+            <div style="margin-left: auto;">
+              <label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
+              <input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00" style="width: 200px;">
+            </div>
+            <div style="margin-right: 0;">
+              <label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
+              <input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00" style="width: 200px;">
+            </div>
+
+          </div>
+          <div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:55px">
+            <div style="margin-left: auto; margin-right: 20px;" class="graphButtons">
+              <button type="button" class="btn btn-outline-primary enable" id="todayButton">Today</button>
+            </div>
+            <div style="margin-right: 20px;" class="graphButtons">
+              <button type="button" class="btn btn-outline-primary enable" id="weeklyButton">Weekly</button>
+            </div>
+            <div style="margin-right: 20px;" class="graphButtons">
+              <button type="button" class="btn btn-outline-primary enable">Monthly</button>
+            </div>
+
+          </div>
+          <canvas id="EOTFGraph" style="max-height: 440px; margin-bottom:30px;" class="graph">
+        </div>
+
+
+        <!-- TCD Main Content -->
+      </div>
+      <div id="EOTFSideBar">
+        <div class="EVSelection">
+          <div class="active"
+            style="display:flex;align-items: center;justify-content: flex-start;align-content: center;flex-direction: row;">
+            <a class='bx bx-universal-access bx-lg' style="--main-color: #ffcf40; text-decoration:none;"
+              href="{% url 'eotf' %}"></a>
+            <div style="margin-left:20px;" class="selectionLabel">
+              <p class="active">
+                Tenant Access
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="EVSelection">
+          <div
+            style="display:flex;align-items: center;justify-content: flex-start;align-content: center;flex-direction: row;">
+            <a class='bx bx-cube-alt bx-lg' style="--main-color: #54B127; text-decoration:none;"
+              href="{% url 'eotf_cube' %}"></a>
+            <div style="margin-left:20px;" class="selectionLabel">
+              <p>
+                Tenant Access to Cubiciles
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="EVSelection">
+          <div
+            style="display:flex;align-items: center;justify-content: flex-start;align-content: center;flex-direction: row;">
+            <a class='bx bxl-tailwind-css bx-lg' style="--main-color: #08A4C3; text-decoration:none;"
+              href="{% url 'eotf_use' %}"></a>
+            <div style="margin-left:20px;" class="selectionLabel">
+              <p>
+                Use of Cubicles
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- MAIN -->
+  </section>
+  <!-- CONTENT -->
+
+
+
+  <script>
+    var ctx = document.getElementById('EOTFGraph').getContext('2d');
+    var chartConfig = {
+      type: 'bar',
+      data: {
+        labels: ["4/10/2022", "5/10/2022", "6/10/2022", "7/10/2022", "10/10/2022", "11/10/2022", "12/10/2022",
+                  "13/10/2022", "14/10/2022", "17/10/2022", "18/10/2022", "19/10/2022", "20/10/2022", "21/10/2022",
+                  "22/10/2022", "24/10/2022", "25/10/2022", "26/10/2022", "27/10/2022", "28/10/2022", "31/10/2022"],
+        datasets: [{
+          label: "KPMG",
+          data: [50, 38, 45, 28, 59, 55, 53, 48, 31, 27, 63, 56, 46, 31, 4, 35, 50, 61, 46, 36, 22],
+          backgroundColor: '#ffd866',
+          borderRadius: 5,
+        }],
+
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: true,
+            align: 'end',
+            position: 'top',
+          }
+        },
+
+        scales: {
+          y: {
+            grid: {
+              display: false,
+              drawBorder: true,
+              drawTicks: true,
+            },
+            ticks: {
+              display: true,
+              
+            }
+          },
+          x: {
+            type: 'category',
+            grid: {
+              display: false,
+              drawBorder: true,
+              drawTicks: true,
+            },
+          },
+        },
+        responsive: true,
+      }
+    };
+    var Chart1 = new Chart(ctx, chartConfig);
+
+  </script>
+</body>
+
+</html>

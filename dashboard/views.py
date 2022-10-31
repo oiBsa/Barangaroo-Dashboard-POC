@@ -352,3 +352,18 @@ def weather_forcast(request):
         "humidity":results['list'][38]["main"]["humidity"], "status":results['list'][38]["weather"][0]["main"], "icon":results['list'][38]["weather"][0]["icon"], "wind_speed":results['list'][38]["wind"]["speed"],
         "wind_direction":results['list'][38]["wind"]["deg"], "vision":results['list'][38]["visibility"]/1000,"day":f"{daysConvertor(starting_weekday+5)}"}}
     return render(request=request, template_name="weatherForcast.html", context={"weather":data})
+
+def eotf(request):
+    #if request.user.is_authenticated: return render(request=request, template_name="EOTF.html")
+    #else: return redirect("home")
+    return render(request=request, template_name="EOTF.html")
+
+def eotf_cube(request):
+    #if request.user.is_authenticated: return render(request=request, template_name="EOTF.html")
+    #else: return redirect("home")
+    return render(request=request, template_name="EOTF_cube.html")
+
+def eotf_use(request):
+    #if request.user.is_authenticated: return render(request=request, template_name="EOTF.html")
+    #else: return redirect("home")
+    return render(request=request, template_name="EOTF_use.html")
