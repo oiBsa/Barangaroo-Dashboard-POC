@@ -28,7 +28,7 @@
     <title>Weather Forecast</title>
 </head>
 
-<body>
+<body onload="zoom()">
 
 
     <!-- SIDEBAR -->
@@ -95,8 +95,8 @@
                         <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Air Pressure</p>
                         <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
                             <img src="https://img.icons8.com/color/80/000000/pressure.png" style="margin-right:1rem; margin-left:0rem">
-                            <p style="font-size:2.0rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span style="font-size:2.3rem; font-weight:550; color:#0b0025; margin-bottom:1rem;" id="today_pressure">1</span>ATM
+                            <p style="font-size:1.7rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2rem; font-weight:550; color:#0b0025; margin-bottom:1rem;" id="today_pressure">1</span>ATM
                             </p>
                         </div>
                     </div>
@@ -237,6 +237,7 @@
         var weather_11 = 'url("https://i.gifer.com/7TDG.gif")';
         var weather_13 = 'url("https://i.gifer.com/4FPq.gif")';
         var weather_50 = 'url("https://i.gifer.com/V0M.gif")';
+        function zoom() {document.body.style.zoom = "90%" }
         function weekdaysConvertor(d){
             console.log(d)
             if (d==0){ 

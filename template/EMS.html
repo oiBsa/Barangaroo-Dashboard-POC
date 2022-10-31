@@ -28,7 +28,7 @@
     <title>Electric Meter</title>
 </head>
 
-<body>
+<body onload="zoom()">
 
 
     <!-- SIDEBAR -->
@@ -250,6 +250,7 @@
 
 
     <script>
+        function zoom() {document.body.style.zoom = "90%" }
         var OfflineMeters = {{offline|safe}};
         var graphPoints = {{graphPoints|safe}};
         var current = "monthly";

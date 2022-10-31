@@ -22,7 +22,7 @@
   <title>Thermal Comfort</title>
 </head>
 
-<body>
+<body onload="zoom()">
 
 
   <!-- SIDEBAR -->
@@ -155,7 +155,7 @@
             <button value="3" onclick="towerSelction(this.value)" id="tower3Button">Tower 3</button>
           </div>
           <div id="levelsContainer">
-            <input type="text" list="searchList" id="searchLevels" placeholder="Search Meter" class="search">
+            <input type="text" list="searchList" id="searchLevels" placeholder="Search" class="search">
             <datalist id="searchList" autocomplete="on"> </datalist>
             <ul id="mainList">
               <li tower="{{ 1 }}" level="{{t}}">T1 - Level 00</li>
@@ -190,6 +190,7 @@
 
   <script src="{% static 'admin/js/script.js' %}"></script>
   <script>
+    function zoom() {document.body.style.zoom = "90%" }
     var showData = 1;
     var primeColor = "#ffd35c";
     var primceColor2 = "#6F33FB";

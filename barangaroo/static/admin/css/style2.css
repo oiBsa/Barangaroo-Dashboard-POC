@@ -54,8 +54,6 @@ body.dark {
 body {
 	background-image: repeating-linear-gradient(72deg, #eae5db, #faf6f5);
 	overflow-x: hidden;
-	width: 90%;
-	height: 100%;
 }
 /* Side Bar */
 ::-webkit-scrollbar {
@@ -358,7 +356,6 @@ body {
 	padding: 36px 24px;
 	font-family: var(--poppins);
 	max-height: calc(100vh - 56px);
-	
 }
 
 #content main .head-title {
@@ -1308,7 +1305,6 @@ svg path {
 	grid-template-columns: 82% 18%;
 	background-color: #ffffff;
 	border-radius: 24px;
-	height: 100vh;
 	grid-row-start: auto;
 }
 #thermalComfortDashboard {
@@ -1566,7 +1562,6 @@ svg path {
 /*--------------------- CAR PARK DASHBOARD -------------------------*/
 #CAR {
 	border-radius: 24px;
-	height: 100vh;
 	grid-row-start: auto;
 }
 #CarParkDashboard {
@@ -1647,7 +1642,6 @@ svg path {
 /* ------------------- EV Charging -------------------- */
 #EV {
 	border-radius: 24px;
-	height: 100vh;
 	grid-row-start: auto;
 }
 #EVDashboard {
@@ -1957,7 +1951,6 @@ svg path {
 #NABER {
 	background-color: #32e0ff28;
 	border-radius: 24px;
-	height: 100vh;
 	grid-row-start: auto;
 	margin-right: 1rem;
 	margin-right: 1rem;
@@ -2301,7 +2294,6 @@ svg path {
 	grid-template-columns: 70% 30%;
 	background-color: #ffffff;
 	border-radius: 24px;
-	height: 100vh;
 	grid-row-start: auto;
 }
 #weatherdashboard {
@@ -2435,6 +2427,7 @@ svg path {
     justify-content: center;
 	font-family: sans-serif;
 	height: 11.5rem;
+	min-width: 300px;
 }
 
 #levelsContainer {
@@ -2508,7 +2501,6 @@ svg path {
 	grid-template-columns: 82% 18%;
 	background-color: #ffffff;
 	border-radius: 24px;
-	height: 100vh;
 	grid-row-start: auto;
 }
 #EOTFDashboard {

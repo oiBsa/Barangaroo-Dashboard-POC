@@ -28,7 +28,7 @@
   <title>Thermal Comfort</title>
 </head>
 
-<body>
+<body onload="zoom()">
 
 
   <!-- SIDEBAR -->
@@ -198,7 +198,7 @@
             <button value="3" onclick="towerSelction(this.value)" id="tower3Button">Tower 3</button>
           </div>
           <div id="levelsContainer">
-            <input type="text" list="searchList" id="searchLevels" placeholder="Search Meter" class="search">
+            <input type="text" list="searchList" id="searchLevels" placeholder="Search" class="search">
             <datalist id="searchList" autocomplete="on"> </datalist>
             <ul id="mainList">
               {% for t in THERMAL.tower1.levels %}
@@ -216,6 +216,7 @@
 
 
   <script>
+    function zoom() {document.body.style.zoom = "90%" }
     var thermalTower = {{ THERMAL| safe}}
     var graphPoints = {{ graphPoints| safe}}
     var EquipPoints = {{EQUIP|safe}}

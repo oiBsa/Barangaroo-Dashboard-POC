@@ -22,7 +22,7 @@
     <title>Car Park Summary</title>
 </head>
 
-<body>
+<body onload="zoom()">
 
 
     <!-- SIDEBAR -->
@@ -124,6 +124,7 @@
 
     <script src="{% static 'admin/js/script.js' %}"></script>
     <script>
+        function zoom() {document.body.style.zoom = "90%" }
         var ctx = document.getElementById('CarParkSummaryGraph').getContext('2d');
         var chartConfig = {
             type: 'bar',

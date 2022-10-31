@@ -28,7 +28,7 @@
   <title>EOTF</title>
 </head>
 
-<body>
+<body onload="zoom()">
 
 
   <!-- SIDEBAR -->
@@ -146,6 +146,7 @@
 
 
   <script>
+    function zoom() {document.body.style.zoom = "90%" }
     var ctx = document.getElementById('EOTFGraph').getContext('2d');
     var chartConfig = {
       type: 'bar',
