@@ -40,38 +40,6 @@
             <div class="OI-line" id="OI-line"></div>
             <span class="text">Operational Intelligence</span>
         </a>
-        <ul class="side-menu top">
-            <li>
-                <a href="{% url 'ems_dashboard' %}">
-                    <i class='bx bxs-dashboard'></i>
-                    <span class="text">Overview</span>
-                </a>
-            </li>
-            <li class="active">
-                <a href="{% url 'ems' %}">
-                    <i class='bx bx-bolt-circle'></i>
-                    <span class="text">Electric Meters</span>
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'water' %}">
-                    <i class='bx bx-water'></i>
-                    <span class="text">Water Meter</span>
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'gas' %}">
-                    <i class='bx bxs-hot'></i>
-                    <span class="text">Gas Meter</span>
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'thermal' %}">
-                    <i class='bx bxs-droplet'></i>
-                    <span class="text">Thermal Meter</span>
-                </a>
-            </li>
-        </ul>
     </section>
     <!-- SIDEBAR -->
 
@@ -134,7 +102,7 @@
                 <li class="nabers" onclick="nabers()">
                     <i class='bx bxs-doughnut-chart'></i>
                     <span>
-                        <h3>NABERS</h3>
+                        <h3>Estimated NABERS</h3>
                         <p>
                             Tracking
                         </p>
@@ -243,15 +211,7 @@
                             style="color: black; margin-left:5px"></a>
                     </a>
                     <div style="margin-left: auto;">
-                        <label for="startDate" style="font-family: Lato, sans-serif;">Start:</label>
-                        <input type="date" id="startDate" name="Start Date" value="2022-08-28">
-                    </div>
-                    <div>
-                        <label for="ebdDate" style="font-family: Lato, sans-serif;">End:</label>
-                        <input type="date" id="endDate" name="End Date" value="2022-09-28">
-                    </div>
-                    <div>
-                        <div class="dropdown">
+                        <div class="dropdown" style="margin-left: auto;">
                             <button class="dropbtn" id='dropdown-button'>Type</button>
                             <div class="dropdown-content">
                                 <option href="#" value="1" onclick="jsFunction(this.value);">Bar</option>
@@ -271,11 +231,8 @@
                     <div style="margin-left: auto; margin-right: 20px;">
                         <button type="button" class="btn btn-outline-primary" value="daily" onclick="timeButton(this.value)">Today</button>
                     </div>
-                    <div style="margin-right: 20px;">
-                        <button type="button" class="btn btn-outline-primary" value="weekly" onclick="timeButton(this.value)">Weekly</button>
-                    </div>
                     <div style="margin-right: 0px;">
-                        <button type="button" class="btn btn-outline-primary" value="monthly" onclick="timeButton(this.value)">Monthly</button>
+                        <button type="button" class="btn btn-outline-primary" value="weekly" onclick="timeButton(this.value)">Weekly</button>
                     </div>
 
                 </div>
@@ -293,28 +250,6 @@
 
 
     <script>
-        var currentTime = new Date()
-        document.getElementById("startDate").value = currentTime.getFullYear()+"-"+make2Digit(currentTime.getMonth())+"-"+make2Digit(currentTime.getDate())
-        document.getElementById("endDate").value = currentTime.getFullYear()+"-"+make2Digit(currentTime.getMonth()+1)+"-"+make2Digit(currentTime.getDate())
-        $('#startDate').change(function(){
-            graphStartDate = new Date($("#startDate").val())
-            graphEndDate = new Date($("#endDate").val())
-            chartConfig["data"]["datasets"][0]["data"] = [0]
-            Chart1.update("active");
-            $.ajax({
-                url: {% url 'ems' %},
-                data: {
-                    graphStartDate: graphStartDate.getFullYear()+"-"+make2Digit(graphStartDate.getMonth())+"-"+make2Digit(graphStartDate.getDate()),
-                    graphEndDate: graphEndDate.getFullYear()+"-"+make2Digit(graphEndDate.getMonth())+"-"+make2Digit(graphEndDate.getDate()),
-                },
-                method: 'GET',
-                success: function(data){
-                    chartConfig["data"]["labels"] = data["dateWise"]["x"]
-                    chartConfig["data"]["datasets"][0]["data"] = data["dateWise"]["y"]
-                    Chart1.update("active");
-                }
-            })
-        })
         var OfflineMeters = {{offline|safe}};
         var graphPoints = {{graphPoints|safe}};
         var current = "monthly";

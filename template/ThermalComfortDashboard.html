@@ -76,7 +76,7 @@
           <div class="gaugeConinter">
             <div>
               <p>Percentage of Rooms<br>Below
-                <input value="22.5" id="belowTempThresh"
+                <input value="{{belowThresh}}" id="belowTempThresh"
                   style='text-decoration: underline; text-decoration-color: #B4B1C9;'></input>&deg;C
               </p>
               <div id="TCDgauge" class="belowButton">
@@ -84,7 +84,7 @@
                 </div>
                 <button id="center-circle" style="border:none;" class='btn gaugeBelowClick' data-toggle="modal"
                   data-target="#myModal" label='below'>
-                  <span id="belowAvg" class="TCDgaugeValue">65%</span>
+                  <span id="belowAvg" class="TCDgaugeValue">{{belowAvg}}%</span>
                 </button>
                 <div class="modal" id="myModal">
                   <div class="modal-dialog">
@@ -103,6 +103,7 @@
                             <tr>
                               <th>Equipment</th>
                               <th>Temperature</th>
+                              <th>Time</th>
                             </tr>
                           </thead>
                           <tbody id='dialog-tbody'>
@@ -127,7 +128,7 @@
             </div>
             <div>
               <p>Percentage of Rooms<br>Above
-                <input value="24.2" id="aboveTempThresh"
+                <input value="{{aboveThresh}}" id="aboveTempThresh"
                   style='text-decoration: underline; text-decoration-color: #B4B1C9;'></input>&deg;C
               </p>
               <div id="TCDgauge" class='aboveButton'>
@@ -135,23 +136,16 @@
                 </div>
                 <button id="center-circle" style="border:none;" class='btn gaugeAboveClick' data-toggle="modal"
                   data-target="#myModal" label='above'>
-                  <span id="aboveAvg" class="TCDgaugeValue">35%</span>
+                  <span id="aboveAvg" class="TCDgaugeValue">{{aboveAvg}}%</span>
                 </button>
               </div>
             </div>
           </div>
           <div>
             <div style="display: flex; align-content:right;" class="TCDButtons">
-              <button style="margin-left: auto;">Today</button>
-              <button>Weekly</button>
-              <button>Monthly</button>
-              <button>Yearly</button>
-              <div class="vertical" style="margin-right: 8px; 
-                                                        border-left: 2px solid black; 
-                                                        height:32px;
-                                                        "></div>
-              <button class="unClicked" onclick="document.getElementById('link').click()" style="background-color: #C4DEF7; color: #3B3462;">Report</button>
-              <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
+              <button style="margin-left: auto;" class="clicked" value="daily">Today</button>
+              <button value="weekly">Weekly</button>
+              <button value="monthly">Monthly</button>
             </div>
             <canvas id="TDCgraph" style="height: 100px;">
             </canvas>
@@ -162,11 +156,6 @@
         <!-- TCD Main Content -->
       </div>
       <div id="thermalComfortSideBar">
-        <div class="heading">
-          <h4>
-            Monitoring
-          </h4>
-        </div>
         <div id="thermalComfortSideBarSelection">
           <div class="selectionContainer active">
             <div style="display:flex">
@@ -200,28 +189,23 @@
           </div>
         </div>
         <div id="thermalComfortSideBarDropDown">
-          <p id="thermalComfortAll">Thermal Comfort For All</p>
-          <form name="form" action="">
-            <ul name="toys" id="levels" size="6">
-              <li value="1">PCF-ME-01-FCU-C3-012</li>
-              <li value="2">PCF-ME-01-FCU-C3-076</li>
-              <li value="3">PCF-ME-01-FCU-C3-004</li>
-              <li value="4">PCF-ME-01-FCU-C3-078</li>
-              <li value="5">PCF-ME-01-FCU-C3-012</li>
-              <li value="6">PCF-ME-01-FCU-C3-076</li>
-              <li value="7">PCF-ME-01-FCU-C3-004</li>
-              <li value="8">PCF-ME-01-FCU-C3-078</li>
-              <li value="9">PCF-ME-01-FCU-C3-012</li>
-              <li value="10">PCF-ME-01-FCU-C3-076</li>
-              <li value="11">PCF-ME-01-FCU-C3-004</li>
-              <li value="12">PCF-ME-01-FCU-C3-078</li>
-              <li value="14">PCF-ME-01-FCU-C3-012</li>
-              <li value="15">PCF-ME-01-FCU-C3-076</li>
-              <li value="16">PCF-ME-01-FCU-C3-004</li>
-              <li value="17">PCF-ME-01-FCU-C3-078</li>
-              <li value="18">PCF-ME-01-FCU-C3-012</li>
+          <p id="thermalComfortAll">Select Tower and Level</p>
+          <div id="buttonContiner"
+            style="display: flex;flex-direction: row;margin-bottom:0.8rem;align-items: center;justify-content: space-evenly;align-content: center;flex-wrap: wrap;">
+            <button value="1" onclick="towerSelction(this.value)" class="activeButton" id="tower1Button">Tower
+              1</button>
+            <button value="2" onclick="towerSelction(this.value)" id="tower2Button">Tower 2</button>
+            <button value="3" onclick="towerSelction(this.value)" id="tower3Button">Tower 3</button>
+          </div>
+          <div id="levelsContainer">
+            <input type="text" list="searchList" id="searchLevels" placeholder="Search Meter" class="search">
+            <datalist id="searchList" autocomplete="on"> </datalist>
+            <ul id="mainList">
+              {% for t in THERMAL.tower1.levels %}
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level {{t}}</li>
+              {% endfor %}
             </ul>
-          </form>
+          </div>
         </div>
       </div>
     </main>
@@ -230,36 +214,49 @@
   <!-- CONTENT -->
 
 
-  <script src="{% static 'admin/js/script.js' %}"></script>
+
   <script>
-    
-    var showData = 1;
-    var meterName = document.getElementById("meterName");
-    var meterDescription = document.getElementById('meterDescription');
-    var xValues = ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'];
-    var yValuesAbove = [22, 18, 15, 25, 10, 15, 22, 32, 22, 20, 14, 25, 20, 18, 14, 20, 18, 20, 22, 21, 30, 35, 20, 25, 21, 25];
-    var yValuesBelow = [78, 82, 85, 75, 90, 23, 78, 68, 78, 80, 86, 75, 80, 78, 86, 80, 82, 80, 78, 79, 70, 65, 80, 75, 79, 75];
-    var colorListAbove = new Array(yValuesAbove.length).fill('#ec6f41d7');
-    var colorListBelow = new Array(yValuesAbove.length).fill('#9b70ff');
+    var thermalTower = {{ THERMAL| safe}}
+    var graphPoints = {{ graphPoints| safe}}
+    var EquipPoints = {{EQUIP|safe}}
+    var currentGraph = "daily"
+    document.getElementById("mainList").children[0].classList.add("active");
+    $('.aboveButton').on("click", "button", function() {
+      var table = $("#table tbody")
+      $("#table tbody").find("tr").remove();
+      for (var i=0; i<EquipPoints[currentGraph]["above"].length; i++){
+        var Equip = EquipPoints[currentGraph]["above"][i].equip;
+        var Temp = EquipPoints[currentGraph]["above"][i].temp;
+        var Tim = EquipPoints[currentGraph]["above"][i].time;
+        table.append("<tr><td>"+Equip+"</td><td>"+Temp+" &deg;C"+"</td><td>"+Tim+"</td></tr>")
+    }
+  });
+  $('.belowButton').on("click", "button", function() {
+    var table = $("#table tbody")
+    console.log(EquipPoints)
+    $("#table tbody").find("tr").remove();
+    for (var i=0; i<EquipPoints[currentGraph]["below"].length; i++){
+      var Equip = EquipPoints[currentGraph]["below"][i].equip;
+      var Temp = EquipPoints[currentGraph]["below"][i].temp;
+      var Tim = EquipPoints[currentGraph]["below"][i].time;
+      table.append("<tr><td>"+Equip+"</td><td>"+Temp+" &deg;C"+"</td><td>"+Tim+"</td></tr>")
+  }
+});
     var ctx = document.getElementById('TDCgraph').getContext('2d');
-    $(".TCDButtons").on("click", "button", function() {
-      $(this).parent().find('button').removeClass('clicked');
-      $(this).addClass('clicked');
-    })
     var chartConfig = {
       type: 'bar',
       data: {
-        labels: xValues,
+        labels: graphPoints["daily"]["above"]["x"],
         datasets: [{
           label: "Above",
-          data: yValuesAbove,
+          data: graphPoints["daily"]["above"]["y"],
           backgroundColor: '#ec6f41d7',
           borderRadius: 5,
         },
         {
           label: "Below",
-          data: yValuesBelow,
-          backgroundColor: colorListBelow,
+          data: graphPoints["daily"]["below"]["y"],
+          backgroundColor: "#9b70ff",
           borderRadius: 5,
         }],
 
@@ -298,8 +295,8 @@
         },
         responsive: true,
       }
-
     };
+    var Chart1 = new Chart(ctx, chartConfig);
     const gauge1 = Highcharts.chart('gaugecontainers1', {
       chart: { type: 'solidgauge', backgroundColor: '#FBFBFB', },
       tooltip: {
@@ -387,7 +384,7 @@
           color: '#6F32FF',
           radius: '80%',
           innerRadius: '80%',
-          y: 20
+          y: {{ belowTempAvg }}
         }]
       },
       ]
@@ -435,7 +432,7 @@
         size: '100%',
         background: []
       }],
-      credits: {enabled: false},
+      credits: { enabled: false },
 
       yAxis: [{
         min: 0,
@@ -482,35 +479,107 @@
           color: '#ec6f41d7',
           radius: '82%',
           innerRadius: '82%',
-          y: 25
+          y: {{ aboveTempAvg }},
         }]
       },
       ]
     });
-    $('#levels').on("click", "li", function () {
-      $(this).parent().find('li').removeClass('active');
-      $(this).addClass('active');
-      document.getElementById("thermalComfortAll").innerHTML = "Thermal Comfort For"
-      gauge1.update({
-        series: [{
-          animation: false,
-          data: [{ y: 22 }]
-        }]
-      }, true, false, false);
-      gauge2.update({
-        series: [{
-          animation: false,
-          data: [{ y: 25 }]
-        }]
-      }, true, false, false);
-      document.getElementById("aboveAvg").innerHTML = "16%";
-      document.getElementById("belowAvg").innerHTML = "84%";
-      chartConfig.data.datasets[0].data = [11, 9, 10, 12, 8, 7, 2, 20, 22, 10, 8, 12, 5, 9, 6, 5, 9, 10, 11, 7, 15, 20, 15, 11, 9, 12]
-      chartConfig.data.datasets[1].data = [89, 91, 90, 88, 92, 93, 98, 80, 78, 90, 92, 85, 95, 91, 94, 95, 91, 90, 89, 93, 85, 80, 85, 89, 91, 88]
-      Chart1.update("active")
-
+    $('#mainList li').each(function (index, item) {
+      var option = $('<option value="' + $(item).text().trim() + '">');
+      $('#searchList').append(option);
     });
-    var Chart1 = new Chart(ctx, chartConfig);
+
+    function towerSelction(tower) {
+      document.getElementById("tower1Button").classList.remove("activeButton")
+      document.getElementById("tower2Button").classList.remove("activeButton")
+      document.getElementById("tower3Button").classList.remove("activeButton")
+      var ul = document.getElementById("mainList");
+      var datalist = document.getElementById("searchList");
+      $("#mainList").find("li").remove();
+      $("#searchList").find("option").remove();
+
+      if (tower == "1") {
+        document.getElementById("tower1Button").classList.add("activeButton")
+        for (let i = 0; i < thermalTower["tower1"]["levels"].length; i++) {
+          var li = document.createElement("li");
+          var option = document.createElement("option");
+          li.innerText = "T1 - Level " + thermalTower["tower1"]["levels"][i];
+          li.setAttribute("tower", "1");
+          li.setAttribute("level", thermalTower["tower1"]["levels"][i]);
+          ul.appendChild(li);
+
+          option.setAttribute("value", "T1 - Level " + thermalTower["tower1"]["levels"][i])
+          datalist.appendChild(option)
+
+        }
+
+      } else if (tower == "2") {
+        document.getElementById("tower2Button").classList.add("activeButton")
+        for (let i = 0; i < thermalTower["tower2"]["levels"].length; i++) {
+          var li = document.createElement("li");
+          var option = document.createElement("option");
+          li.innerText = "T2 - Level " + thermalTower["tower2"]["levels"][i];
+          li.setAttribute("tower", "2");
+          li.setAttribute("level", thermalTower["tower2"]["levels"][i]);
+          ul.appendChild(li)
+
+          option.setAttribute("value", "T2 - Level " + thermalTower["tower1"]["levels"][i])
+          datalist.appendChild(option)
+
+        }
+      } else if (tower == "3") {
+        document.getElementById("tower3Button").classList.add("activeButton")
+        for (let i = 0; i < thermalTower["tower3"]["levels"].length; i++) {
+          console.log(thermalTower["tower3"]["levels"][i])
+          var li = document.createElement("li");
+          var option = document.createElement("option");
+          li.innerText = "T3 - Level " + thermalTower["tower3"]["levels"][i];
+          li.setAttribute("tower", "3");
+          li.setAttribute("level", thermalTower["tower3"]["levels"][i]);
+          ul.appendChild(li)
+
+          option.setAttribute("value", "T3 - Level " + thermalTower["tower3"]["levels"][i])
+          datalist.appendChild(option)
+
+        }
+      }
+    };
+
+    $("#mainList").on("click", "li", function () {
+        $(this).parent().find('li').removeClass('active');
+        $(this).addClass('active');
+        tower = $(this).attr("tower")
+        level = $(this).attr("level")
+        $.ajax({
+          url: {% url 'thermalComfort' %},
+          data: {
+          tower: tower,
+          level: level
+        },
+          method: 'GET',
+          success: function (data) {
+            document.getElementById("aboveAvg").innerHTML = data["aboveAvg"]+"%";
+            document.getElementById("belowAvg").innerHTML = data["belowAvg"]+"%";
+            document.getElementById("belowTempThresh").setAttribute("value", data["belowThresh"]);
+            document.getElementById("aboveTempThresh").setAttribute("value", data["aboveThresh"]);
+            graphPoints = data["graphPoints"];
+            chartConfig["data"]["labels"] = graphPoints[currentGraph]["above"]["x"]
+            chartConfig["data"]["datasets"][0]["data"] = graphPoints[currentGraph]["above"]["y"]
+            chartConfig["data"]["datasets"][1]["data"] = graphPoints[currentGraph]["below"]["y"]
+            Chart1.update("active");
+          },
+        })
+     });
+
+    $(".TCDButtons").on("click", "button", function () {
+      $(this).parent().find('button').removeClass('clicked');
+      $(this).addClass('clicked');
+      currentGraph = $(this).attr("value");
+      chartConfig["data"]["labels"] = graphPoints[currentGraph]["above"]["x"]
+      chartConfig["data"]["datasets"][0]["data"] = graphPoints[currentGraph]["above"]["y"]
+      chartConfig["data"]["datasets"][1]["data"] = graphPoints[currentGraph]["below"]["y"]
+      Chart1.update("active");
+    })
 
   </script>
 </body>

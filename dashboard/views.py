@@ -1,117 +1,68 @@
 
-import re
-from time import strftime
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
 import pymssql
 from datetime import datetime, timedelta
 import json, requests
+from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.decorators.csrf import csrf_exempt
+import pytz
+import pandas as pd
 
-QUERY_get_ems = '''use [barangaroo]
+DF_EMS = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="EMS")
+DF_THERMAL = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="THERMAL")
+DF_THERMAL_LEVEL1 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="THERMAL_LEVEL1")
+DF_THERMAL_LEVEL2 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="THERMAL_LEVEL2")
+DF_THERMAL_LEVEL3 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="THERMAL_LEVEL3")
+DF_THERMAL_LEVEL4 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="THERMAL_LEVEL4")
+DF_EM1 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="EM1")
+DF_EM2 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="EM2")
+DF_EM3 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="EM3")
+DF_EM4 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="EM4")
 
-	SELECT	IPLV.PointKey AS PointKey,
-			AM.AssetID,
-			IPT.PointTemplateName,
-			IPLV.PointValue,
-			IPLV.LastReceivedTime,
-			AM.Description,
-			IPS.IsOnline
+ABOVE_SET_POINT = 23.0
+BELOW_SET_POINT = 21.0
 
-	FROM IBMSPointLastValues IPLV
-		INNER JOIN IBMSPoints IPS ON IPS.PointKey = IPLV.PointKey
-		INNER JOIN IBMSPointTemplates IPT ON IPT.PointTemplateKey = IPS.PointTemplateKey
-		INNER JOIN AssetMaster AM ON AM.AssetKey = IPS.AssetKey
-
-	WHERE PointTemplateName LIKE '%Active Energy%'
-	AND AssetID LIKE '%-EM-%'
-
-	ORDER By LastReceivedTime DESC'''
-
-QUERY_get_pointKey = '''If OBJECT_ID(N'tempdb..#temp1') IS NOT NULL
-    BEGIN
-        DROP TABLE #temp1
-    END
-
-If OBJECT_ID(N'tempdb..#temp2') IS NOT NULL
-    BEGIN
-        DROP TABLE #temp2
-    END
-
-USE [barangaroo]
-declare @key1 varchar(max)
-DECLARE @From DATETIME	= 'ENDDATE'
-DECLARE @To DATETIME	= 'STARTEDATE'
-
-
-------if you know point key, comment the following part
-select pointkey         into #temp2 from ibmspoints p
-        inner join ibmspointtemplates pt on p.pointtemplatekey=pt.pointtemplatekey
-        inner join assetmaster am on am.assetkey=p.assetkey
-        where pointkey like 'POINTKEYVALUE'
-
-set @key1= stuff( (select ',' + cast(pointkey as varchar(max))
-               from #temp2
-               for xml path ('')
-              ), 1, 1, ''
-            );
-
-
-------if you know point key, comment part above
-----else you can use the following line
---set @key1='145,148,151'
-----------------
-
-CREATE TABLE #temp1
-(
-   Trendkey INT,
-   Pointkey INT,
-   PointValue Varchar(max),
-   TransactionDateTime datetime
-)
-
-
-
-DECLARE @to_offset_added DATETIME, @from_offset_added DATETIME
-SET @from_offset_added = DATEADD(day,0,dbo.LocaltoUTCDate(@From))
-SET @to_offset_added = DATEADD(day,0,dbo.LocaltoUTCDate(@To))
-
-
-DECLARE @Queries VARCHAR(max)='', @Query VARCHAR(max)
-EXEC GetTrendData_MultiDB_LinkServer_QUE @from_offset_added, @to_offset_added, @key1, @Queries OUTPUT
-
-
-DECLARE @getid CURSOR
-SET @getid = CURSOR FOR SELECT [item] FROM fnSplit_NewTrends(@Queries, ';')
-OPEN  @getid
-FETCH NEXT FROM @getid INTO @Query
-WHILE @@FETCH_STATUS = 0
-	BEGIN
-		INSERT INTO #temp1 EXEC (@Query)
-		FETCH NEXT FROM @getid INTO @Query
-	END
-CLOSE @getid;
-DEALLOCATE @getid;
-
-
-select assetid,rnk.pointkey,pointvalue,CONVERT(VARCHAR(16), transactiondatetime, 120) as time1
-
-from
-(SELECT pointkey,PointValue,transactiondatetime,
-   ROW_NUMBER() OVER (PARTITION BY pointkey,CONVERT(VARCHAR(13), transactiondatetime, 120) Order by trendkey asc) AS rown
-FROM #temp1
-)rnk --- this is the window function (partition by something)
-inner join ibmspoints p on p.PointKey=rnk.pointkey
-inner join assetmaster am on am.assetkey=p.assetkey
-where rown=1
-ORDER BY time1'''
 
 monthly_graph = {}
 weekly_graph = {}
 daily_graph = {}
+
+def get_below(lst:list, value:float): return [equip for equip in lst if equip[2]<=value]
+
+def get_above(lst:list, value:float): return [equip for equip in lst if equip[2]>value]
+
+def get_datetime_avg(lst:list, valuea:float, valueb:float):
+    date_dict, date_dict_above, date_dict_below = {}, {}, {}
+    for equip in lst:
+        if equip[3] not in date_dict: date_dict[equip[3]] = []
+        else: date_dict[equip[3]] = date_dict[equip[3]] + [equip[2]]
+    for date_equip in date_dict:
+        above_list = [equip for equip in date_dict[date_equip] if equip>valuea]
+        below_list = [equip for equip in date_dict[date_equip] if equip<=valueb]
+        try: date_dict_above[date_equip] = round((len(above_list)/(len(above_list)+len(below_list)))*100)
+        except: date_dict_above[date_equip] = 0
+        try: date_dict_below[date_equip] = round((len(below_list)/(len(above_list)+len(below_list)))*100)
+        except: date_dict_below[date_equip] = 0
+    return date_dict_above, date_dict_below
+
+def get_datetime_avg_per_day(lst:list, valuea:float, valueb:float):
+    date_dict, date_dict_above, date_dict_below = {}, {}, {}
+    for equip in lst:
+        if equip[3].date() not in date_dict: date_dict[equip[3].date()] = []
+        else: date_dict[equip[3].date()] = date_dict[equip[3].date()] + [equip[2]]
+    for date_equip in date_dict:
+        above_list = [equip for equip in date_dict[date_equip] if equip>valuea]
+        below_list = [equip for equip in date_dict[date_equip] if equip<=valueb]
+        try: date_dict_above[date_equip] = round((len(above_list)/(len(above_list)+len(below_list)))*100)
+        except: date_dict_above[date_equip] = 0
+        try: date_dict_below[date_equip] = round((len(below_list)/(len(above_list)+len(below_list)))*100)
+        except: date_dict_below[date_equip] = 0
+    return date_dict_above, date_dict_below
+
 # Create your views here.
 def login_view(request):
     if request.method == 'POST':
@@ -135,11 +86,7 @@ def ems_dashboard(request):
     #if request.user.is_authenticated: return render(request=request, template_name="index.html")
     #else: return redirect("home")
     return render(request=request, template_name="index.html")
-dbhost = '10.0.65.231'
-dbuser = 'sa'
-dbpassword = 'C0mplex@1234'
-dbdatabase = 'barangaroo'
-conn = pymssql.connect(host=dbhost, user=dbuser, password=dbpassword, database=dbdatabase)
+
 target_meter = ""
 def ems(request):
     global conn, target_meter
@@ -147,6 +94,7 @@ def ems(request):
     end_datetime = current_datetime - timedelta(days=31)
     current_datetime = str(current_datetime.strftime("%Y-%m-%d"))
     end_datetime = str(end_datetime.strftime("%Y-%m-%d"))
+    
     #if request.user.is_authenticated: return render(request=request, template_name="EMS.html")
     #else: return redirect("home")
     if request.method == 'GET': 
@@ -157,46 +105,29 @@ def ems(request):
         monthly_graph = {}
         weekly_graph = {}
         daily_graph = {}
-        cur = conn.cursor()
-        cur.execute(QUERY_get_pointKey.replace("POINTKEYVALUE", req_pointKey).replace("STARTEDATE", current_datetime).replace("ENDDATE", end_datetime))
-        graph_results = cur.fetchall()
-        cur.close()
+        print("=============")
+        if req_pointKey=="249782": graph_results = DF_EM1.values.tolist()
+        elif req_pointKey=="120587": graph_results = DF_EM2.values.tolist()
+        elif req_pointKey=="120923": graph_results = DF_EM3.values.tolist()
+        else: graph_results = DF_EM4.values.tolist()
         monthly = {}
         for equip in graph_results:
-            current_date = equip[-1].split(" ")[0]
+            current_date = str(equip[-1]).split(" ")[0]
             consumption = []
             for dummy_equip in graph_results:
-                if current_date in dummy_equip[-1]: consumption.append(dummy_equip[2])
+                if current_date in str(dummy_equip[-1]): consumption.append(dummy_equip[2])
             monthly[current_date] = consumption[-1]
         weekly = {k: monthly[k] for k in list(monthly)[-7:]}
-        daily = {k[-1].split(":")[0]:k[2] for k in graph_results[-24:]}
+        daily = {str(k[-1]).split(":")[0]:k[2] for k in graph_results[-24:]}
         monthly_graph = {"x":[m for m in monthly.keys()], "y":[n for n in monthly.values()]}
         weekly_graph = {"x":[m for m in weekly.keys()], "y":[n for n in weekly.values()]}
         daily_graph = {"x":[m for m in daily.keys()], "y":[n for n in daily.values()]}
         target_meter = req_pointKey
+        print(monthly)
         return JsonResponse({"monthly":monthly_graph, "weekly":weekly_graph, "daily":daily_graph}, status=200)
-    elif ((graphStartDate!=None) or (graphEndDate!=None)):
-        monthly_graph = {}
-        cur = conn.cursor()
-        cur.execute(QUERY_get_pointKey.replace("POINTKEYVALUE", target_meter).replace("STARTEDATE", graphEndDate).replace("ENDDATE", graphStartDate))
-        graph_results = cur.fetchall()
-        cur.close()
-        monthly = {}
-        for equip in graph_results:
-            current_date = equip[-1].split(" ")[0]
-            consumption = []
-            for dummy_equip in graph_results:
-                if current_date in dummy_equip[-1]: consumption.append(dummy_equip[2])
-            monthly[current_date] = consumption[-1]
-        monthly_graph = {"x":[m for m in monthly.keys()], "y":[n for n in monthly.values()]}
-        return JsonResponse({"dateWise":monthly_graph}, status=200)
     else:
-        cur = conn.cursor()
-        cur.execute(QUERY_get_ems)
-        result = cur.fetchall()
-        cur.close()
+        result = DF_EMS.values.tolist()
         graph_ponts = {"x":[], "y":[]}
-        
         EMS_result = []
         total_consumption = 0
         total_online = []
@@ -211,11 +142,11 @@ def ems(request):
             except: pass
         check_ofline = False
         if len(total_offline)>0:check_ofline=True
-        EMS_result = sorted( EMS_result, key=lambda t: t[3], reverse=True)
+        EMS_result = sorted(EMS_result, key=lambda t: t[3], reverse=True)
         graph_ponts["x"] = [AssetID for pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in EMS_result[:30]]
         graph_ponts["y"] = [pointKey for pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in EMS_result[:30]]
-    
-    return render(request=request, template_name="EMS.html", context={"EMS":EMS_result, "total_consumption":total_consumption, "total_online":len(total_online), "total_offline":len(total_offline), 
+        
+        return render(request=request, template_name="EMS.html", context={"EMS":EMS_result, "total_consumption":total_consumption, "total_online":len(total_online), "total_offline":len(total_offline), 
             "check_offline":check_ofline, "total_meters":len(total_online)+len(total_offline), "offline":total_offline, "graphPoints":graph_ponts})
 
 def water(request):
@@ -249,10 +180,104 @@ def meter_page(request):
     #else: return redirect("home")
     return render(request=request, template_name="EQUIP.html")
 
+@xframe_options_exempt
+@csrf_exempt
 def thermal_comfort(request):
+    global conn
     #if request.user.is_authenticated: return render(request=request, template_name="ThermalComfortDashboard.html")
     #else: return redirect("home")
-    return render(request=request, template_name="ThermalComfortDashboard.html")
+    if request.method == 'GET': 
+        req_tower = request.GET.get("tower")
+        req_level = request.GET.get("level")
+    if req_tower!=None:
+        req_tower = int(req_tower)
+        if req_level=="00": level_1 = DF_THERMAL_LEVEL1.values.tolist()
+        elif req_level=="01": level_1 = DF_THERMAL_LEVEL2.values.tolist()
+        elif req_level=="02": level_1 = DF_THERMAL_LEVEL3.values.tolist()
+        else: level_1 = DF_THERMAL_LEVEL4.values.tolist()
+        
+        level_1_above = [equip for equip in level_1 if equip[2]>ABOVE_SET_POINT]
+        level_1_below = [equip for equip in level_1 if equip[2]<=ABOVE_SET_POINT]
+        above_avg = round((len(level_1_above)/len(level_1))*100)
+        below_avg = round((len(level_1_below)/len(level_1))*100)
+        above_temp_avg = round(sum([equip[2] for equip in level_1_above])/len(level_1_above), 1)
+        below_temp_avg = round(sum([equip[2] for equip in level_1_below])/len(level_1_below), 1)
+        above_date_percent, below_date_percent = get_datetime_avg(lst=level_1, valuea=ABOVE_SET_POINT, valueb=BELOW_SET_POINT)
+        above_date_percent_per_day, below_date_percent_per_day = get_datetime_avg_per_day(lst=level_1, valuea=ABOVE_SET_POINT, valueb=BELOW_SET_POINT)
+        last_date = list(above_date_percent.keys())[0]
+        daily_above = [i for i in above_date_percent.items() if str(i[0].date())==str(last_date.date())]
+        daily_below = [i for i in below_date_percent.items() if str(i[0].date())==str(last_date.date())]
+        weekly_above = [i for i in above_date_percent_per_day.items() if str(i[0].strftime("%V"))==str(last_date.strftime("%V"))]
+        weekly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%V"))==str(last_date.strftime("%V"))]
+        monthly_above = [i for i in above_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
+        monthly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
+        dailyAboveGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_above], "y":[i[1] for i in daily_above]}
+        dailyBelowGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_below], "y":[i[1] for i in daily_below]}
+        weeklyAboveGraph = {"x":[str(i[0]) for i in weekly_above], "y":[str(i[1]) for i in weekly_above]}
+        weeklyBelowGraph = {"x":[str(i[0]) for i in weekly_below], "y":[str(i[1]) for i in weekly_below]}
+        monthlyAboveGraph = {"x":[str(i[0]) for i in monthly_above], "y":[str(i[1]) for i in monthly_above]}
+        monthlyBelowGraph = {"x":[str(i[0]) for i in monthly_below], "y":[str(i[1]) for i in monthly_below]}
+        graphPoints = {"daily":{"above":dailyAboveGraph, "below":dailyBelowGraph},
+                       "weekly":{"above":weeklyAboveGraph, "below":weeklyBelowGraph},
+                       "monthly":{"above":monthlyAboveGraph, "below":monthlyBelowGraph}}
+        return JsonResponse({"aboveAvg":above_avg, "belowAvg":below_avg, "aboveThresh":ABOVE_SET_POINT, "belowThresh":BELOW_SET_POINT, 
+                             "aboveTempAvg":above_temp_avg, "belowTempAvg":below_temp_avg, "graphPoints":graphPoints})
+    else:
+        all_thermal_equip = DF_THERMAL.values.tolist()
+        level_1 = DF_THERMAL_LEVEL1.values.tolist()
+        level_1_above = [equip for equip in level_1 if equip[2]>ABOVE_SET_POINT]
+        level_1_below = [equip for equip in level_1 if equip[2]<=ABOVE_SET_POINT]
+        above_avg = round((len(level_1_above)/len(level_1))*100)
+        below_avg = round((len(level_1_below)/len(level_1))*100)
+        above_temp_avg = round(sum([equip[2] for equip in level_1_above])/len(level_1_above), 1)
+        below_temp_avg = round(sum([equip[2] for equip in level_1_below])/len(level_1_below), 1)
+        above_date_percent, below_date_percent = get_datetime_avg(lst=level_1, valuea=ABOVE_SET_POINT, valueb=BELOW_SET_POINT)
+        above_date_percent_per_day, below_date_percent_per_day = get_datetime_avg_per_day(lst=level_1, valuea=ABOVE_SET_POINT, valueb=BELOW_SET_POINT)
+        last_date = list(above_date_percent.keys())[0]
+        daily_above = [i for i in above_date_percent.items() if str(i[0].date())==str(last_date.date())]
+        daily_below = [i for i in below_date_percent.items() if str(i[0].date())==str(last_date.date())]
+        weekly_above = [i for i in above_date_percent_per_day.items() if str(i[0].strftime("%V"))==str(last_date.strftime("%V"))]
+        weekly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%V"))==str(last_date.strftime("%V"))]
+        monthly_above = [i for i in above_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
+        monthly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
+        dailyAboveGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_above], "y":[i[1] for i in daily_above]}
+        dailyBelowGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_below], "y":[i[1] for i in daily_below]}
+        weeklyAboveGraph = {"x":[str(i[0]) for i in weekly_above], "y":[str(i[1]) for i in weekly_above]}
+        weeklyBelowGraph = {"x":[str(i[0]) for i in weekly_below], "y":[str(i[1]) for i in weekly_below]}
+        monthlyAboveGraph = {"x":[str(i[0]) for i in monthly_above], "y":[str(i[1]) for i in monthly_above]}
+        monthlyBelowGraph = {"x":[str(i[0]) for i in monthly_below], "y":[str(i[1]) for i in monthly_below]}
+        dailyAboveEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].date())==str(last_date.date())) and (equip[2]>ABOVE_SET_POINT))]
+        dailyBelowEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].date())==str(last_date.date())) and (equip[2]<=ABOVE_SET_POINT))]
+        weeklyAboveEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%V"))==str(last_date.strftime("%V"))) and (equip[2]>ABOVE_SET_POINT))]
+        weeklyBelowEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%V"))==str(last_date.strftime("%V"))) and (equip[2]<=ABOVE_SET_POINT))]
+        monthlyAboveEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%m"))==str(last_date.strftime("%m"))) and (equip[2]>ABOVE_SET_POINT))]
+        monthlyBelowEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%m"))==str(last_date.strftime("%m"))) and (equip[2]<=ABOVE_SET_POINT))]
+        
+        EQUIPPOINTS = {"daily":{"above":dailyAboveEquip, "below":dailyBelowEquip},
+                       "weekly":{"above":weeklyAboveEquip, "below":weeklyBelowEquip},
+                       "monthly":{"above":monthlyAboveEquip, "below":monthlyBelowEquip}}
+        graphPoints = {"daily":{"above":dailyAboveGraph, "below":dailyBelowGraph},
+                       "weekly":{"above":weeklyAboveGraph, "below":weeklyBelowGraph},
+                       "monthly":{"above":monthlyAboveGraph, "below":monthlyBelowGraph}}
+        
+        THERMAL_DATA = [[e[0], e[1], round(float(e[3]), 1)] for e in all_thermal_equip]
+        thermal_towers = {"tower1":{"equip":[], "levels":[]},"tower2":{"equip":[], "levels":[]}, "tower3":{"equip":[], "levels":[]}}
+        for EQUIP in THERMAL_DATA:
+            if EQUIP[1].split("-")[0][-1]=="3":
+                thermal_towers["tower1"]["equip"].append(EQUIP[:2])
+                thermal_towers["tower1"]["levels"].append(EQUIP[1].split("-")[1])
+            elif EQUIP[1].split("-")[0][-1]=="4":
+                thermal_towers["tower2"]["equip"].append(EQUIP[:2])
+                thermal_towers["tower2"]["levels"].append(EQUIP[1].split("-")[1])
+            elif EQUIP[1].split("-")[0][-1]=="5":
+                thermal_towers["tower3"]["equip"].append(EQUIP[:2])
+                thermal_towers["tower3"]["levels"].append(EQUIP[1].split("-")[1])
+        thermal_towers["tower1"]["levels"] = sorted(list(set(thermal_towers["tower1"]["levels"])), reverse=False)
+        thermal_towers["tower2"]["levels"] = sorted(list(set(thermal_towers["tower2"]["levels"])), reverse=False)
+        thermal_towers["tower3"]["levels"] = sorted(list(set(thermal_towers["tower3"]["levels"])), reverse=False)
+        return render(request=request, template_name="ThermalComfortDashboard.html", context={"THERMAL":thermal_towers, "aboveAvg":above_avg, "belowAvg":below_avg, 
+                                                        "aboveThresh":ABOVE_SET_POINT, "belowThresh":BELOW_SET_POINT, "aboveTempAvg":above_temp_avg, "belowTempAvg":below_temp_avg,
+                                                        "graphPoints":graphPoints, "EQUIP":EQUIPPOINTS})
 
 def thermal_comfort_humidity(request):
     #if request.user.is_authenticated: return render(request=request, template_name="ThermalComfortHumidity.html")
@@ -297,27 +322,33 @@ def ev_charging_emission_reduction(request):
 def weather_forcast(request):
     #if request.user.is_authenticated: return render(request=request, template_name="weatherForcast.html")
     #else: return redirect("home")
+    def daysConvertor(d):
+        if d>6:return d-7
+        else: return d
     results = requests.get("http://api.openweathermap.org/data/2.5/forecast?id=2147714&units=metric&appid=c394c5e0aec171094aa6e1083e1e40e1").json()
     current_datetime = datetime.now()
     for cuurent_weather_data in results['list']:
         date_varialble = datetime.strptime(cuurent_weather_data["dt_txt"], "%Y-%m-%d %H:%M:%S")
         starting_weekday = date_varialble.weekday()
         starting_date = date_varialble.date()
-        if abs((current_datetime - date_varialble).total_seconds())<5400: break
-    print(str(starting_date.strftime("%b")).upper())
+        if abs((current_datetime - date_varialble).total_seconds())>18000: break
+    
     data = {"0":{"temp":cuurent_weather_data["main"]["temp"], "feels_like":cuurent_weather_data["main"]["feels_like"], "pressure":cuurent_weather_data["main"]["pressure"]/1000,
         "humidity":cuurent_weather_data["main"]["humidity"], "status":cuurent_weather_data["weather"][0]["main"], "icon":cuurent_weather_data["weather"][0]["icon"], "wind_speed":cuurent_weather_data["wind"]["speed"],
         "wind_direction":cuurent_weather_data["wind"]["deg"], "vision":cuurent_weather_data["visibility"]/1000, "day":f"{starting_weekday}", "date":starting_date.day, "month":str(starting_date.strftime("%b")).upper()},
-    "1":{"temp":results['list'][8]["main"]["temp"], "feels_like":results['list'][8]["main"]["feels_like"], "pressure":results['list'][8]["main"]["pressure"]/1000,
-        "humidity":results['list'][8]["main"]["humidity"], "status":results['list'][8]["weather"][0]["main"], "icon":results['list'][8]["weather"][0]["icon"], "wind_speed":results['list'][8]["wind"]["speed"],
-        "wind_direction":results['list'][8]["wind"]["deg"], "vision":results['list'][8]["visibility"]/1000, "day":f"{starting_weekday+1}", "date":str(starting_date.day)},
-    "2":{"temp":results['list'][16]["main"]["temp"], "feels_like":results['list'][16]["main"]["feels_like"], "pressure":results['list'][16]["main"]["pressure"]/1000,
-        "humidity":results['list'][16]["main"]["humidity"], "status":results['list'][16]["weather"][0]["main"], "icon":results['list'][16]["weather"][0]["icon"], "wind_speed":results['list'][16]["wind"]["speed"],
-        "wind_direction":results['list'][16]["wind"]["deg"], "vision":results['list'][16]["visibility"]/1000,"day":f"{starting_weekday+2}"},
-    "3":{"temp":results['list'][24]["main"]["temp"], "feels_like":results['list'][24]["main"]["feels_like"], "pressure":results['list'][24]["main"]["pressure"]/1000,
-        "humidity":results['list'][24]["main"]["humidity"], "status":results['list'][24]["weather"][0]["main"], "icon":results['list'][24]["weather"][0]["icon"], "wind_speed":results['list'][24]["wind"]["speed"],
-        "wind_direction":results['list'][24]["wind"]["deg"], "vision":results['list'][24]["visibility"]/1000, "day":f"{starting_weekday+3}"},
-    "4":{"temp":results['list'][32]["main"]["temp"], "feels_like":results['list'][32]["main"]["feels_like"], "pressure":results['list'][32]["main"]["pressure"]/1000,
-        "humidity":results['list'][32]["main"]["humidity"], "status":results['list'][32]["weather"][0]["main"], "icon":results['list'][32]["weather"][0]["icon"], "wind_speed":results['list'][32]["wind"]["speed"],
-        "wind_direction":results['list'][32]["wind"]["deg"], "vision":results['list'][32]["visibility"]/1000,"day":f"{starting_weekday+4}"}}
+    "1":{"temp":results['list'][6]["main"]["temp"], "feels_like":results['list'][6]["main"]["feels_like"], "pressure":results['list'][6]["main"]["pressure"]/1000,
+        "humidity":results['list'][6]["main"]["humidity"], "status":results['list'][6]["weather"][0]["main"], "icon":results['list'][6]["weather"][0]["icon"], "wind_speed":results['list'][6]["wind"]["speed"],
+        "wind_direction":results['list'][6]["wind"]["deg"], "vision":results['list'][6]["visibility"]/1000, "day":f"{daysConvertor(starting_weekday+1)}", "date":str(starting_date.day)},
+    "2":{"temp":results['list'][14]["main"]["temp"], "feels_like":results['list'][14]["main"]["feels_like"], "pressure":results['list'][14]["main"]["pressure"]/1000,
+        "humidity":results['list'][14]["main"]["humidity"], "status":results['list'][14]["weather"][0]["main"], "icon":results['list'][14]["weather"][0]["icon"], "wind_speed":results['list'][14]["wind"]["speed"],
+        "wind_direction":results['list'][14]["wind"]["deg"], "vision":results['list'][14]["visibility"]/1000,"day":f"{daysConvertor(starting_weekday+2)}"},
+    "3":{"temp":results['list'][22]["main"]["temp"], "feels_like":results['list'][22]["main"]["feels_like"], "pressure":results['list'][22]["main"]["pressure"]/1000,
+        "humidity":results['list'][22]["main"]["humidity"], "status":results['list'][22]["weather"][0]["main"], "icon":results['list'][22]["weather"][0]["icon"], "wind_speed":results['list'][22]["wind"]["speed"],
+        "wind_direction":results['list'][22]["wind"]["deg"], "vision":results['list'][22]["visibility"]/1000, "day":f"{daysConvertor(starting_weekday+3)}"},
+    "4":{"temp":results['list'][30]["main"]["temp"], "feels_like":results['list'][30]["main"]["feels_like"], "pressure":results['list'][30]["main"]["pressure"]/1000,
+        "humidity":results['list'][30]["main"]["humidity"], "status":results['list'][30]["weather"][0]["main"], "icon":results['list'][30]["weather"][0]["icon"], "wind_speed":results['list'][30]["wind"]["speed"],
+        "wind_direction":results['list'][30]["wind"]["deg"], "vision":results['list'][30]["visibility"]/1000,"day":f"{daysConvertor(starting_weekday+4)}"},
+    "5":{"temp":results['list'][38]["main"]["temp"], "feels_like":results['list'][38]["main"]["feels_like"], "pressure":results['list'][38]["main"]["pressure"]/1000,
+        "humidity":results['list'][38]["main"]["humidity"], "status":results['list'][38]["weather"][0]["main"], "icon":results['list'][38]["weather"][0]["icon"], "wind_speed":results['list'][38]["wind"]["speed"],
+        "wind_direction":results['list'][38]["wind"]["deg"], "vision":results['list'][38]["visibility"]/1000,"day":f"{daysConvertor(starting_weekday+5)}"}}
     return render(request=request, template_name="weatherForcast.html", context={"weather":data})
