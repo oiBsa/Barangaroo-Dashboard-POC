@@ -220,6 +220,7 @@ body {
 	left: 280px;
 	transition: .3s ease;
 	overflow-y: overlay;
+	height: 110vh;
 }
 #sidebar.hide ~ #content {
 	width: calc(100% - 60px);
@@ -355,7 +356,6 @@ body {
 	width: 100%;
 	padding: 36px 24px;
 	font-family: var(--poppins);
-	max-height: calc(100vh - 56px);
 }
 
 #content main .head-title {
@@ -1318,6 +1318,7 @@ svg path {
 	padding: 10px 30px;
 	box-shadow: inset -3px -3px 10px 1px rgba(0, 0, 0, 0.08);
 	animation: bottomToTop 1s ease-in-out;
+	height: 105vh;
 }
 #thermalComfortSideBar {
 	background-image: repeating-radial-gradient(#f9e8fd83, #ebccfa7a);
@@ -1571,6 +1572,7 @@ svg path {
 	padding: 0.625rem 1.875rem;
 	box-shadow: inset -0.188rem -0.188rem 0.625rem 0.0625rem rgba(0, 0, 0, 0.08);
 	animation: onLoadFadeIn 1.5s ease-in-out;
+	height: 105vh;
 }
 @keyframes onLoadFadeIn {
 	0% {opacity: 0;}
@@ -1650,6 +1652,7 @@ svg path {
 	border-radius: 1.512rem;
 	padding: 0.625rem 1.875rem;
 	box-shadow: inset -0.188rem -0.188rem 0.625rem 0.0625rem rgba(0, 0, 0, 0.08);
+	height: 105vh;
 }
 @keyframes onLoadFadeIn {
 	0% {opacity: 0;}
@@ -2307,6 +2310,7 @@ svg path {
 	padding: 10px 30px;
 	box-shadow: inset -3px -3px 10px 1px rgba(0, 0, 0, 0.08);
 	animation: bottomToTop 1s ease-in-out;
+	height: 105vh;
 }
 #weatherSideBar {
 	background-image: repeating-radial-gradient(#f9e8fd83, #ebccfa7a);
@@ -2427,7 +2431,7 @@ svg path {
     justify-content: center;
 	font-family: sans-serif;
 	height: 11.5rem;
-	min-width: 300px;
+	width: 270px;
 }
 
 #levelsContainer {
@@ -2514,7 +2518,7 @@ svg path {
 	padding: 10px 30px;
 	box-shadow: inset -3px -3px 10px 1px rgba(0, 0, 0, 0.08);
 	animation: bottomToTop 1s ease-in-out;
-	height: 94.5vh;
+	height: 105vh;
 }
 #EOTFSideBar {
     background-image: repeating-radial-gradient(#f9e8fd83, #ebccfa7a);

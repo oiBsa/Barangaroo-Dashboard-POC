@@ -224,6 +224,7 @@ body {
 	left: 280px;
 	transition: .3s ease;
 	overflow-y: overlay;
+	height: 110vh;
 }
 #sidebar.hide ~ #content {
 	width: calc(100% - 60px);
@@ -360,7 +361,6 @@ body {
 	padding: 36px 24px;
 	font-family: var(--poppins);
 	max-height: calc(100vh - 56px);
-	
 }
 
 #content main .head-title {
