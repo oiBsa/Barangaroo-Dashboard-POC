@@ -1572,7 +1572,6 @@ svg path {
 	padding: 0.625rem 1.875rem;
 	box-shadow: inset -0.188rem -0.188rem 0.625rem 0.0625rem rgba(0, 0, 0, 0.08);
 	animation: onLoadFadeIn 1.5s ease-in-out;
-	height: 105vh;
 }
 @keyframes onLoadFadeIn {
 	0% {opacity: 0;}
@@ -2588,3 +2587,7 @@ svg path {
 	0rem 0rem 1rem 0.05rem rgba(0, 0, 0, 0.1) inset;
 	transition: 0.5s ease-in-out;
 }
+.modal-backdrop {
+	min-width: 115vw;
+	min-height: 110vh;
+ }

@@ -48,7 +48,7 @@
 
         <!-- MAIN -->
         <main id="CAR">
-            <div id="CarParkDashboard">
+            <div id="CarParkDashboard" style="height: 110vh;">
                 <!-- Heading -->
                 <div class="headings">
                     <p>
@@ -94,16 +94,6 @@
                         <div style="margin-right: 20px;" class="graphButtons">
                             <button type="button" class="btn btn-outline-primary enable">Monthly</button>
                         </div>
-                        <div style="margin-right: 20px;" class="graphButtons">
-                            <button type="button" class="btn btn-outline-primary enable">Yearly</button>
-                        </div>
-                        <div class="vertical" style="margin-right: 20px; 
-                                                                    border-left: 2px solid black; 
-                                                                    height:32px;
-                                                                    "></div>
-                        <div class="graphButtons">
-                            <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('link').click()">Report</button>
-                            <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
                         </div>
 
                     </div>
@@ -132,7 +122,7 @@
                 labels: ['January', 'Feburary', 'March', 'April', 'May', 'June',
                             'July', 'Augest', 'September', 'October', 'November', 'December'],
                 datasets: [{
-                    label: 'Occupied',
+                    label: 'Mark',
                     data: [70, 64, 85, 95, 40, 80, 82, 72, 74, 68, 0, 0],
                     borderWidth: 1,
                     borderColor: 'rgba(0, 0, 0, 1)',
@@ -143,11 +133,22 @@
                     order: 1,
                 },
                 {
-                    label: 'UnOccupied',
-                    data: [30, 34, 15, 5, 60, 20, 18, 28, 26, 32, 0, 0],
+                    label: 'David',
+                    data: [20, 26, 55, 15, 45, 10, 28, 18, 36, 52, 0, 0],
                     borderWidth: 1,
                     borderColor: 'rgba(0, 0, 0, 1)',
                     backgroundColor: "#214FE7",
+                    tension: 0.2,
+                    borderRadius: 8,
+                    type: 'bar',
+                    order: 1
+                },
+                {
+                    label: 'Adam',
+                    data: [50, 16, 25, 15, 40, 10, 28, 48, 16, 12, 0, 0],
+                    borderWidth: 1,
+                    borderColor: 'rgba(0, 0, 0, 1)',
+                    backgroundColor: "#fe4164",
                     tension: 0.2,
                     borderRadius: 8,
                     type: 'bar',
@@ -175,8 +176,7 @@
                             drawTicks: true,
                         },
                         ticks: {
-                            display: true,
-                            callback: function (value, index, ticks) { return value + '%';}
+                            display: true
                         }
                     },
                     x: {
