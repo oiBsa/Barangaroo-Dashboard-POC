@@ -100,7 +100,8 @@
                                                         border-left: 2px solid black; 
                                                         height:32px;
                                                         "></div>
-              <button class="unClicked" onclick="document.getElementById('link').click()" style="background-color: #C4DEF7; color: #3B3462;">Report</button>
+              <button class="unClicked" onclick="document.getElementById('link').click()"
+                style="background-color: #C4DEF7; color: #3B3462;">Report</button>
               <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
             </div>
             <canvas id="TDCgraph" style="height: 100px;">
@@ -115,7 +116,7 @@
         <div id="thermalComfortSideBarSelection">
           <div class="selectionContainer">
             <div style="display:flex">
-              <a class='bx' id="box1" href="{% url 'thermalComfort' %}">
+              <a class='bx' id="box1" href="{% url 'thermalComfort' %}" style="text-decoration: none;">
                 <span>&deg;C</span>
               </a>
               <div style="margin-left:20px;" class="selectionLabel">
@@ -125,7 +126,7 @@
           </div>
           <div class="selectionContainer active">
             <div style="display:flex">
-              <a class='bx' id="box2" href="{% url 'thermalComfortHumidity' %}">
+              <a class='bx' id="box2" href="{% url 'thermalComfortHumidity' %}" style="text-decoration: none;">
                 <span>%</span>
               </a>
               <div style="margin-left:20px;" class="selectionLabel">
@@ -135,7 +136,7 @@
           </div>
           <div class="selectionContainer">
             <div style="display:flex">
-              <a class='bx' id="box3" href="{% url 'thermalComfortCo2' %}">
+              <a class='bx' id="box3" href="{% url 'thermalComfortCo2' %}" style="text-decoration: none;">
                 <span>Co2</span>
               </a>
               <div style="margin-left:20px;" class="selectionLabel">
@@ -143,31 +144,44 @@
               </div>
             </div>
           </div>
-          <div id="thermalComfortSideBarDropDown">
-            <p>Thermal Comfort For</p>
-            <form name="form" action="">
-              <ul name="toys" id="toy-id" size="6">
-                <li value="1" onclick="switchChannel(this)">L1 Room 61</li>
-                <li value="2" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-076</li>
-                <li value="3" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-004</li>
-                <li value="4" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-078</li>
-                <li value="5" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-012</li>
-                <li value="6" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-076</li>
-                <li value="7" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-004</li>
-                <li value="8" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-078</li>
-                <li value="9" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-012</li>
-                <li value="10" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-076</li>
-                <li value="11" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-004</li>
-                <li value="12" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-078</li>
-                <li value="14" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-012</li>
-                <li value="15" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-076</li>
-                <li value="16" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-004</li>
-                <li value="17" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-078</li>
-                <li value="18" onclick="switchChannel(this)">PCF-ME-01-FCU-C3-012</li>
-              </ul>
-            </form>
+        </div>
+        <div id="thermalComfortSideBarDropDown">
+          <p id="thermalComfortAll">Select Tower and Level</p>
+          <div id="buttonContiner"
+            style="display: flex;flex-direction: row;margin-bottom:0.8rem;align-items: center;justify-content: space-evenly;align-content: center;flex-wrap: wrap;">
+            <button value="1" onclick="towerSelction(this.value)" class="activeButton" id="tower1Button">Tower
+              1</button>
+            <button value="2" onclick="towerSelction(this.value)" id="tower2Button">Tower 2</button>
+            <button value="3" onclick="towerSelction(this.value)" id="tower3Button">Tower 3</button>
+          </div>
+          <div id="levelsContainer">
+            <input type="text" list="searchList" id="searchLevels" placeholder="Search Meter" class="search">
+            <datalist id="searchList" autocomplete="on"> </datalist>
+            <ul id="mainList">
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 00</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 01</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 02</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 03</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 04</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 05</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 06</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 07</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 08</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 09</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 10</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 11</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 12</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 13</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 14</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 15</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 16</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 17</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 18</li>
+              <li tower="{{ 1 }}" level="{{t}}">T1 - Level 19</li>
+            </ul>
           </div>
         </div>
+      </div>
     </main>
     <!-- MAIN -->
   </section>
@@ -294,7 +308,7 @@
           size: '100%',
           background: []
         }],
-        credits: {enabled: false},
+        credits: { enabled: false },
         yAxis: [{
           min: 0,
           max: 50,
@@ -418,7 +432,7 @@
           size: '100%',
           background: []
         }],
-        credits: {enabled: false},
+        credits: { enabled: false },
         yAxis: [{
           min: 0,
           max: 50,

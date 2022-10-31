@@ -54,6 +54,8 @@ body.dark {
 body {
 	background-image: repeating-linear-gradient(72deg, #eae5db, #faf6f5);
 	overflow-x: hidden;
+	width: 90%;
+	height: 100%;
 }
 /* Side Bar */
 ::-webkit-scrollbar {
