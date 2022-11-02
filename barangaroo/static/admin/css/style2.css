@@ -2590,4 +2590,38 @@ svg path {
 .modal-backdrop {
 	min-width: 115vw;
 	min-height: 110vh;
- }
+}
+#CarParkSummaryTable tbody td {
+	font-family: sans-serif;
+	font-size: 1.2rem;
+	color: #000000;
+	align-items: center;
+	text-align: center;
+	padding: 0.5rem;
+}
+#CarParkSummaryTable tbody tr:hover{
+	transform: scale(1.01);
+	transition: 0.2s ease-in-out;
+	background-color: #82a1aa3f;
+}
+#CarParkSummaryTable thead th {
+	font-family: sans-serif;
+	font-size: 2rem;
+	color: #3B3462;
+	align-items: center;
+	text-align: center;
+	padding: 0.5rem;
+	width: 30vw;
+	border-collapse: collapse;
+}
+#CarParkSummaryTable thead tr{
+	background-color: #93249745;
+	border-top-left-radius: 2rem;
+	border-top-right-radius: 2rem;
+}
+#CarParkSummaryTable thead th:nth-child(1){
+	border-top-left-radius: 2rem;
+}
+#CarParkSummaryTable thead th:nth-child(4){
+	border-top-right-radius: 2rem;
+}
