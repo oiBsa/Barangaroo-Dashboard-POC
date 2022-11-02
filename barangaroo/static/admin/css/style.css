@@ -1620,4 +1620,21 @@ svg path {
 	font-size: 16px;
 	border: none;
 	cursor: pointer;
-  }
+}
+#sidebar ul li {
+    height: 3rem;
+    width: 3rem;
+    align-items: center;
+    align-content: center;
+    border-radius: 10px;
+}
+#sidebar ul li:hover {
+    background-color: var(--selectionColorBG);
+}
+#sidebar ul li a{
+	text-decoration: none;
+	color: #3B3462;
+}
+#sidebar .active .bx{
+	color: var(--selectionColor);
+}

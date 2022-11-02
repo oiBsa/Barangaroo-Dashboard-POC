@@ -40,6 +40,20 @@
             <div class="OI-line" id="OI-line"></div>
             <span class="text">Operational Intelligence</span>
         </a>
+        <ul style="display: flex; flex-direction: column; align-content: flex-end; flex-wrap: nowrap; justify-content: center; align-items: center;">
+			<li class="active" style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FF7F7F; --selectionColorBG: #ff7f7f83;">
+                <a href="{% url 'ems'%}" class='bx bxs-dashboard bx-md' title="Electric Meter Dashboard" style="margin-top: 5px;"></a></li>
+			<li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FFE493; --selectionColorBG: #FFE49383; ">
+                <a href="{% url 'thermalComfort'%}" style="margin-top: 5px;" class='bx bxs-thermometer bx-md' title="Thermal Comfort"></a></li>
+			<li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D2EB99; --selectionColorBG: #D2EB9983; " title="Carpark">
+                <a href="{% url 'carPark' %}" style="margin-top: 5px;" class='bx bxs-car-garage bx-md'></a></li>
+			<li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #7EB6E0; --selectionColorBG: #7EB6E083; " title="EV Charging">
+                <a href="{% url 'evCharging' %}" style="margin-top: 5px;" class='bx bxs-ev-station bx-md'></a></li>
+			<li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D7FEFF; --selectionColorBG: #D7FEFF83; " title="Weather Station">
+                <a href="{% url 'weather' %}" style="margin-top: 5px;" class='bx bx-cloud-snow bx-md'></a></li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3C91E6; --selectionColorBG: #3C91E683; " title="EOTF">
+                <a href="{% url 'eotf' %}" style="margin-top: 5px;" class='bx bx-notepad bx-md'></a></li>
+		</ul>
     </section>
     <!-- SIDEBAR -->
 

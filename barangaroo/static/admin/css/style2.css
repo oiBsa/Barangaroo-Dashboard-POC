@@ -2602,7 +2602,7 @@ svg path {
 #CarParkSummaryTable tbody tr:hover{
 	transform: scale(1.01);
 	transition: 0.2s ease-in-out;
-	background-color: #82a1aa3f;
+	background-color: #b691b83a;
 }
 #CarParkSummaryTable thead th {
 	font-family: sans-serif;
@@ -2624,4 +2624,21 @@ svg path {
 }
 #CarParkSummaryTable thead th:nth-child(4){
 	border-top-right-radius: 2rem;
+}
+#sidebar ul li {
+    height: 3rem;
+    width: 3rem;
+    align-items: center;
+    align-content: center;
+    border-radius: 10px;
+}
+#sidebar ul li:hover {
+    background-color: var(--selectionColorBG);
+}
+#sidebar ul li a{
+	text-decoration: none;
+	color: #3B3462;
+}
+#sidebar .active .bx{
+	color: var(--selectionColor);
 }
