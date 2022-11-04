@@ -422,3 +422,8 @@ def eotf_use(request):
     #if request.user.is_authenticated: return render(request=request, template_name="EOTF.html")
     #else: return redirect("home")
     return render(request=request, template_name="EOTF_use.html")
+
+def traffic(request):
+    #if request.user.is_authenticated: return render(request=request, template_name="EOTF.html")
+    #else: return redirect("home")
+    return render(request=request, template_name="Traffic.html")

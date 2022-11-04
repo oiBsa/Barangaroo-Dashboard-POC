@@ -40,38 +40,55 @@
             <span class="text">Operational Intelligence</span>
         </a>
         <ul
-      style="display: flex; flex-direction: column; align-content: flex-end; flex-wrap: nowrap; justify-content: center; align-items: center;">
-      <li
-        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FF7F7F; --selectionColorBG: #ff7f7f83;">
-        <a href="{% url 'ems'%}" class='bx bxs-dashboard bx-md' title="Electric Meter Dashboard"
-          style="margin-top: 5px;"></a>
-      </li>
-      <li
-        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FFE493; --selectionColorBG: #FFE49383; ">
-        <a href="{% url 'thermalComfort'%}" style="margin-top: 5px;" class='bx bxs-thermometer bx-md'
-          title="Thermal Comfort"></a>
-      </li>
-      <li
-        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D2EB99; --selectionColorBG: #D2EB9983; "
-        title="Carpark">
-        <a href="{% url 'carPark' %}" style="margin-top: 5px;" class='bx bxs-car-garage bx-md'></a>
-      </li>
-      <li class="active"
-        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #7EB6E0; --selectionColorBG: #7EB6E083; "
-        title="EV Charging">
-        <a href="{% url 'evCharging' %}" style="margin-top: 5px;" class='bx bxs-ev-station bx-md'></a>
-      </li>
-      <li
-        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D7FEFF; --selectionColorBG: #D7FEFF83; "
-        title="Weather Station">
-        <a href="{% url 'weather' %}" style="margin-top: 5px;" class='bx bx-cloud-snow bx-md'></a>
-      </li>
-      <li
-        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3C91E6; --selectionColorBG: #3C91E683; "
-        title="EOTF">
-        <a href="{% url 'eotf' %}" style="margin-top: 5px;" class='bx bx-notepad bx-md'></a>
-      </li>
-    </ul>
+            style="display: flex; flex-direction: column; align-content: flex-end; flex-wrap: nowrap; justify-content: center; align-items: center;">
+            <li
+                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FF7F7F; --selectionColorBG: #ff7f7f83;">
+                <a href="{% url 'ems'%}" class='bx bxs-dashboard bx-md' title="Electric Meter Dashboard"
+                    style="margin-top: 5px;"></a>
+            </li>
+            <li
+                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FFE493; --selectionColorBG: #FFE49383; ">
+                <a href="{% url 'thermalComfort'%}" style="margin-top: 5px;" class='bx bxs-thermometer bx-md'
+                    title="Thermal Comfort"></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D2EB99; --selectionColorBG: #D2EB9983; "
+                title="Carpark">
+                <a href="{% url 'carPark' %}" style="margin-top: 5px;" class='bx bxs-car-garage bx-md'></a>
+            </li>
+            <li class="active"
+                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #7EB6E0; --selectionColorBG: #7EB6E083; "
+                title="EV Charging">
+                <a href="{% url 'evCharging' %}" style="margin-top: 5px;" class='bx bxs-ev-station bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D7FEFF; --selectionColorBG: #D7FEFF83; "
+                title="Weather Station">
+                <a href="{% url 'weather' %}" style="margin-top: 5px;" class='bx bx-cloud-snow bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3C91E6; --selectionColorBG: #3C91E683; "
+                title="EOTF">
+                <a href="{% url 'eotf' %}" style="margin-top: 5px;" class='bx bx-notepad bx-md'></a>
+            </li>
+
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #b2585e; --selectionColorBG: #b2585e83; "
+                title="Traffic">
+                <a href="{% url 'traffic' %}" style="margin-top: 5px;" class='bx bxs-traffic-barrier bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
+                title="IBMS">
+                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" style="margin-top: 5px;"
+                    class='bx bx-line-chart bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
+                title="Card Holders">
+                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" style="margin-top: 5px;"
+                    class='bx bx-id-card bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
+                title="Reports">
+                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" style="margin-top: 5px;"
+                    class='bx bx-bar-chart-alt-2 bx-md'></a>
+            </li>
+        </ul>
     </section>
     <!-- SIDEBAR -->
 
@@ -163,7 +180,8 @@
                             </div>
                             <div>
                                 <label for="ebdDate" style="font-family: Lato, sans-serif;">End Date:</label>
-                                <input type="datetime-local" id="endDate" name="End Date" style="width: 200px;" value="2022-09-28 00:00:00">
+                                <input type="datetime-local" id="endDate" name="End Date" style="width: 200px;"
+                                    value="2022-09-28 00:00:00">
                             </div>
                             <div style="margin-right: 10px; margin-left:auto;" class="graphButtons">
                                 <button type="button" class="btn">Today</button>
@@ -251,10 +269,11 @@
 
     <script src="{% static 'admin/js/script.js' %}"></script>
     <script>
-        function zoom() {document.body.style.zoom = "90%" }
+        function zoom() { document.body.style.zoom = "90%" }
         const gaug = Highcharts.chart('EVgauge', {
-            chart: { type: 'solidgauge', backgroundColor: '#FAFAFA', spacingTop:20, verticalAlign: 'middle'
-                    },
+            chart: {
+                type: 'solidgauge', backgroundColor: '#FAFAFA', spacingTop: 20, verticalAlign: 'middle'
+            },
             tooltip: {
                 borderWidth: 0,
                 backgroundColor: 'none',
@@ -297,7 +316,7 @@
             yAxis: [{
                 min: 0,
                 max: 15,
-                tickAmount:7,
+                tickAmount: 7,
                 lineWidth: 0,
                 tickLength: 10,
                 tickWidth: 3,
@@ -349,11 +368,11 @@
                     color: {
                         linearGradient: { x1: 0, x2: 1, y1: 0, y2: 1 },
                         stops: [
-                        [0, '#a4fba6'],
-                        [0.25, '#4ae54a'],
-                        [0.5, '#30cb00'],
-                        [0.75, '#0f9200'],
-                        [1, '#006203'],
+                            [0, '#a4fba6'],
+                            [0.25, '#4ae54a'],
+                            [0.5, '#30cb00'],
+                            [0.75, '#0f9200'],
+                            [1, '#006203'],
                         ]
                     },
                     radius: '80%',
@@ -419,7 +438,7 @@
 
         };
         var Chart1 = new Chart(nabersGraph, chartConfig);
-        
+
     </script>
 </body>
 

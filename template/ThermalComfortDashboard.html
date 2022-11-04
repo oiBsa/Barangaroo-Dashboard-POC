@@ -71,6 +71,30 @@
         title="EOTF">
         <a href="{% url 'eotf' %}" style="margin-top: 5px;" class='bx bx-notepad bx-md'></a>
       </li>
+
+      <li
+        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #b2585e; --selectionColorBG: #b2585e83; "
+        title="Traffic">
+        <a href="{% url 'traffic' %}" style="margin-top: 5px;" class='bx bxs-traffic-barrier bx-md'></a>
+      </li>
+      <li
+        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
+        title="IBMS">
+        <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" style="margin-top: 5px;"
+          class='bx bx-line-chart bx-md'></a>
+      </li>
+      <li
+        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
+        title="Card Holders">
+        <a href="https://obsi.sydney/Apps/AccessCard/cardholders" style="margin-top: 5px;"
+          class='bx bx-id-card bx-md'></a>
+      </li>
+      <li
+        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
+        title="Reports">
+        <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" style="margin-top: 5px;"
+          class='bx bx-bar-chart-alt-2 bx-md'></a>
+      </li>
     </ul>
   </section>
   <!-- SIDEBAR -->
@@ -247,33 +271,33 @@
 
 
   <script>
-    function zoom() {document.body.style.zoom = "90%" }
+    function zoom() { document.body.style.zoom = "90%" }
     var thermalTower = {{ THERMAL| safe}}
     var graphPoints = {{ graphPoints| safe}}
-    var EquipPoints = {{EQUIP|safe}}
+    var EquipPoints = {{ EQUIP| safe}}
     var currentGraph = "daily"
     document.getElementById("mainList").children[0].classList.add("active");
-    $('.aboveButton').on("click", "button", function() {
+    $('.aboveButton').on("click", "button", function () {
       var table = $("#table tbody")
       $("#table tbody").find("tr").remove();
-      for (var i=0; i<EquipPoints[currentGraph]["above"].length; i++){
+      for (var i = 0; i < EquipPoints[currentGraph]["above"].length; i++) {
         var Equip = EquipPoints[currentGraph]["above"][i].equip;
         var Temp = EquipPoints[currentGraph]["above"][i].temp;
         var Tim = EquipPoints[currentGraph]["above"][i].time;
-        table.append("<tr><td>"+Equip+"</td><td>"+Temp+" &deg;C"+"</td><td>"+Tim+"</td></tr>")
-    }
-  });
-  $('.belowButton').on("click", "button", function() {
-    var table = $("#table tbody")
-    console.log(EquipPoints)
-    $("#table tbody").find("tr").remove();
-    for (var i=0; i<EquipPoints[currentGraph]["below"].length; i++){
-      var Equip = EquipPoints[currentGraph]["below"][i].equip;
-      var Temp = EquipPoints[currentGraph]["below"][i].temp;
-      var Tim = EquipPoints[currentGraph]["below"][i].time;
-      table.append("<tr><td>"+Equip+"</td><td>"+Temp+" &deg;C"+"</td><td>"+Tim+"</td></tr>")
-  }
-});
+        table.append("<tr><td>" + Equip + "</td><td>" + Temp + " &deg;C" + "</td><td>" + Tim + "</td></tr>")
+      }
+    });
+    $('.belowButton').on("click", "button", function () {
+      var table = $("#table tbody")
+      console.log(EquipPoints)
+      $("#table tbody").find("tr").remove();
+      for (var i = 0; i < EquipPoints[currentGraph]["below"].length; i++) {
+        var Equip = EquipPoints[currentGraph]["below"][i].equip;
+        var Temp = EquipPoints[currentGraph]["below"][i].temp;
+        var Tim = EquipPoints[currentGraph]["below"][i].time;
+        table.append("<tr><td>" + Equip + "</td><td>" + Temp + " &deg;C" + "</td><td>" + Tim + "</td></tr>")
+      }
+    });
     var ctx = document.getElementById('TDCgraph').getContext('2d');
     var chartConfig = {
       type: 'bar',
@@ -578,28 +602,28 @@
     };
 
     $("#mainList").on("click", "li", function () {
-        $(this).parent().find('li').removeClass('active');
-        $(this).addClass('active');
-        tower = $(this).attr("tower")
-        level = $(this).attr("level")
-        $.ajax({
-          url: {% url 'thermalComfort' %},
-          data: {
-          tower: tower,
-          level: level
+      $(this).parent().find('li').removeClass('active');
+      $(this).addClass('active');
+      tower = $(this).attr("tower")
+      level = $(this).attr("level")
+      $.ajax({
+        url: {% url 'thermalComfort' %},
+        data: {
+        tower: tower,
+        level: level
+      },
+        method: 'GET',
+        success: function (data) {
+          document.getElementById("aboveAvg").innerHTML = data["aboveAvg"] + "%";
+          document.getElementById("belowAvg").innerHTML = data["belowAvg"] + "%";
+          document.getElementById("belowTempThresh").setAttribute("value", data["belowThresh"]);
+          document.getElementById("aboveTempThresh").setAttribute("value", data["aboveThresh"]);
+          graphPoints = data["graphPoints"];
+          chartConfig["data"]["labels"] = graphPoints[currentGraph]["above"]["x"]
+          chartConfig["data"]["datasets"][0]["data"] = graphPoints[currentGraph]["above"]["y"]
+          chartConfig["data"]["datasets"][1]["data"] = graphPoints[currentGraph]["below"]["y"]
+          Chart1.update("active");
         },
-          method: 'GET',
-          success: function (data) {
-            document.getElementById("aboveAvg").innerHTML = data["aboveAvg"]+"%";
-            document.getElementById("belowAvg").innerHTML = data["belowAvg"]+"%";
-            document.getElementById("belowTempThresh").setAttribute("value", data["belowThresh"]);
-            document.getElementById("aboveTempThresh").setAttribute("value", data["aboveThresh"]);
-            graphPoints = data["graphPoints"];
-            chartConfig["data"]["labels"] = graphPoints[currentGraph]["above"]["x"]
-            chartConfig["data"]["datasets"][0]["data"] = graphPoints[currentGraph]["above"]["y"]
-            chartConfig["data"]["datasets"][1]["data"] = graphPoints[currentGraph]["below"]["y"]
-            Chart1.update("active");
-          },
         })
      });
 

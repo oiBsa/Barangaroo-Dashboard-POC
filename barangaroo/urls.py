@@ -24,8 +24,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("login/", view=views.login_view, name="login"),
-    path("accounts/login/", view=views.login_view, name="login"),
+    #path("login/", view=views.login_view, name="login"),
+    #path("accounts/login/", view=views.login_view, name="login"),
     path("", view=views.weather_forcast, name="home"),
     path("ems/", view=views.ems, name="ems"),
     path('nabers/', view=views.nabers, name='nabers'),
@@ -44,6 +44,7 @@ urlpatterns = [
     path("eotf/", view=views.eotf, name="eotf"),
     path("eotf_cube/", view=views.eotf_cube, name="eotf_cube"),
     path("eotf_use/", view=views.eotf_use, name="eotf_use"),
+    path("traffic/", view=views.traffic, name="traffic"),
     
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),   

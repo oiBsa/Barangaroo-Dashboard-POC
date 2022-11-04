@@ -71,6 +71,30 @@
         title="EOTF">
         <a href="{% url 'eotf' %}" style="margin-top: 5px;" class='bx bx-notepad bx-md'></a>
       </li>
+
+      <li
+        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #b2585e; --selectionColorBG: #b2585e83; "
+        title="Traffic">
+        <a href="{% url 'traffic' %}" style="margin-top: 5px;" class='bx bxs-traffic-barrier bx-md'></a>
+      </li>
+      <li
+        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
+        title="IBMS">
+        <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" style="margin-top: 5px;"
+          class='bx bx-line-chart bx-md'></a>
+      </li>
+      <li
+        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
+        title="Card Holders">
+        <a href="https://obsi.sydney/Apps/AccessCard/cardholders" style="margin-top: 5px;"
+          class='bx bx-id-card bx-md'></a>
+      </li>
+      <li
+        style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
+        title="Reports">
+        <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" style="margin-top: 5px;"
+          class='bx bx-bar-chart-alt-2 bx-md'></a>
+      </li>
     </ul>
   </section>
   <!-- SIDEBAR -->
@@ -107,11 +131,13 @@
             <h4 id="meterName" href="./index.html" style="color: black; font-size:26px;">Tenant Access</h4>
             <div style="margin-left: auto;">
               <label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
-              <input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00" style="width: 200px;">
+              <input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00"
+                style="width: 200px;">
             </div>
             <div style="margin-right: 0;">
               <label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
-              <input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00" style="width: 200px;">
+              <input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00"
+                style="width: 200px;">
             </div>
 
           </div>
@@ -179,14 +205,14 @@
 
 
   <script>
-    function zoom() {document.body.style.zoom = "90%" }
+    function zoom() { document.body.style.zoom = "90%" }
     var ctx = document.getElementById('EOTFGraph').getContext('2d');
     var chartConfig = {
       type: 'bar',
       data: {
         labels: ["4/10/2022", "5/10/2022", "6/10/2022", "7/10/2022", "10/10/2022", "11/10/2022", "12/10/2022",
-                  "13/10/2022", "14/10/2022", "17/10/2022", "18/10/2022", "19/10/2022", "20/10/2022", "21/10/2022",
-                  "22/10/2022", "24/10/2022", "25/10/2022", "26/10/2022", "27/10/2022", "28/10/2022", "31/10/2022"],
+          "13/10/2022", "14/10/2022", "17/10/2022", "18/10/2022", "19/10/2022", "20/10/2022", "21/10/2022",
+          "22/10/2022", "24/10/2022", "25/10/2022", "26/10/2022", "27/10/2022", "28/10/2022", "31/10/2022"],
         datasets: [{
           label: "Tenant A",
           data: [50, 38, 45, 28, 59, 55, 53, 48, 31, 27, 63, 56, 46, 31, 4, 35, 50, 61, 46, 36, 22],
