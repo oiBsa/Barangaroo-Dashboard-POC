@@ -1,4 +1,4 @@
-
+import requests
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
@@ -426,4 +426,36 @@ def eotf_use(request):
 def traffic(request):
     #if request.user.is_authenticated: return render(request=request, template_name="EOTF.html")
     #else: return redirect("home")
-    return render(request=request, template_name="Traffic.html")
+    response = requests.get('https://api.transport.nsw.gov.au/v1/live/hazards/incident/open', 
+                        headers={'Accept': 'application/json','Authorization': 'apikey g0792hSuYtu6sAOXdkrkYgowrSmymxVeCHsp',}).json()
+    all_incidents = []
+    for ind, incident in enumerate(response["features"]):
+        incident_id = incident["id"]
+        try: incident_weblink = incident["properties"]["webLinks"][0]["linkURL"]
+        except: incident_weblink = ""
+        incident_headlines = incident["properties"]["headline"]
+        if incident["properties"]["expectedDelay"]==-1: incident_expected_delay = ""
+        else: incident_expected_delay = str(datetime.fromtimestamp(int(str(incident["properties"]["expectedDelay"])[:9])).strftime('%H:%M:%S'))
+        try:incident_started = str(datetime.fromtimestamp(int(str(incident["properties"]["created"])[:9])).strftime('%Y-%m-%d %H:%M:%S'))
+        except: incident_started = ""
+        try:incident_updated = str(datetime.fromtimestamp(int(str(incident["properties"]["lastUpdated"])[:9])).strftime('%Y-%m-%d %H:%M:%S'))
+        except: incident_updated = ""
+        if incident["properties"]["isMajor"]: incident_major = "Yes"
+        else: incident_major = "No"
+        incident_diversions = incident["properties"]["diversions"]
+        try:incident_map = incident["properties"]["encodedPolylines"][0]["coords"]
+        except: incident_map = ""
+        try: incident_catagory = incident["properties"]["mainCategory"]
+        except: incident_catagory = "---"
+        try: incident_desciption = incident["properties"]["displayName"]
+        except: incident_desciption = "---"
+        incident_location = incident["properties"]["roads"]
+        incident_location = incident_location[0]["crossStreet"] + "," + incident_location[0]["mainStreet"] + "," + incident_location[0]["region"] + ",Australia"
+        if incident["properties"]["impactingNetwork"]: incident_impected = "Yes"
+        else:incident_impected = "No"
+        if incident["properties"]["isInitialReport"]: incident_initial  = "Yes"
+        else: incident_initial = "No"
+        all_incidents.append({"id":incident_id,"catagory":incident_catagory, "description":incident_desciption, "location":incident_location, "etd":incident_expected_delay,
+                            "started":incident_started, "updated":incident_updated, "impact":incident_impected, "major":incident_major, "initial":incident_initial,
+                            "headlines":incident_headlines, "diversion":incident_diversions, "weblinkI":incident_weblink, "google":incident_map})
+    return render(request=request, template_name="Traffic.html", context={"data":all_incidents})

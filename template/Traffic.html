@@ -19,11 +19,17 @@
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
     <title>Car Park</title>
 </head>
 
 
-<body onload="zoom()">
+<body>
 
 
     <!-- SIDEBAR -->
@@ -34,8 +40,8 @@
                 alt="Operational Interlligence">
             <span class="text">Operational Intelligence</span>
         </a>
-        <ul
-            style="display: flex; flex-direction: column; align-content: flex-end; flex-wrap: nowrap; justify-content: center; align-items: center;">
+        <ul class="a"
+            style="display: flex; flex-direction: column; align-content: flex-end; flex-wrap: nowrap; justify-content: center; align-items: flex-end;">
             <li
                 style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FF7F7F; --selectionColorBG: #ff7f7f83;">
                 <a href="{% url 'ems'%}" class='bx bxs-dashboard bx-md' title="Electric Meter Dashboard"
@@ -46,8 +52,7 @@
                 <a href="{% url 'thermalComfort'%}" style="margin-top: 5px;" class='bx bxs-thermometer bx-md'
                     title="Thermal Comfort"></a>
             </li>
-            <li
-                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D2EB99; --selectionColorBG: #D2EB9983; "
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D2EB99; --selectionColorBG: #D2EB9983; "
                 title="Carpark">
                 <a href="{% url 'carPark' %}" style="margin-top: 5px;" class='bx bxs-car-garage bx-md'></a>
             </li>
@@ -64,7 +69,8 @@
                 <a href="{% url 'eotf' %}" style="margin-top: 5px;" class='bx bx-notepad bx-md'></a>
             </li>
 
-            <li class="active" style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #b2585e; --selectionColorBG: #b2585e83; "
+            <li class="active"
+                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #b2585e; --selectionColorBG: #b2585e83; "
                 title="Traffic">
                 <a href="{% url 'traffic' %}" style="margin-top: 5px;" class='bx bxs-traffic-barrier bx-md'></a>
             </li>
@@ -98,16 +104,16 @@
         <!-- NAVBAR -->
 
         <!-- MAIN -->
-        <main id="CAR" style="user-select: auto; padding:36px 0px">
+        <main id="CAR" style="padding: 36px 5px;">
             <div id="CarParkDashboard">
                 <!-- Heading -->
                 <div class="headings">
                     <p>
-                        Car Park
+                        Traffic
                     </p>
                     <p>
                         <span class="dashboard">
-                            Dashboard
+                            Feed
                         </span>
 
                     </p>
@@ -115,117 +121,44 @@
                 <!-- Heading -->
 
                 <!-- CarParkSummary content infinite scroll -->
-                <div id="CarParkSummary">
-                    <div class="unit">
-                        <div class="heading">
-                            <a style="float: left;width:70%; color:#3B3462;" href="{% url 'carparkSummary' %}">
-                                Baker McKenzie Carpark
-                            </a>
-                            <div style="width:30%;">
-                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
+                <div id="TrafficFeedContiner">
+                    {% for inc in data%}
+                    <div class="feedCard">
+                        <div>
+                            <p style="font-weight: 550;">{{inc.catagory}}</p>
+                            <p>{{inc.description}}</p>
+                            <p style="font-style: italic;">@ <span>{{inc.location}}</span>
+                            </p>
+                            <p>ETD: <span>{{inc.etd}}</span></p>
+                            <p style="margin-top:0.5rem;">Details
+                                <a type="button" data-bs-toggle="collapse" data-bs-target="#ID{{inc.id}}"
+                                    aria-expanded="false" aria-controls="collapseExample" class='bx bxs-chevrons-down'
+                                    style="text-decoration: none;" onclick="$(this).toggleClass('bx-rotate-180')"></a>
+                            </p>
+                            <div class="collapse" id="ID{{inc.id}}">
+                                <div class="card card-body"
+                                    style="display: flex;flex-direction: row;justify-content: space-between;align-content: center;align-items: center;">
+                                    <div class="cardDetails">
+                                        <p>Started at: <span>{{inc.started}}</span></p>
+                                        <p>Last updated: <span>{{inc.updated}}</span></p>
+                                        <p>Impacted Network: <span>{{inc.impact}}</span></p>
+                                        <p>Is Major: <span>{{inc.major}}</span></p>
+                                    </div>
+                                    <div class="cardDetails2">
+                                        <p>Headilnes: <span>{{inc.headlines}}</span></p>
+                                        <p>Initial Report: <span>{{inc.initial}}</span></p>
+                                        <p>Diversions: <span>{{inc.diversion}}</span></p>
+                                        <a href="{{inc.weblinkI}}" style="font-family: sans-serif; font-size:15px;">More Info.</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <canvas id="carPark1"></canvas>
-                    </div>
-                    <div class="unit">
-                        <div class="heading">
-                            <a style="float: left;width:70%; color:#3B3462;" href="{% url 'carparkSummary' %}">
-                                Coverorce Carpark
-                            </a>
-                            <div style="width:30%;">
-                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
-                            </div>
+                        <div class="map">
+                            <img src="https://img.icons8.com/officel/180/null/worldwide-location--v1.png"/>
                         </div>
-                        <canvas id="carPark2"></canvas>
                     </div>
-                    <div class="unit">
-                        <div class="heading">
-                            <a style="float: left;width:70%; color:#3B3462;" href="{% url 'carparkSummary' %}">
-                                Decode Carpark
-                            </a>
-                            <div style="width:30%;">
-                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
-                            </div>
-                        </div>
-                        <canvas id="carPark3"></canvas>
-                    </div>
-                    <div class="unit">
-                        <div class="heading">
-                            <a style="float: left;width:70%; color:#3B3462;" href="{% url 'carparkSummary' %}">
-                                Enel Carpark
-                            </a>
-                            <div style="width:30%;">
-                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
-                            </div>
-                        </div>
-                        <canvas id="carPark4"></canvas>
-                    </div>
-                    <div class="unit">
-                        <div class="heading">
-                            <a style="float: left;width:70%; color:#3B3462;" href="{% url 'carparkSummary' %}">
-                                HSBC Carpark
-                            </a>
-                            <div style="width:30%;">
-                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
-                            </div>
-                        </div>
-                        <canvas id="carPark5"></canvas>
-                    </div>
-                    <div class="unit">
-                        <div class="heading">
-                            <a style="float: left;width:70%; color:#3B3462;" href="{% url 'carparkSummary' %}">
-                                ICBC Carpark
-                            </a>
-                            <div style="width:30%;">
-                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
-                            </div>
-                        </div>
-                        <canvas id="carPark6"></canvas>
-                    </div>
-                    <div class="unit">
-                        <div class="heading">
-                            <a style="float: left;width:70%; color:#3B3462;" href="{% url 'carparkSummary' %}">
-                                Marsh Carpark
-                            </a>
-                            <div style="width:30%;">
-                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
-                            </div>
-                        </div>
-                        <canvas id="carPark7"></canvas>
-                    </div>
-                    <div class="unit">
-                        <div class="heading">
-                            <a style="float: left;width:70%; color:#3B3462;" href="{% url 'carparkSummary' %}">
-                                Nanshan Carpark
-                            </a>
-                            <div style="width:30%;">
-                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
-                            </div>
-                        </div>
-                        <canvas id="carPark8"></canvas>
-                    </div>
-                    <div class="unit">
-                        <div class="heading">
-                            <a style="float: left;width:70%; color:#3B3462;" href="{% url 'carparkSummary' %}">
-                                Nikko Carpark
-                            </a>
-                            <div style="width:30%;">
-                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
-                            </div>
-                        </div>
-                        <canvas id="carPark9"></canvas>
-                    </div>
-                    <div class="unit">
-                        <div class="heading">
-                            <a style="float: left;width:70%; color:#3B3462;" href="{% url 'carparkSummary' %}">
-                                Origin Carpark
-                            </a>
-                            <div style="width:30%;">
-                                <i class='bx bx-dots-horizontal-rounded bx-md' style="float:right"></i>
-                            </div>
-                        </div>
-                        <canvas id="carPark10"></canvas>
-                    </div>
+
+                    {% endfor %}
                 </div>
 
             </div>
@@ -236,100 +169,8 @@
     <!-- CONTENT -->
 
 
-    <script src="{% static 'admin/js/script.js' %}"></script>
     <script>
         function zoom() { document.body.style.zoom = "90%" }
-        var showData = 1;
-        var primeColor = "#ffd35c";
-        var secondaryColor = "#214fe7";
-        var chartConfig = {
-            type: 'doughnut',
-            data: {
-                labels: ["Occupied", "UnOccupied"],
-                datasets: [{
-                    label: 'My First Dataset',
-                    data: [30, 70],
-                    backgroundColor: [
-                        primeColor,
-                        secondaryColor,
-                    ],
-                    hoverOffset: 14,
-                    offset: 4,
-                    borderRadius: 10,
-                    tension: 0.25,
-                    offset: 0,
-                    radius: "90%",
-                    animation: {
-                        animateScale: true
-                    }
-                }]
-
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: true,
-                        align: 'center',
-                        position: 'bottom',
-                    }
-                },
-
-                scales: {
-                    y: {
-                        grid: {
-                            display: false,
-                            drawBorder: false,
-                            drawTicks: false,
-                        },
-                        ticks: {
-                            display: false,
-                            callback: function (value, index, ticks) {
-                                return value + '%';
-                            }
-                        }
-                    },
-                    x: {
-                        type: 'category',
-                        grid: {
-                            display: false,
-                            drawBorder: false,
-                            drawTicks: false,
-                        },
-                        ticks: {
-                            display: false,
-                            callback: function (value, index, ticks) {
-                                return value + '%';
-                            }
-                        }
-                    },
-                },
-                responsive: true,
-            }
-
-        };
-
-
-        new Chart(document.getElementById('carPark1').getContext('2d'), chartConfig);
-        chartConfig.data.datasets[0].data = [20, 80];
-        new Chart(document.getElementById('carPark2').getContext('2d'), chartConfig);
-        chartConfig.data.datasets[0].data = [40, 60];
-        new Chart(document.getElementById('carPark3').getContext('2d'), chartConfig);
-        chartConfig.data.datasets[0].data = [90, 10];
-        new Chart(document.getElementById('carPark4').getContext('2d'), chartConfig);
-        chartConfig.data.datasets[0].data = [30, 70];
-        new Chart(document.getElementById('carPark5').getContext('2d'), chartConfig);
-        chartConfig.data.datasets[0].data = [15, 85];
-        new Chart(document.getElementById('carPark6').getContext('2d'), chartConfig);
-        chartConfig.data.datasets[0].data = [15, 85];
-        new Chart(document.getElementById('carPark7').getContext('2d'), chartConfig);
-        chartConfig.data.datasets[0].data = [20, 80];
-        new Chart(document.getElementById('carPark8').getContext('2d'), chartConfig);
-        chartConfig.data.datasets[0].data = [0, 100];
-        new Chart(document.getElementById('carPark9').getContext('2d'), chartConfig);
-        chartConfig.data.datasets[0].data = [10, 90];
-        new Chart(document.getElementById('carPark10').getContext('2d'), chartConfig);
-        chartConfig.data.datasets[0].data = [60, 40];
-        new Chart(document.getElementById('carPark11').getContext('2d'), chartConfig);
 
     </script>
 </body>

@@ -2642,3 +2642,55 @@ svg path {
 #sidebar .active .bx{
 	color: var(--selectionColor);
 }
+#TrafficFeedContiner .feedCard{
+	background-color: white;
+	border-radius: 1.5rem;
+	padding: 0.8rem 1.5rem;
+	margin-bottom: 0.5rem;
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+	box-shadow: 0.3rem 0.4rem 1rem 0rem rgba(0, 0, 0, 0.05);
+}
+#TrafficFeedContiner .feedCard p{
+	font-family: sans-serif;
+	font-size: 17px;
+	margin-bottom: 0.1rem;
+	font-weight: 550;
+}
+#TrafficFeedContiner .feedCard span{
+	font-family: sans-serif;
+	font-size: 15px;
+	margin-bottom: 0.1rem;
+	font-weight: 500;
+}
+#TrafficFeedContiner .feedCard .map{
+	border-radius: 1rem;
+	background-color: #53bbd854;
+	padding: 0.5rem;
+	display: table;
+	width: 30%;
+}
+.card .cardDetails{
+	display: flex;
+    margin-right: 1rem;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+	width: 50%;
+}
+.card .cardDetails2{
+	display: flex;
+    margin-right: 1rem;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+	width: 45rem;
+}
