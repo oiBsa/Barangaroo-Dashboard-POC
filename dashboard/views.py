@@ -1,9 +1,8 @@
 import requests
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
 import pymssql
 from datetime import datetime, timedelta
 import json, requests
@@ -54,20 +53,7 @@ def get_datetime_avg_per_day(lst:list, valuea:float, valueb:float):
         except: date_dict_below[date_equip] = 0
     return date_dict_above, date_dict_below
 
-# Create your views here.
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm()
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request=request, username=username, password=password)
-        if user is not None: 
-            login(request=request, user=user)
-            return render(request=request, template_name="home.html")
-        else: return render(request=request, template_name="login.html", context={'form':form})
-    else:
-        form = AuthenticationForm()
-    return render(request=request, template_name="login.html", context={'form':form})
+# Create your views here
 
 #@login_required(login_url='/login/')
 def home(request):
@@ -287,6 +273,8 @@ def thermal_comfort_humidity(request):
 def thermal_comfort_co2(request):
     #if request.user.is_authenticated: return render(request=request, template_name="ThermalComfortCO2.html")
     #else: return redirect("home")
+    DF_THERMAL = DF.parse(sheet_name="THERMAL")
+    DF_THERMAL_LEVEL1 = DF.parse(sheet_name="THERMAL_LEVEL1")
     all_thermal_equip = DF_THERMAL.values.tolist()
     level_1 = DF_THERMAL_LEVEL1.values.tolist()
     level_1_above = [equip for equip in level_1 if equip[2]>ABOVE_SET_POINT]
