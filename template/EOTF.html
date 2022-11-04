@@ -188,9 +188,27 @@
                   "13/10/2022", "14/10/2022", "17/10/2022", "18/10/2022", "19/10/2022", "20/10/2022", "21/10/2022",
                   "22/10/2022", "24/10/2022", "25/10/2022", "26/10/2022", "27/10/2022", "28/10/2022", "31/10/2022"],
         datasets: [{
-          label: "KPMG",
+          label: "Tenant A",
           data: [50, 38, 45, 28, 59, 55, 53, 48, 31, 27, 63, 56, 46, 31, 4, 35, 50, 61, 46, 36, 22],
           backgroundColor: '#ffd866',
+          borderRadius: 5,
+        },
+        {
+          label: "Tenant B",
+          data: [50, 38, 45, 28, 59, 55, 53, 48, 31, 27, 63, 56, 46, 31, 4, 35, 50, 61, 46, 36, 22],
+          backgroundColor: '#a7c172',
+          borderRadius: 5,
+        },
+        {
+          label: "Tenant C",
+          data: [50, 38, 45, 28, 59, 55, 53, 48, 31, 27, 63, 56, 46, 31, 4, 35, 50, 61, 46, 36, 22],
+          backgroundColor: '#9a84c9',
+          borderRadius: 5,
+        },
+        {
+          label: "Tenant D",
+          data: [50, 38, 45, 28, 59, 55, 53, 48, 31, 27, 63, 56, 46, 31, 4, 35, 50, 61, 46, 36, 22],
+          backgroundColor: '#c172a7',
           borderRadius: 5,
         }],
 
@@ -206,6 +224,7 @@
 
         scales: {
           y: {
+            stacked: true,
             grid: {
               display: false,
               drawBorder: true,
@@ -213,11 +232,10 @@
             },
             ticks: {
               display: true,
-              
             }
           },
           x: {
-            type: 'category',
+            stacked: true,
             grid: {
               display: false,
               drawBorder: true,

@@ -12,16 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 import pytz
 import pandas as pd
 
-DF_EMS = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="EMS")
-DF_THERMAL = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="THERMAL")
-DF_THERMAL_LEVEL1 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="THERMAL_LEVEL1")
-DF_THERMAL_LEVEL2 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="THERMAL_LEVEL2")
-DF_THERMAL_LEVEL3 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="THERMAL_LEVEL3")
-DF_THERMAL_LEVEL4 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="THERMAL_LEVEL4")
-DF_EM1 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="EM1")
-DF_EM2 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="EM2")
-DF_EM3 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="EM3")
-DF_EM4 = pd.read_excel("barangaroo//static//admin//file//Data.xlsx", sheet_name="EM4")
+DF = pd.ExcelFile("barangaroo//static//admin//file//Data.xlsx")
 
 ABOVE_SET_POINT = 23.0
 BELOW_SET_POINT = 21.0
@@ -89,7 +80,12 @@ def ems_dashboard(request):
 
 target_meter = ""
 def ems(request):
-    global conn, target_meter
+    global target_meter
+    DF_EMS = DF.parse(sheet_name="EMS")
+    DF_EM1 = DF.parse(sheet_name="EM1")
+    DF_EM2 = DF.parse(sheet_name="EM2")
+    DF_EM3 = DF.parse(sheet_name="EM3")
+    DF_EM4 = DF.parse(sheet_name="EM4")
     current_datetime = datetime.utcnow() + timedelta(days=1)
     end_datetime = current_datetime - timedelta(days=31)
     current_datetime = str(current_datetime.strftime("%Y-%m-%d"))
@@ -183,9 +179,13 @@ def meter_page(request):
 @xframe_options_exempt
 @csrf_exempt
 def thermal_comfort(request):
-    global conn
     #if request.user.is_authenticated: return render(request=request, template_name="ThermalComfortDashboard.html")
     #else: return redirect("home")
+    DF_THERMAL = DF.parse(sheet_name="THERMAL")
+    DF_THERMAL_LEVEL1 = DF.parse(sheet_name="THERMAL_LEVEL1")
+    DF_THERMAL_LEVEL2 = DF.parse(sheet_name="THERMAL_LEVEL2")
+    DF_THERMAL_LEVEL3 = DF.parse(sheet_name="THERMAL_LEVEL3")
+    DF_THERMAL_LEVEL4 = DF.parse(sheet_name="THERMAL_LEVEL4")
     if request.method == 'GET': 
         req_tower = request.GET.get("tower")
         req_level = request.GET.get("level")
