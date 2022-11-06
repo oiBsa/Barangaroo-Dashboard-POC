@@ -423,10 +423,10 @@ def traffic(request):
         except: incident_weblink = ""
         incident_headlines = incident["properties"]["headline"]
         if incident["properties"]["expectedDelay"]==-1: incident_expected_delay = ""
-        else: incident_expected_delay = str(datetime.fromtimestamp(int(str(incident["properties"]["expectedDelay"])[:9])).strftime('%H:%M:%S'))
+        else: incident_expected_delay = str(datetime.fromtimestamp(int(str(incident["properties"]["expectedDelay"])[:10])).strftime('%H:%M:%S'))
         try:incident_started = str(datetime.fromtimestamp(int(str(incident["properties"]["created"])[:10])).strftime('%Y-%m-%d %H:%M:%S'))
         except: incident_started = ""
-        try:incident_updated = str(datetime.fromtimestamp(int(str(incident["properties"]["lastUpdated"])[:9])).strftime('%Y-%m-%d %H:%M:%S'))
+        try:incident_updated = str(datetime.fromtimestamp(int(str(incident["properties"]["lastUpdated"])[:10])).strftime('%Y-%m-%d %H:%M:%S'))
         except: incident_updated = ""
         if incident["properties"]["isMajor"]: incident_major = "Yes"
         else: incident_major = "No"
