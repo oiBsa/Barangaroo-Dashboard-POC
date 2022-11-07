@@ -129,7 +129,7 @@
                             <p style="font-style: italic;">@ <span>{{inc.location}}</span>
                             </p>
                             <p>ETD: <span>{{inc.etd}}</span></p>
-                            <p style="margin-top:0.5rem;">Details
+                            <p style="margin-top:0.5rem;">Details <span style="font-size: 1rem;">(Click me twice)</span>
                                 <a type="button" data-bs-toggle="collapse" data-bs-target="#ID{{inc.id}}"
                                     aria-expanded="true" aria-controls="collapseExample" class='bx bxs-chevrons-down'
                                     style="text-decoration: none;" onclick="$(this).toggleClass('bx-rotate-180')"></a>
@@ -147,8 +147,12 @@
                                         <p>Headilnes: <span>{{inc.headlines}}</span></p>
                                         <p>Initial Report: <span>{{inc.initial}}</span></p>
                                         <p>Diversions: <span>{{inc.diversion}}</span></p>
-                                        <a href="{{inc.weblinkI}}" style="font-family: sans-serif; font-size:15px;">More
-                                            Info.</a>
+                                        <p style="font-family: sans-serif; font-size:15px;">More
+                                            Info: 
+                                            {% if inc.weblinkI %}
+                                            <a class='bx bx-link-alt bx-sm' href="{{inc.weblinkI}}" style="text-decoration: none;"></a>
+                                            {% endif %}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
