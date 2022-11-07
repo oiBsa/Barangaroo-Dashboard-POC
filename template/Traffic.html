@@ -155,7 +155,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="map" id="MAP{{inc.id}}" style="min-height: 9rem;">
+                        <div class="map" id="MAP{{inc.id}}" style="min-height: 9rem; align-self: stretch;">
 
                         </div>
                     </div>
@@ -179,18 +179,23 @@
         function myMap() {
             var mapProp = {
                 center: allData[0].coord,
-                zoom: 16,
+                zoom: 15,
+                mapTypeId: "roadmap"
             };
             for (var i = 1; i <= allData.length; i++) {
-                MapID = "MAP" + allData[i].id;
-                mapProp["center"] = allData[i].coord;
-                var map = new google.maps.Map(document.getElementById(MapID), mapProp);
-                var marker = new google.maps.Marker({
-                    position: mapProp["center"],
-                    animation: google.maps.Animation.BOUNCE
-                });
-
-                marker.setMap(map);
+                try{
+                    MapID = "MAP" + allData[i].id;
+                    mapProp["center"] = allData[i].coord;
+                    var map = new google.maps.Map(document.getElementById(MapID), mapProp);
+                    var marker = new google.maps.Marker({
+                        position: mapProp["center"],
+                        animation: google.maps.Animation.DROP
+                    });
+                    marker.setMap(map);
+                } catch {
+                    console.log(allData[i].id)
+                    console.log(allData[i].coord)
+                }
             }
         }
 
