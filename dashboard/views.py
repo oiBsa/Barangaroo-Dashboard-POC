@@ -445,4 +445,5 @@ def traffic(request):
         all_incidents.append({"id":str(incident_id),"catagory":incident_catagory, "description":incident_desciption, "location":incident_location, "etd":incident_expected_delay,
                             "started":incident_started, "updated":incident_updated, "impact":incident_impected, "major":incident_major, "initial":incident_initial,
                             "headlines":incident_headlines, "diversion":incident_diversions, "weblinkI":incident_weblink, "google":incident_map, "coord":{"lng":incident["geometry"]["coordinates"][0], "lat": incident["geometry"]["coordinates"][1]}})
-    return render(request=request, template_name="Traffic.html", context={"data":all_incidents[::-1]})
+    
+    return render(request=request, template_name="Traffic.html", context={"data":all_incidents[:20][::-1]})

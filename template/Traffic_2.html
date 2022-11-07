@@ -24,6 +24,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxeUfzQOXxerNiZdoW_81BSYyTNAqgAb8&callback=myMap"></script>
     <title>Car Park</title>
 </head>
 
@@ -154,7 +156,7 @@
                             </div>
                         </div>
                         <div class="map" id="MAP{{inc.id}}" style="min-height: 9rem; align-self: stretch;">
-                            <img src="https://img.icons8.com/officel/170/null/worldwide-location--v1.png" style="margin-left: auto; margin-right: auto; display: block;"/>
+
                         </div>
                     </div>
 
@@ -171,9 +173,31 @@
 
     <script>
         function zoom() { document.body.style.zoom = "90%" }
+        allData = {{ data | safe }}
 
 
-    
+        function myMap() {
+            var mapProp = {
+                center: allData[0].coord,
+                zoom: 15,
+                mapTypeId: "roadmap"
+            };
+            for (var i = 0; i <= allData.length; i++) {
+                try{
+                    MapID = "MAP" + allData[i].id;
+                    mapProp["center"] = allData[i].coord;
+                    var map = new google.maps.Map(document.getElementById(MapID), mapProp);
+                    var marker = new google.maps.Marker({
+                        position: mapProp["center"],
+                        animation: google.maps.Animation.DROP
+                    });
+                    marker.setMap(map);
+                } catch {
+                    console.log(allData[i].id)
+                    console.log(allData[i].coord)
+                }
+            }
+        }
 
     </script>
     <script
