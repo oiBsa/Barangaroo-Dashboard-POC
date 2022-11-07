@@ -87,7 +87,6 @@ def ems(request):
         monthly_graph = {}
         weekly_graph = {}
         daily_graph = {}
-        print("=============")
         if req_pointKey=="249782": graph_results = DF_EM1.values.tolist()
         elif req_pointKey=="120587": graph_results = DF_EM2.values.tolist()
         elif req_pointKey=="120923": graph_results = DF_EM3.values.tolist()
@@ -445,5 +444,5 @@ def traffic(request):
         else: incident_initial = "No"
         all_incidents.append({"id":incident_id,"catagory":incident_catagory, "description":incident_desciption, "location":incident_location, "etd":incident_expected_delay,
                             "started":incident_started, "updated":incident_updated, "impact":incident_impected, "major":incident_major, "initial":incident_initial,
-                            "headlines":incident_headlines, "diversion":incident_diversions, "weblinkI":incident_weblink, "google":incident_map})
+                            "headlines":incident_headlines, "diversion":incident_diversions, "weblinkI":incident_weblink, "google":incident_map, "coord":{"lng":incident["geometry"]["coordinates"][0], "lat": incident["geometry"]["coordinates"][1]}})
     return render(request=request, template_name="Traffic.html", context={"data":all_incidents})
