@@ -165,13 +165,17 @@ DF_THERMAL_LEVEL1 = DF.parse(sheet_name="THERMAL_LEVEL1")
 DF_THERMAL_LEVEL2 = DF.parse(sheet_name="THERMAL_LEVEL2")
 DF_THERMAL_LEVEL3 = DF.parse(sheet_name="THERMAL_LEVEL3")
 DF_THERMAL_LEVEL4 = DF.parse(sheet_name="THERMAL_LEVEL4")
+
+# Some global variables to fasten humidity and CO2
+Thermal_context = None
+
 @xframe_options_exempt
 @csrf_exempt
 def thermal_comfort(request):
+    global Thermal_context
     #if request.user.is_authenticated: return render(request=request, template_name="ThermalComfortDashboard.html")
     #else: return redirect("home")
-    if request.method == 'GET':
-        req_level = request.GET.get("level")
+    if request.method == 'GET': req_level = request.GET.get("level")
     if req_level!=None:
         if req_level=="00": level_1 = DF_THERMAL_LEVEL1.values.tolist()
         elif req_level=="01": level_1 = DF_THERMAL_LEVEL2.values.tolist()
@@ -257,6 +261,9 @@ def thermal_comfort(request):
         thermal_towers["tower1"]["levels"] = sorted(list(set(thermal_towers["tower1"]["levels"])), reverse=False)
         thermal_towers["tower2"]["levels"] = sorted(list(set(thermal_towers["tower2"]["levels"])), reverse=False)
         thermal_towers["tower3"]["levels"] = sorted(list(set(thermal_towers["tower3"]["levels"])), reverse=False)
+        Thermal_context = {"THERMAL":thermal_towers, "aboveAvg":above_avg, "belowAvg":below_avg, 
+                                                        "aboveThresh":ABOVE_SET_POINT, "belowThresh":BELOW_SET_POINT, "aboveTempAvg":above_temp_avg, "belowTempAvg":below_temp_avg,
+                                                        "graphPoints":graphPoints, "EQUIP":EQUIPPOINTS}
         return render(request=request, template_name="ThermalComfortDashboard.html", context={"THERMAL":thermal_towers, "aboveAvg":above_avg, "belowAvg":below_avg, 
                                                         "aboveThresh":ABOVE_SET_POINT, "belowThresh":BELOW_SET_POINT, "aboveTempAvg":above_temp_avg, "belowTempAvg":below_temp_avg,
                                                         "graphPoints":graphPoints, "EQUIP":EQUIPPOINTS})
@@ -264,124 +271,12 @@ def thermal_comfort(request):
 def thermal_comfort_humidity(request):
     #if request.user.is_authenticated: return render(request=request, template_name="ThermalComfortHumidity.html")
     #else: return redirect("home")
-    DF_THERMAL = DF.parse(sheet_name="THERMAL")
-    DF_THERMAL_LEVEL1 = DF.parse(sheet_name="THERMAL_LEVEL1")
-    all_thermal_equip = DF_THERMAL.values.tolist()
-    level_1 = DF_THERMAL_LEVEL1.values.tolist()
-    level_1_above = [equip for equip in level_1 if equip[2]>ABOVE_SET_POINT]
-    level_1_below = [equip for equip in level_1 if equip[2]<=ABOVE_SET_POINT]
-    above_avg = round((len(level_1_above)/len(level_1))*100)
-    below_avg = round((len(level_1_below)/len(level_1))*100)
-    above_temp_avg = round(sum([equip[2] for equip in level_1_above])/len(level_1_above), 1)
-    below_temp_avg = round(sum([equip[2] for equip in level_1_below])/len(level_1_below), 1)
-    above_date_percent, below_date_percent = get_datetime_avg(lst=level_1, valuea=ABOVE_SET_POINT, valueb=BELOW_SET_POINT)
-    above_date_percent_per_day, below_date_percent_per_day = get_datetime_avg_per_day(lst=level_1, valuea=ABOVE_SET_POINT, valueb=BELOW_SET_POINT)
-    last_date = list(above_date_percent.keys())[0]
-    daily_above = [i for i in above_date_percent.items() if str(i[0].date())==str(last_date.date())]
-    daily_below = [i for i in below_date_percent.items() if str(i[0].date())==str(last_date.date())]
-    weekly_above = [i for i in above_date_percent_per_day.items() if str(i[0].strftime("%V"))==str(last_date.strftime("%V"))]
-    weekly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%V"))==str(last_date.strftime("%V"))]
-    monthly_above = [i for i in above_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
-    monthly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
-    dailyAboveGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_above], "y":[i[1] for i in daily_above]}
-    dailyBelowGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_below], "y":[i[1] for i in daily_below]}
-    weeklyAboveGraph = {"x":[str(i[0]) for i in weekly_above], "y":[str(i[1]) for i in weekly_above]}
-    weeklyBelowGraph = {"x":[str(i[0]) for i in weekly_below], "y":[str(i[1]) for i in weekly_below]}
-    monthlyAboveGraph = {"x":[str(i[0]) for i in monthly_above], "y":[str(i[1]) for i in monthly_above]}
-    monthlyBelowGraph = {"x":[str(i[0]) for i in monthly_below], "y":[str(i[1]) for i in monthly_below]}
-    dailyAboveEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].date())==str(last_date.date())) and (equip[2]>ABOVE_SET_POINT))]
-    dailyBelowEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].date())==str(last_date.date())) and (equip[2]<=ABOVE_SET_POINT))]
-    weeklyAboveEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%V"))==str(last_date.strftime("%V"))) and (equip[2]>ABOVE_SET_POINT))]
-    weeklyBelowEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%V"))==str(last_date.strftime("%V"))) and (equip[2]<=ABOVE_SET_POINT))]
-    monthlyAboveEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%m"))==str(last_date.strftime("%m"))) and (equip[2]>ABOVE_SET_POINT))]
-    monthlyBelowEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%m"))==str(last_date.strftime("%m"))) and (equip[2]<=ABOVE_SET_POINT))]
-    
-    EQUIPPOINTS = {"daily":{"above":dailyAboveEquip, "below":dailyBelowEquip},
-                    "weekly":{"above":weeklyAboveEquip, "below":weeklyBelowEquip},
-                    "monthly":{"above":monthlyAboveEquip, "below":monthlyBelowEquip}}
-    graphPoints = {"daily":{"above":dailyAboveGraph, "below":dailyBelowGraph},
-                    "weekly":{"above":weeklyAboveGraph, "below":weeklyBelowGraph},
-                    "monthly":{"above":monthlyAboveGraph, "below":monthlyBelowGraph}}
-    
-    THERMAL_DATA = [[e[0], e[1], round(float(e[3]), 1)] for e in all_thermal_equip]
-    thermal_towers = {"tower1":{"equip":[], "levels":[]},"tower2":{"equip":[], "levels":[]}, "tower3":{"equip":[], "levels":[]}}
-    for EQUIP in THERMAL_DATA:
-        if EQUIP[1].split("-")[0][-1]=="3":
-            thermal_towers["tower1"]["equip"].append(EQUIP[:2])
-            thermal_towers["tower1"]["levels"].append(EQUIP[1].split("-")[1])
-        elif EQUIP[1].split("-")[0][-1]=="4":
-            thermal_towers["tower2"]["equip"].append(EQUIP[:2])
-            thermal_towers["tower2"]["levels"].append(EQUIP[1].split("-")[1])
-        elif EQUIP[1].split("-")[0][-1]=="5":
-            thermal_towers["tower3"]["equip"].append(EQUIP[:2])
-            thermal_towers["tower3"]["levels"].append(EQUIP[1].split("-")[1])
-    thermal_towers["tower1"]["levels"] = sorted(list(set(thermal_towers["tower1"]["levels"])), reverse=False)
-    thermal_towers["tower2"]["levels"] = sorted(list(set(thermal_towers["tower2"]["levels"])), reverse=False)
-    thermal_towers["tower3"]["levels"] = sorted(list(set(thermal_towers["tower3"]["levels"])), reverse=False)
-    return render(request=request, template_name="ThermalComfortHumidity.html", context={"THERMAL":thermal_towers, "aboveAvg":above_avg, "belowAvg":below_avg, 
-                                                    "aboveThresh":ABOVE_SET_POINT, "belowThresh":BELOW_SET_POINT, "aboveTempAvg":above_temp_avg, "belowTempAvg":below_temp_avg,
-                                                    "graphPoints":graphPoints, "EQUIP":EQUIPPOINTS})
+    return render(request=request, template_name="ThermalComfortHumidity.html", context=Thermal_context)
 
 def thermal_comfort_co2(request):
     #if request.user.is_authenticated: return render(request=request, template_name="ThermalComfortCO2.html")
     #else: return redirect("home")
-    DF_THERMAL = DF.parse(sheet_name="THERMAL")
-    DF_THERMAL_LEVEL1 = DF.parse(sheet_name="THERMAL_LEVEL1")
-    all_thermal_equip = DF_THERMAL.values.tolist()
-    level_1 = DF_THERMAL_LEVEL1.values.tolist()
-    level_1_above = [equip for equip in level_1 if equip[2]>ABOVE_SET_POINT]
-    level_1_below = [equip for equip in level_1 if equip[2]<=ABOVE_SET_POINT]
-    above_avg = round((len(level_1_above)/len(level_1))*100)
-    below_avg = round((len(level_1_below)/len(level_1))*100)
-    above_temp_avg = round(sum([equip[2] for equip in level_1_above])/len(level_1_above), 1)
-    below_temp_avg = round(sum([equip[2] for equip in level_1_below])/len(level_1_below), 1)
-    above_date_percent, below_date_percent = get_datetime_avg(lst=level_1, valuea=ABOVE_SET_POINT, valueb=BELOW_SET_POINT)
-    above_date_percent_per_day, below_date_percent_per_day = get_datetime_avg_per_day(lst=level_1, valuea=ABOVE_SET_POINT, valueb=BELOW_SET_POINT)
-    last_date = list(above_date_percent.keys())[0]
-    daily_above = [i for i in above_date_percent.items() if str(i[0].date())==str(last_date.date())]
-    daily_below = [i for i in below_date_percent.items() if str(i[0].date())==str(last_date.date())]
-    weekly_above = [i for i in above_date_percent_per_day.items() if str(i[0].strftime("%V"))==str(last_date.strftime("%V"))]
-    weekly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%V"))==str(last_date.strftime("%V"))]
-    monthly_above = [i for i in above_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
-    monthly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
-    dailyAboveGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_above], "y":[i[1] for i in daily_above]}
-    dailyBelowGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_below], "y":[i[1] for i in daily_below]}
-    weeklyAboveGraph = {"x":[str(i[0]) for i in weekly_above], "y":[str(i[1]) for i in weekly_above]}
-    weeklyBelowGraph = {"x":[str(i[0]) for i in weekly_below], "y":[str(i[1]) for i in weekly_below]}
-    monthlyAboveGraph = {"x":[str(i[0]) for i in monthly_above], "y":[str(i[1]) for i in monthly_above]}
-    monthlyBelowGraph = {"x":[str(i[0]) for i in monthly_below], "y":[str(i[1]) for i in monthly_below]}
-    dailyAboveEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].date())==str(last_date.date())) and (equip[2]>ABOVE_SET_POINT))]
-    dailyBelowEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].date())==str(last_date.date())) and (equip[2]<=ABOVE_SET_POINT))]
-    weeklyAboveEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%V"))==str(last_date.strftime("%V"))) and (equip[2]>ABOVE_SET_POINT))]
-    weeklyBelowEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%V"))==str(last_date.strftime("%V"))) and (equip[2]<=ABOVE_SET_POINT))]
-    monthlyAboveEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%m"))==str(last_date.strftime("%m"))) and (equip[2]>ABOVE_SET_POINT))]
-    monthlyBelowEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%m"))==str(last_date.strftime("%m"))) and (equip[2]<=ABOVE_SET_POINT))]
-    
-    EQUIPPOINTS = {"daily":{"above":dailyAboveEquip, "below":dailyBelowEquip},
-                    "weekly":{"above":weeklyAboveEquip, "below":weeklyBelowEquip},
-                    "monthly":{"above":monthlyAboveEquip, "below":monthlyBelowEquip}}
-    graphPoints = {"daily":{"above":dailyAboveGraph, "below":dailyBelowGraph},
-                    "weekly":{"above":weeklyAboveGraph, "below":weeklyBelowGraph},
-                    "monthly":{"above":monthlyAboveGraph, "below":monthlyBelowGraph}}
-    
-    THERMAL_DATA = [[e[0], e[1], round(float(e[3]), 1)] for e in all_thermal_equip]
-    thermal_towers = {"tower1":{"equip":[], "levels":[]},"tower2":{"equip":[], "levels":[]}, "tower3":{"equip":[], "levels":[]}}
-    for EQUIP in THERMAL_DATA:
-        if EQUIP[1].split("-")[0][-1]=="3":
-            thermal_towers["tower1"]["equip"].append(EQUIP[:2])
-            thermal_towers["tower1"]["levels"].append(EQUIP[1].split("-")[1])
-        elif EQUIP[1].split("-")[0][-1]=="4":
-            thermal_towers["tower2"]["equip"].append(EQUIP[:2])
-            thermal_towers["tower2"]["levels"].append(EQUIP[1].split("-")[1])
-        elif EQUIP[1].split("-")[0][-1]=="5":
-            thermal_towers["tower3"]["equip"].append(EQUIP[:2])
-            thermal_towers["tower3"]["levels"].append(EQUIP[1].split("-")[1])
-    thermal_towers["tower1"]["levels"] = sorted(list(set(thermal_towers["tower1"]["levels"])), reverse=False)
-    thermal_towers["tower2"]["levels"] = sorted(list(set(thermal_towers["tower2"]["levels"])), reverse=False)
-    thermal_towers["tower3"]["levels"] = sorted(list(set(thermal_towers["tower3"]["levels"])), reverse=False)
-    return render(request=request, template_name="ThermalComfortCO2.html", context={"THERMAL":thermal_towers, "aboveAvg":above_avg, "belowAvg":below_avg, 
-                                                    "aboveThresh":ABOVE_SET_POINT, "belowThresh":BELOW_SET_POINT, "aboveTempAvg":above_temp_avg, "belowTempAvg":below_temp_avg,
-                                                    "graphPoints":graphPoints, "EQUIP":EQUIPPOINTS})
+    return render(request=request, template_name="ThermalComfortCO2.html", context=Thermal_context)
     
 
 def car_park(request):
