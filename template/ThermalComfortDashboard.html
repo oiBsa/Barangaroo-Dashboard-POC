@@ -631,6 +631,7 @@
       $(this).parent().find('button').removeClass('clicked');
       $(this).addClass('clicked');
       currentGraph = $(this).attr("value");
+      console.log(currentGraph)
       chartConfig["data"]["labels"] = graphPoints[currentGraph]["above"]["x"]
       chartConfig["data"]["datasets"][0]["data"] = graphPoints[currentGraph]["above"]["y"]
       chartConfig["data"]["datasets"][1]["data"] = graphPoints[currentGraph]["below"]["y"]

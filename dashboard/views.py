@@ -390,7 +390,7 @@ def traffic(request):
         else:incident_impected = "No"
         if incident["properties"]["isInitialReport"]: incident_initial  = "Yes"
         else: incident_initial = "No"
-        all_incidents.append({"id":str(incident_id),"catagory":incident_catagory, "description":incident_desciption, "location":incident_location, "etd":incident_expected_delay,
+        all_incidents.append({"id":str(int(incident_id)),"catagory":incident_catagory, "description":incident_desciption, "location":incident_location, "etd":incident_expected_delay,
                             "started":incident_started, "updated":incident_updated, "impact":incident_impected, "major":incident_major, "initial":incident_initial,
                             "headlines":incident_headlines, "diversion":incident_diversions, "weblinkI":incident_weblink, "google":incident_map, "coord":{"lng":incident["geometry"]["coordinates"][0], "lat": incident["geometry"]["coordinates"][1]}})
     

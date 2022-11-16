@@ -1754,16 +1754,19 @@ svg path {
 .EVSelection {
 	margin-bottom: 1rem;
 }
-.EVSelection p {
+.EVSelection p a {
 	margin-top: 1rem;
 	color: #3B3462;
 	font-size: 1.1rem;
 	text-decoration: none;
 }
+.EVSelection p{
+	display: flex;
+}
 .EVSelection .bx{
 	color: #3B3462;
 }
-.EVSelection .active p{
+.EVSelection .active p a{
 	color: #B4B1C9;
 	text-decoration: underline;
 }

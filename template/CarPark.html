@@ -273,6 +273,9 @@
                         position: 'bottom',
                     }
                 },
+                onClick: function(event, chartElements){
+                    window.location = "{% url 'carparkSummary' %}";
+                },
 
                 scales: {
                     y: {
@@ -307,6 +310,7 @@
             }
 
         };
+        
 
 
         new Chart(document.getElementById('carPark1').getContext('2d'), chartConfig);

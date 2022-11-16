@@ -128,11 +128,12 @@
                             <p>{{inc.description}}</p>
                             <p style="font-style: italic;">@ <span>{{inc.location}}</span>
                             </p>
-                            <p>ETD: <span>{{inc.etd}}</span></p>
-                            <p style="margin-top:0.5rem;">Details <span style="font-size: 1rem;">(Click me twice)</span>
-                                <a type="button" data-bs-toggle="collapse" data-bs-target="#ID{{inc.id}}"
-                                    aria-expanded="true" aria-controls="collapseExample" class='bx bxs-chevrons-down'
-                                    style="text-decoration: none;" onclick="$(this).toggleClass('bx-rotate-180')"></a>
+                            <p>Est. Delay: <span>{{inc.etd}}</span></p>
+                            <p style="margin-top:0.5rem;">Details
+                                <i type="button" data-bs-toggle="collapse" data-bs-target="#ID{{inc.id}}"
+                                    aria-expanded="true" aria-controls="collapseExample" class='bx bxs-chevrons-down bxs-lg'
+                                    style="text-decoration: none; color:#207cd8; background-color:#f3d6ff; height:2rem; width:2rem; border-radius:0.5rem; padding:0.45rem;" 
+                                    onclick="$(this).toggleClass('bx-rotate-180')"></i>
                             </p>
                             <div class="collapse" id="ID{{inc.id}}">
                                 <div class="card card-body"

@@ -294,6 +294,9 @@
 
     <script src="{% static 'admin/js/script.js' %}"></script>
     <script>
+        $('#svg').click(function(e){
+            alert('you just clicked the whole pie!');
+        });
         function zoom() { document.body.style.zoom = "90%" }
         var ctx = document.getElementById('CarParkSummaryGraph').getContext('2d');
         var chartConfig = {
@@ -374,7 +377,7 @@
 
         };
         var Chart1 = new Chart(ctx, chartConfig);
-
+        
 
     </script>
 </body>

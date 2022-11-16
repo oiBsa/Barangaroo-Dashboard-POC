@@ -205,9 +205,7 @@
             </div>
             <div id="thermalComfortSideBar">
                 <div class="heading">
-                    <h4>
-                        Monitoring
-                    </h4>
+                    
                 </div>
                 <div class="EVChargingSideBar">
                     <div class="EVSelection">
@@ -217,7 +215,9 @@
                                 href="{% url 'evCharging' %}"></a>
                             <div style="margin-left:20px;" class="selectionLabel">
                                 <p class="active">
-                                    Energy Per Charge
+                                    <a href="{% url 'evCharging' %}">
+                                        Energy Per Charge
+                                    </a>
                                 </p>
                             </div>
                         </div>
@@ -228,8 +228,10 @@
                             <a class='bx bx-dollar-circle bx-lg' style="--main-color: #54B127; text-decoration:none;"
                                 href="{% url 'EV_CPC' %}"></a>
                             <div style="margin-left:20px;" class="selectionLabel">
-                                <p>
-                                    Cost Per Charge
+                                <p style="margin-top: 0.2rem;">
+                                    <a href="{% url 'EV_CPC' %}">
+                                        Cost Per Charge
+                                    </a>
                                 </p>
                             </div>
                         </div>
@@ -241,7 +243,9 @@
                                 href="{% url 'EV_AEPC' %}"></a>
                             <div style="margin-left:20px;" class="selectionLabel">
                                 <p>
-                                    Avg Energy Per Charge
+                                    <a href="{% url 'EV_AEPC' %}">
+                                        Avg Energy Per Charge
+                                    </a>
                                 </p>
                             </div>
                         </div>
@@ -253,7 +257,9 @@
                                 href="{% url 'EV_ER' %}"></a>
                             <div style="margin-left:20px;" class="selectionLabel">
                                 <p>
-                                    Emission Reduction
+                                    <a href="{% url 'EV_ER' %}">
+                                        Emission Reduction
+                                    </a>
                                 </p>
                             </div>
                         </div>
