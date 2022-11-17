@@ -194,7 +194,7 @@
                         <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
                             <img src="https://img.icons8.com/cute-clipart/80/000000/windsock.png" style="margin-right:1rem; margin-left:0rem">
                             <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;" id="today_direction">221</span>&deg;
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;" id="today_direction">221</span>
                             </p>
                         </div>
                     </div>
@@ -333,6 +333,11 @@
                 return weather_01
             }
         }
+        function degToCompass(num) {
+            var val = Math.floor((num / 22.5) + 0.5);
+            var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+            return arr[(val % 16)];
+        }
         var weather_data = {{weather|safe}};
         document.getElementById("weather").style.backgroundImage = getBackground(weather_data["0"]["icon"])
         document.getElementById("mainIcon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["0"]["icon"])
@@ -346,9 +351,9 @@
         document.getElementById("today_pressure").innerText = weather_data["0"]["pressure"]
         document.getElementById("today_humidity").innerText = weather_data["0"]["humidity"]
         document.getElementById("today_wind").innerText = weather_data["0"]["wind_speed"]
-        document.getElementById("today_direction").innerText = weather_data["0"]["wind_direction"]
+        document.getElementById("today_direction").innerText = degToCompass(weather_data["0"]["wind_direction"])
         document.getElementById("today_vision").innerText = weather_data["0"]["vision"]
-        console.log(getBackground(weather_data["0"]["icon"]))
+        
 
         document.getElementById("day2_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["1"]["icon"])
         document.getElementById("day3_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["2"]["icon"])
