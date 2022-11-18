@@ -145,11 +145,29 @@
                         </div>
                     </div>
                     <div class="card">
+                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Humidity</p>
+                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
+                            <img src="https://img.icons8.com/external-justicon-flat-justicon/80/000000/external-humidity-weather-justicon-flat-justicon.png" style="margin-right:1rem; margin-left:0rem">
+                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;" id="today_humidity">1</span>%RH
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
                         <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Air Pressure</p>
                         <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
                             <img src="https://img.icons8.com/color/80/000000/pressure.png" style="margin-right:1rem; margin-left:0rem">
                             <p style="font-size:1.7rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
                                 <span style="font-size:2rem; font-weight:550; color:#0b0025; margin-bottom:1rem;" id="today_pressure">1</span>ATM
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem">Vission</p>
+                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
+                            <img src="https://img.icons8.com/cute-clipart/80/000000/visible.png" style="margin-right:1rem; margin-left:0rem">
+                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
+                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;" id="today_vision">2</span>km
                             </p>
                         </div>
                     </div>
@@ -168,24 +186,6 @@
                             <img src="https://img.icons8.com/fluency/48/000000/wind.png" style="margin-right:1rem; margin-left:0rem">
                             <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
                                 <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;" id="today_wind">8</span>km/hr
-                            </p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem" >Humidity</p>
-                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
-                            <img src="https://img.icons8.com/external-justicon-flat-justicon/80/000000/external-humidity-weather-justicon-flat-justicon.png" style="margin-right:1rem; margin-left:0rem">
-                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;" id="today_humidity">1</span>%RH
-                            </p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem">Vission</p>
-                        <div style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
-                            <img src="https://img.icons8.com/cute-clipart/80/000000/visible.png" style="margin-right:1rem; margin-left:0rem">
-                            <p style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;" id="today_vision">2</span>km
                             </p>
                         </div>
                     </div>
@@ -340,7 +340,7 @@
         }
         var weather_data = {{weather|safe}};
         document.getElementById("weather").style.backgroundImage = getBackground(weather_data["0"]["icon"])
-        document.getElementById("mainIcon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["0"]["icon"])
+        document.getElementById("mainIcon").src = "{% static 'admin\\img\\unknown.png' %}".replace("unknown", weather_data["0"]["icon"])
         document.getElementById("today_temp").innerText = Number(weather_data["0"]["temp"]).toFixed(1)
         document.getElementById("today_temp2").innerText = Number(weather_data["0"]["temp"]).toFixed(1)
         document.getElementById("today_desc").innerText = weather_data["0"]["status"]
@@ -355,10 +355,10 @@
         document.getElementById("today_vision").innerText = weather_data["0"]["vision"]
         
 
-        document.getElementById("day2_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["1"]["icon"])
-        document.getElementById("day3_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["2"]["icon"])
-        document.getElementById("day4_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["3"]["icon"])
-        document.getElementById("day5_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["4"]["icon"])
+        document.getElementById("day2_icon").src = "{% static 'admin\\img\\unknown.png' %}".replace("unknown", weather_data["1"]["icon"])
+        document.getElementById("day3_icon").src = "{% static 'admin\\img\\unknown.png' %}".replace("unknown", weather_data["2"]["icon"])
+        document.getElementById("day4_icon").src = "{% static 'admin\\img\\unknown.png' %}".replace("unknown", weather_data["3"]["icon"])
+        document.getElementById("day5_icon").src = "{% static 'admin\\img\\unknown.png' %}".replace("unknown", weather_data["4"]["icon"])
 
         document.getElementById("day2_temp").innerText = Number(weather_data["1"]["temp"]).toFixed(1)
         document.getElementById("day3_temp").innerText = Number(weather_data["2"]["temp"]).toFixed(1)

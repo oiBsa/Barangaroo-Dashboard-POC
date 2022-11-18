@@ -637,7 +637,35 @@
       chartConfig["data"]["datasets"][1]["data"] = graphPoints[currentGraph]["below"]["y"]
       Chart1.update("active");
     })
-
+    $(document).on('change', 'input', function() {
+      var options = $('datalist')[0].options;
+      var val = $(this).val();
+      for (var i = 0; i < options.length; i++) {
+        if (options[i].value === val) {
+          $('#mainList').scrollTop($('#mainList li:contains('+val+')').position().top - $('#mainList li:first').position().top);
+          $('#mainList li').removeClass('active')
+          $('li:contains('+val+')').addClass('active')
+          const myArray = val.split(" ");
+          level = myArray[myArray.length - 1];
+          $.ajax({
+            url: {% url 'thermalComfort' %},
+            data: {level: level},
+            method: 'GET',
+            success: function (data) {
+              document.getElementById("aboveAvg").innerHTML = data["aboveAvg"] + "%";
+              document.getElementById("belowAvg").innerHTML = data["belowAvg"] + "%";
+              document.getElementById("belowTempThresh").setAttribute("value", data["belowThresh"]);
+              document.getElementById("aboveTempThresh").setAttribute("value", data["aboveThresh"]);
+              graphPoints = data["graphPoints"];
+              chartConfig["data"]["labels"] = graphPoints[currentGraph]["above"]["x"]
+              chartConfig["data"]["datasets"][0]["data"] = graphPoints[currentGraph]["above"]["y"]
+              chartConfig["data"]["datasets"][1]["data"] = graphPoints[currentGraph]["below"]["y"]
+              Chart1.update("active");
+            },
+            })
+        }
+      }
+    });
   </script>
 </body>
 
