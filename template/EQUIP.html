@@ -65,17 +65,17 @@
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
                 title="IBMS">
-                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" target="_blank" style="margin-top: 5px;"
                     class='bx bx-line-chart bx-md'></a>
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
                 title="Card Holders">
-                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" target="_blank" style="margin-top: 5px;"
                     class='bx bx-id-card bx-md'></a>
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
                 title="Reports">
-                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank" style="margin-top: 5px;"
                     class='bx bx-bar-chart-alt-2 bx-md'></a>
             </li>
         </ul>
@@ -705,8 +705,8 @@
         var dataset1 = [{
             label: 'Consumption',
             data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
-            borderWidth: 1,
-            borderColor: 'rgba(0, 0, 0, 1)',
+            borderWidth: 0,
+            borderColor: '#8AC3EE',
             backgroundColor: "#8AC3EE",
             tension: 0.2,
             borderRadius: 8,
@@ -715,8 +715,8 @@
         var dataset2 = [{
             label: 'Consumption',
             data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
-            borderWidth: 1,
-            borderColor: 'rgba(0, 0, 0, 1)',
+            borderWidth: 0,
+            borderColor: '#8AC3EE',
             backgroundColor: "#8AC3EE",
             tension: 1,
             borderRadius: 8,
@@ -809,6 +809,7 @@
         }
         function jsFunction(value) {
             if (value == 1) {
+                chartConfig.data.datasets = dataset1;
                 chartConfig.type = 'bar';
             } else if (value == 2) {
                 if (todayButton.classList.contains("disable")) {

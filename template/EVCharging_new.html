@@ -75,17 +75,17 @@
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
                 title="IBMS">
-                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" target="_blank" style="margin-top: 5px;"
                     class='bx bx-line-chart bx-md'></a>
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
                 title="Card Holders">
-                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" target="_blank" style="margin-top: 5px;"
                     class='bx bx-id-card bx-md'></a>
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
                 title="Reports">
-                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank" style="margin-top: 5px;"
                     class='bx bx-bar-chart-alt-2 bx-md'></a>
             </li>
         </ul>
@@ -173,24 +173,14 @@
                     </div>
                     <div class="EVC_graph">
                         <div style="display: flex; margin-bottom:3rem;">
-                            <div>
-                                <label for="startDate" style="font-family: Lato, sans-serif;">Start Date:</label>
-                                <input type="datetime-local" id="startDate" name="Start Date" style="width: 200px;"
-                                    value="2022-08-28 00:00:00">
-                            </div>
-                            <div>
-                                <label for="ebdDate" style="font-family: Lato, sans-serif;">End Date:</label>
-                                <input type="datetime-local" id="endDate" name="End Date" style="width: 200px;"
-                                    value="2022-09-28 00:00:00">
-                            </div>
                             <div style="margin-right: 10px; margin-left:auto;" class="graphButtons">
-                                <button type="button" class="btn">Today</button>
+                                <button type="button" class="btn btn-outline-primary enable">Today</button>
                             </div>
                             <div style="margin-right: 10px;" class="graphButtons">
-                                <button type="button" class="btn">Weekly</button>
+                                <button type="button" class="btn btn-outline-primary enable">Weekly</button>
                             </div>
-                            <div style="margin-right: 10px; margin-left:auto;" class="graphButtons">
-                                <button type="button" class="btn">Monthly</button>
+                            <div style="margin-right: 10px;" class="graphButtons">
+                                <button type="button" class="btn btn-outline-primary enable">Monthly</button>
                             </div>
                         </div>
                         <div>
@@ -363,22 +353,22 @@
                 borderColor: {
                     linearGradient: { x1: 0, x2: 1, y1: 0, y2: 0 },
                     stops: [
-                        [0, '#fff9ae'],
-                        [0.25, '#f8ed62'],
-                        [0.5, '#e9d700'],
-                        [0.75, '#dab600'],
-                        [1, '#a98600'],
+                        [0, '#ffd455'],
+                        [0.25, '#ffce3d'],
+                        [0.5, '#ffc20d'],
+                        [0.75, '#e5ae0b'],
+                        [1, '#cc9b0a'],
                     ]
                 },
                 data: [{
                     color: {
                         linearGradient: { x1: 0, x2: 1, y1: 0, y2: 0 },
                         stops: [
-                            [0, '#fff9ae'],
-                            [0.25, '#f8ed62'],
-                            [0.5, '#e9d700'],
-                            [0.75, '#dab600'],
-                            [1, '#a98600'],
+                        [0, '#cc9b0a'],
+                        [0.25, '#ffce3d'],
+                        [0.5, '#ffc20d'],
+                        [0.75, '#e5ae0b'],
+                        [1, '#cc9b0a'],
                         ]
                     },
                     radius: '80%',
@@ -398,8 +388,8 @@
                     label: 'Energy',
                     data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
                     borderWidth: 1,
-                    borderColor: '#f8ed62',
-                    backgroundColor: "#f8ed62",
+                    borderColor: '#ffc20d',
+                    backgroundColor: "#ffc20d",
                     tension: 1,
                     borderRadius: 8,
                     type: 'bar',

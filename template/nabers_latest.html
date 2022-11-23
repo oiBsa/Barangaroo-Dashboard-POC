@@ -19,10 +19,10 @@
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
-    <title>Thermal Comfort</title>
+    <title>NABERS Tracking</title>
 </head>
 
-<body>
+<body style="overflow: none;">
 
 
     <!-- SIDEBAR -->
@@ -35,7 +35,7 @@
         </a>
         <ul
             style="display: flex; flex-direction: column; align-content: flex-end; flex-wrap: nowrap; justify-content: center; align-items: center;">
-            <li
+            <li class="active"
                 style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FF7F7F; --selectionColorBG: #ff7f7f83;">
                 <a href="{% url 'ems'%}" class='bx bxs-dashboard bx-md' title="Electric Meter Dashboard"
                     style="margin-top: 5px;"></a>
@@ -49,8 +49,7 @@
                 title="Carpark">
                 <a href="{% url 'carPark' %}" style="margin-top: 5px;" class='bx bxs-car-garage bx-md'></a>
             </li>
-            <li class="active"
-                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #7EB6E0; --selectionColorBG: #7EB6E083; "
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #7EB6E0; --selectionColorBG: #7EB6E083; "
                 title="EV Charging">
                 <a href="{% url 'evCharging' %}" style="margin-top: 5px;" class='bx bxs-ev-station bx-md'></a>
             </li>
@@ -79,118 +78,71 @@
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
                 title="Reports">
-                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank" style="margin-top: 5px;"
-                    class='bx bx-bar-chart-alt-2 bx-md'></a>
+                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank"
+                    style="margin-top: 5px;" class='bx bx-bar-chart-alt-2 bx-md'></a>
             </li>
         </ul>
+
     </section>
     <!-- SIDEBAR -->
 
 
 
     <!-- CONTENT -->
-    <section id="content" style="background-color: rgb(255, 255, 255);">
+    <section id="content" style="background-color: white; overflow-y:hidden; overflow-x:hidden;">
         <!-- NAVBAR -->
-        <nav style="height: 52px;">
-            <a href="#" class="nav-link">EV Charging</a>
+        <nav>
+            <a class="nav-link">Estimated NABERS Tracking</a>
+            <!--
+                    <label for="switch-mode" class="switch-mode"></label>
+                -->
+            <form action="#" method="POST">
+                <div class="form-input" style="align-content: right;">
+                    <input type="search" placeholder="Search">
+                    <button type="submit" class="search-btn">
+                        <i class='bx bx-search'></i>
+                    </button>
+                </div>
+            </form>
+
         </nav>
         <!-- NAVBAR -->
 
         <!-- MAIN -->
-        <main id="EV">
-            <div id="EVDashboard">
-                <!-- Heading -->
-                <div class="headings">
-                    <p>
-                        EV
-                    </p>
-                    <p>
-                        <span>
-                            Charging
-                        </span>
-                        <span class="dashboard">
-                            Dashboard
-                        </span>
-                    </p>
-                </div>
-                <!-- Heading -->
-
-                <!-- EVSummary content infinite scroll -->
-                <div id="EVSummary">
-                    <div class="EVcontainer">
-                        <p class="heading">
-                            Energy Per Charge
-                        </p>
-                        <div class="mainContent">
-                            <div id="EVgauge">
-                                <div id="gauge1" style="height: 17.5rem; width:17.5rem">
-                                </div>
-                                <div id="center-circle">
-                                    <span id="totalConsumptionValue" class="EVgaugeValue">933 kW</span>
-                                </div>
-                            </div>
-                            <div>
-                                <canvas id="EPCgraph1" style="height: 16rem; width:32rem"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="EVcontainer">
-                        <p class="heading">
-                            Cost Per Charge
-                        </p>
-                        <div class="mainContent">
-                            <div id="EVgauge">
-                                <div id="gauge2" style="height: 17.5rem; width:17.5rem">
-                                </div>
-                                <div id="center-circle">
-                                    <span id="totalConsumptionValue" class="EVgaugeValue">12 $</span>
-                                </div>
-                            </div>
-                            <div>
-                                <canvas id="EPCgraph2" style="height: 16rem; width:32rem"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="EVcontainer">
-                        <p class="heading">
-                            Avg Energy Per Charge
-                        </p>
-                        <div class="mainContent">
-                            <div id="EVgauge">
-                                <div id="gauge3" style="height: 17.5rem; width:17.5rem">
-                                </div>
-                                <div id="center-circle">
-                                    <span id="totalConsumptionValue" class="EVgaugeValue">70 kW</span>
-                                </div>
-                            </div>
-                            <div>
-                                <canvas id="EPCgraph3" style="height: 16rem; width:32rem"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="EVcontainer" style="margin-bottom:1rem;">
-                        <p class="heading">
-                            Emission Reduction Tracking
-                        </p>
-                        <div class="mainContent">
-                            <div id="EVgauge">
-                                <div id="gauge4" style="height: 17.5rem; width:17.5rem">
-                                </div>
-                                <div id="center-circle">
-                                    <span id="totalConsumptionValue" class="EVgaugeValue">0.5 ERU</span>
-                                </div>
-                            </div>
-                            <div>
-                                <canvas id="EPCgraph4" style="height: 16rem; width:32rem;"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- EVSummary content infinite scroll -->
-
-
+        <main id="NABER" style="margin-top: 0rem; padding:1rem">
+            <!-- #region Heading of the Nabers page-->
+            <div class="NABERheading" style="margin-bottom: 1rem; margin-top:1rem">
+                <p class="mainHeading">PS-B-ELE-L03-EM001</p>
+                <p class="subHeading">Estimated NABERS Tracking</p>
             </div>
+            <!-- #endregion End opf heading of the Nabers page-->
 
+            <!-- #region Body of the Nabers page-->
+            <div class="NABERbody" style="height: 100vh;">
+                <div class="graph" style="height: 670px;width: 94vw;">
+                    <div style="display: flex; margin-bottom:0rem;">
+                        <div style="margin-right: 20px; margin-left:auto;" class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary enable">Monthly</button>
+                        </div>
+                        <div style="margin-right: 20px;" class="graphButtons" >
+                            <button type="button" class="btn btn-outline-primary enable">Yearly</button>
+                        </div>
+                        <div>
+                            <div class="dropdown" style="margin-left: auto;">
+                                <button class="dropbtn" id='dropdown-button' style="min-width:100px">Parameters</button>
+                                <div class="dropdown-content">
+                                    <li href="#" value="1" onclick="jsFunction(this.value);"><input type="checkbox" id="demoCheckbox" name="checkbox" value="1" class="visible" style="margin-right: 2px;">Base</li>
+                                    <li href="#" value="2" onclick="jsFunction(this.value);"><input type="checkbox" id="demoCheckbox" name="checkbox" value="2" class="visible" style="margin-right: 2px;">Tenant</li>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="nabersGraph" style="min-height: 590px;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- #endregion End opf Body of the Nabers page-->
         </main>
         <!-- MAIN -->
     </section>
@@ -200,39 +152,70 @@
     <script src="{% static 'admin/js/script.js' %}"></script>
     <script>
         function zoom() { document.body.style.zoom = "90%" }
-        var showData = 1;
-        var primeColor = "#ffd35c";
-        var secondaryColor = "#214fe7";
-        var xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var yValues = [1100, 800, 400, 700, 300, 950, 880, 650, 600, 600, 990, 1000];
+        var nabersGraph = document.getElementById('nabersGraph').getContext('2d');
         var chartConfig = {
-            type: 'line',
+            type: 'bar',
             data: {
-                labels: xValues,
+                labels: ['January', 'Feburary', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'],
                 datasets: [{
-                    label: 'Energy',
-                    data: yValues,
-                    borderWidth: 1.5,
-                    borderColor: '#2d5a27',
-                    backgroundColor: "#7FFD6E",
-                    tension: 0.3,
-                    pointRadius: 5,
-                    pointHoverRadius: 8,
-                    pointHoverBackgroundColor: '#7FFD6E',
-                    hoverBorderWidth: 0,
-                    hoverBorderWidth: '1',
+                    label: 'Consumption',
+                    data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
+                    borderWidth: 0,
+                    borderColor: '#8AC3EE',
+                    backgroundColor: "#8AC3EE",
+                    tension: 1,
+                    borderRadius: 8,
+                    type: 'bar',
+                    order: 1
+                },
+                {
+                    label: '6.0',
+                    data: [400, 370, 320, 290, 250, 220, 215, 220, 210, 210],
+                    borderWidth: 2,
+                    borderColor: '#D9C4D7',
+                    backgroundColor: "#D9C4D7",
+                    tension: 0.5,
+                    borderRadius: 8,
+                    type: 'line'
+                },
+                {
+                    label: '5.5',
+                    data: [500, 460, 410, 360, 320, 300, 295, 300, 290, 290],
+                    borderWidth: 2,
+                    borderColor: '#52A98C',
+                    backgroundColor: "#52A98C",
+                    tension: 0.5,
+                    borderRadius: 8,
+                    type: 'line'
+                },
+                {
+                    label: '5.0',
+                    data: [600, 550, 500, 430, 380, 350, 345, 350, 340, 340],
+                    borderWidth: 2,
+                    borderColor: '#8785C7',
+                    backgroundColor: "#8785C7",
+                    tension: 0.5,
+                    borderRadius: 8,
+                    type: 'line'
+                },
+                {
+                    label: '4.5',
+                    data: [800, 750, 650, 560, 505, 490, 485, 490, 480, 480],
+                    borderWidth: 2,
+                    borderColor: '#C6D9E3',
+                    backgroundColor: "#C6D9E3",
+                    tension: 0.4,
+                    borderRadius: 8,
+                    type: 'line'
                 }],
 
             },
             options: {
                 plugins: {
                     legend: {
-                        display: false,
-                        align: 'end',
-                        position: 'top',
-                    },
-
+                        display: true,
+                    }
                 },
                 scales: {
 
@@ -245,7 +228,7 @@
                         },
                         ticks: {
                             display: true,
-                            callback: function (value, index, ticks) { return value + 'kW'; }
+                            callback: function (value, index, ticks) { return value + 'kWh'; }
                         }
                     },
                     x: {
@@ -261,24 +244,19 @@
             }
 
         };
-
-        var gaugeConfig = {
-            chart: {
-                backgroundColor: '#FFFFFF',
-                type: 'solidgauge'
-            },
+        var Chart1 = new Chart(nabersGraph, chartConfig);
+        const gauge1 = Highcharts.chart('nabersGauge', {
+            chart: { type: 'solidgauge', backgroundColor: '#FFFFFF', },
             tooltip: {
                 borderWidth: 0,
                 backgroundColor: 'none',
                 shadow: false,
-                style: {
-                    fontSize: '16px'
-                },
-                pointFormat: '<span style="font-size:24px; color:#3B3462; font-weight: bold; text-align: center">kW</span>',
+                style: { fontSize: '10px' },
+                pointFormat: '<span style="font-size:18px; color: {point.color}; font-weight: bold; text-align: center">{point.y} kWh</span>',
                 positioner: function (labelWidth, labelHeight) {
                     return {
-                        x: 140 - labelWidth / 2,
-                        y: 220
+                        x: 90 - labelWidth / 2,
+                        y: 148
                     };
                 }
             },
@@ -287,15 +265,15 @@
                 startAngle: -140,
                 endAngle: 140,
                 background: [{ // Track for Move
-                    outerRadius: '85%',
-                    innerRadius: '70%',
+                    outerRadius: '118%',
+                    innerRadius: '95%',
                     backgroundColor: '#F1F0F5',
                     borderWidth: 0,
                     shape: 'arc'
                 }, { // Track for Stand
-                    outerRadius: '70%',
+                    outerRadius: '95%',
                     innerRadius: '0%',
-                    backgroundColor: '#FBFBFB',
+                    backgroundColor: "#FFFFFF",
                     borderWidth: 0,
                     shape: 'arc'
                 }]
@@ -308,22 +286,19 @@
             credits: {
                 enabled: false
             },
-
             yAxis: [{
-                min: 0,
-                max: 50,
                 lineWidth: 0,
                 tickLength: 0,
-                tickWidth: 6,
+                tickWidth: 0,
                 tickColor: 'black',
                 tickPosition: 'inside',
                 minorTickLength: 0,
                 labels: {
-                    distance: 20,
+                    distance: 5,
                     enabled: false,
                     x: 0,
                     y: 0,
-                    format: '{value} &deg;C',
+                    format: '',
                     style: {
                         fontSize: 12,
                         fontFamily: "sans-serif"
@@ -334,9 +309,10 @@
             title: {
                 text: '',
             },
+
             plotOptions: {
                 solidgauge: {
-                    borderWidth: '16px',
+                    borderWidth: '13px',
                     dataLabels: {
                         enabled: false
                     },
@@ -348,40 +324,16 @@
             series: [{
                 name: 'Average',
                 animation: false,
-                borderColor: {
-                    linearGradient: { x1: 0, x2: 1, y1: 0, y2: 1 },
-                    stops: [
-                        [0, '#bbf0b2'], // start
-                        [0.5, '#65a0cc'], // middle
-                        [1, '#18930a'] // end
-                    ]
-                },
+                borderColor: '#0B799C',
                 data: [{
-                    radius: '82%',
-                    innerRadius: '82%',
-                    y: 50
+                    color: '#0B799C',
+                    radius: '108%',
+                    innerRadius: '108%',
+                    y: 20
                 }]
             },
             ]
-        }
-
-        new Chart(document.getElementById('EPCgraph1').getContext('2d'), chartConfig);
-        chartConfig.options.scales.y.ticks.callback = function (value, index, ticks) { return value + '$'; }
-        chartConfig.data.datasets[0].data = [40, 40, 35, 33, 32, 32, 32, 30, 30, 30, 30, 28];
-        new Chart(document.getElementById('EPCgraph2').getContext('2d'), chartConfig);
-
-        chartConfig.options.scales.y.ticks.callback = function (value, index, ticks) { return value + 'kW'; }
-        chartConfig.data.datasets[0].data = [110, 80, 40, 70, 60, 95, 88, 65, 60, 60, 90, 100];
-        new Chart(document.getElementById('EPCgraph3').getContext('2d'), chartConfig);
-
-        chartConfig.options.scales.y.ticks.callback = function (value, index, ticks) { return value + 'E'; }
-        chartConfig.data.datasets[0].data = [11, 8, 10, 7, 6, 9, 8, 6, 6, 6, 9, 10];
-        new Chart(document.getElementById('EPCgraph4').getContext('2d'), chartConfig);
-
-        new Highcharts.chart('gauge1', gaugeConfig);
-        new Highcharts.chart('gauge2', gaugeConfig);
-        new Highcharts.chart('gauge3', gaugeConfig);
-        new Highcharts.chart('gauge4', gaugeConfig);
+        });
     </script>
 
 </body>

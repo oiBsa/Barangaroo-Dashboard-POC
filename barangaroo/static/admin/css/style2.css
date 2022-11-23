@@ -824,7 +824,7 @@ tr{cursor: pointer; transition: all 0.5s ease-in-out}
 }
 
 /* Links inside the dropdown */
-.dropdown-content option {
+.dropdown-content li {
 	font-family: var(--lato);
 	color: black;
 	padding: 8px 16px;
@@ -833,7 +833,7 @@ tr{cursor: pointer; transition: all 0.5s ease-in-out}
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content option:hover {background-color: #ddd; cursor: pointer;}
+.dropdown-content li:hover {background-color: #ddd; cursor: pointer;}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
@@ -1985,7 +1985,6 @@ svg path {
 }
 
 .NABERbody .dashboard {
-	width: 700px;
 	margin-right: 1rem;
 	height: 80%;
 	display: grid;
@@ -1995,7 +1994,7 @@ svg path {
 	flex-wrap: wrap;
 }
 .NABERbody .dashboard .naboursRating {
-	min-width: 300px;
+	min-width: 280px;
 	min-height: 300px;
 	margin-right: 1vw;
 	background-color: white;
@@ -2004,7 +2003,7 @@ svg path {
 	margin-bottom: 1vw;
 }
 .NABERbody .dashboard .nabersMeterConsumtion {
-	min-width: 380px;
+	min-width: 370px;
 	background-color: white;
 	border-radius: 1.5rem;
 	padding: 1rem 1rem;
@@ -2053,6 +2052,7 @@ svg path {
 	height: 20rem;
 	margin-bottom: 1rem;
 	box-shadow: 0.3rem 0.3rem 1.2rem 0.1rem #3b34622f;
+	width: 670px;
 }
 .NABERbody .dashboard .details:hover {
 	transform: scale(1.01);
@@ -2119,7 +2119,8 @@ svg path {
 
 .NABERbody .graph {
 	height: 40rem;
-	width: 100%;
+	max-width: 1200px;
+	min-width: 1110px;
 	background-color: white;
 	border-radius: 1.5rem;
 	padding: 1rem 1rem;
@@ -2642,8 +2643,8 @@ svg path {
 	text-decoration: none;
 	color: #3B3462;
 }
-#sidebar .active .bx{
-	color: var(--selectionColor);
+#sidebar .active{
+	background-color: var(--selectionColor);
 }
 #TrafficFeedContiner .feedCard{
 	background-color: white;

@@ -26,6 +26,7 @@
         crossorigin="anonymous"></script>
 
     <title>Electric Meter</title>
+    
 </head>
 
 <body>
@@ -75,17 +76,17 @@
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
                 title="IBMS">
-                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" target="_blank" style="margin-top: 5px;"
                     class='bx bx-line-chart bx-md'></a>
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
                 title="Card Holders">
-                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" target="_blank" style="margin-top: 5px;"
                     class='bx bx-id-card bx-md'></a>
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
                 title="Reports">
-                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank" style="margin-top: 5px;"
                     class='bx bx-bar-chart-alt-2 bx-md'></a>
             </li>
         </ul>
@@ -98,19 +99,8 @@
     <section id="content">
         <!-- NAVBAR -->
         <nav>
-            <i class='bx bx-menu'></i>
             <a class="nav-link">Energy Managment System</a>
-            <!--
-                <label for="switch-mode" class="switch-mode"></label>
-            -->
-            <form action="#" method="POST">
-                <div class="form-input" style="align-content: right;">
-                    <input type="search" placeholder="Search">
-                    <button type="submit" class="search-btn">
-                        <i class='bx bx-search'></i>
-                    </button>
-                </div>
-            </form>
+            
 
         </nav>
         <!-- NAVBAR -->
@@ -132,7 +122,7 @@
                 <li class="online">
                     <i class='bx bx-tachometer'></i>
                     <span class="text">
-                        <h3>{{total_online}}</h3>
+                        <h3>{{total_online}}/{{total_meters}}</h3>
                         <p>Online Meters</p>
                     </span>
                 </li>
@@ -150,7 +140,7 @@
                 </li>
                 <li class="nabers" onclick="nabers()">
                     <i class='bx bxs-doughnut-chart'></i>
-                    <span>
+                    <span class="text">
                         <h3>Estimated NABERS</h3>
                         <p>
                             Tracking
@@ -280,11 +270,11 @@
                         <p>Top 30 meters</p>
                     </div>
                     <div style="margin-left: auto; margin-right: 20px;">
-                        <button type="button" class="btn btn-outline-primary" value="daily"
+                        <button type="button" class="btn btn-outline-primary enable" value="daily"
                             onclick="timeButton(this.value)">Today</button>
                     </div>
                     <div style="margin-right: 0px;">
-                        <button type="button" class="btn btn-outline-primary" value="weekly"
+                        <button type="button" class="btn btn-outline-primary enable" value="weekly"
                             onclick="timeButton(this.value)">Weekly</button>
                     </div>
 
@@ -305,7 +295,7 @@
     <script>
         var OfflineMeters = {{ offline| safe}};
         var graphPoints = {{ graphPoints| safe}};
-        var current = "monthly";
+        var current = "weekly";
 
         var ctx = document.getElementById('waterMeterChart').getContext('2d');
         var chartConfig = {
@@ -318,7 +308,7 @@
                     borderWidth: 1,
                     borderColor: '#8AC3EE',
                     backgroundColor: "#8AC3EE",
-                    borderRadius: 10,
+                    borderRadius: 5,
                     tension: 0.25
                 }],
 

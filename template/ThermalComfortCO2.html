@@ -74,19 +74,19 @@
       <li
         style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
         title="IBMS">
-        <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" style="margin-top: 5px;"
+        <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" target="_blank" style="margin-top: 5px;"
           class='bx bx-line-chart bx-md'></a>
       </li>
       <li
         style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
         title="Card Holders">
-        <a href="https://obsi.sydney/Apps/AccessCard/cardholders" style="margin-top: 5px;"
+        <a href="https://obsi.sydney/Apps/AccessCard/cardholders" target="_blank" style="margin-top: 5px;"
           class='bx bx-id-card bx-md'></a>
       </li>
       <li
         style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
         title="Reports">
-        <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" style="margin-top: 5px;"
+        <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank" style="margin-top: 5px;"
           class='bx bx-bar-chart-alt-2 bx-md'></a>
       </li>
     </ul>
@@ -149,10 +149,10 @@
             </div>
           </div>
           <div>
-            <div style="display: flex; align-content:right;" class="TCDButtons">
-              <button style="margin-left: auto;">Today</button>
-              <button>Weekly</button>
-              <button>Monthly</button>
+            <div style="display: flex; align-content:right;" class="graphButtons">
+              <button type="button" style="margin-left: auto; margin-right:10px" class="btn btn-outline-primary enable">Today</button>
+              <button type="button" class="btn btn-outline-primary enable" style=" margin-right:10px">Weekly</button>
+              <button type="button" class="btn btn-outline-primary enable" style=" margin-right:10px">Monthly</button>
             </div>
             <canvas id="TDCgraph" style="height: 100px;">
             </canvas>
@@ -187,7 +187,7 @@
           <div class="selectionContainer active">
             <div style="display:flex">
               <a class='bx' id="box3" href="{% url 'thermalComfortCo2' %}" style="text-decoration: none;">
-                <span>Co2</span>
+                <span>CO2</span>
               </a>
               <div style="margin-left:20px;" class="selectionLabel">
                 Carbon Dioxide
@@ -328,7 +328,7 @@
           style: {
             fontSize: '16px'
           },
-          pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} &deg;C</span>',
+          pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} ppm</span>',
           positioner: function (labelWidth, labelHeight) {
             return {
               x: 152 - labelWidth / 2,
@@ -452,7 +452,7 @@
           style: {
             fontSize: '16px'
           },
-          pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} &deg;C</span>',
+          pointFormat: '{series.name}<br><span style="font-size:24px; color: {point.color}; font-weight: bold; text-align: center">{point.y} ppm</span>',
           positioner: function (labelWidth, labelHeight) {
             return {
               x: 152 - labelWidth / 2,

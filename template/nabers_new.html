@@ -33,62 +33,14 @@
                 alt="Operational Interlligence">
             <span class="text">Operational Intelligence</span>
         </a>
-        <ul
-            style="display: flex; flex-direction: column; align-content: flex-end; flex-wrap: nowrap; justify-content: center; align-items: center;">
-            <li class="active"
-                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FF7F7F; --selectionColorBG: #ff7f7f83;">
-                <a href="{% url 'ems'%}" class='bx bxs-dashboard bx-md' title="Electric Meter Dashboard"
-                    style="margin-top: 5px;"></a>
-            </li>
-            <li
-                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FFE493; --selectionColorBG: #FFE49383; ">
-                <a href="{% url 'thermalComfort'%}" style="margin-top: 5px;" class='bx bxs-thermometer bx-md'
-                    title="Thermal Comfort"></a>
-            </li>
-            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D2EB99; --selectionColorBG: #D2EB9983; "
-                title="Carpark">
-                <a href="{% url 'carPark' %}" style="margin-top: 5px;" class='bx bxs-car-garage bx-md'></a>
-            </li>
-            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #7EB6E0; --selectionColorBG: #7EB6E083; "
-                title="EV Charging">
-                <a href="{% url 'evCharging' %}" style="margin-top: 5px;" class='bx bxs-ev-station bx-md'></a>
-            </li>
-            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D7FEFF; --selectionColorBG: #D7FEFF83; "
-                title="Weather Station">
-                <a href="{% url 'weather' %}" style="margin-top: 5px;" class='bx bx-cloud-snow bx-md'></a>
-            </li>
-            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3C91E6; --selectionColorBG: #3C91E683; "
-                title="EOTF">
-                <a href="{% url 'eotf' %}" style="margin-top: 5px;" class='bx bx-notepad bx-md'></a>
-            </li>
-
-            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #b2585e; --selectionColorBG: #b2585e83; "
-                title="Traffic">
-                <a href="{% url 'traffic' %}" style="margin-top: 5px;" class='bx bxs-traffic-barrier bx-md'></a>
-            </li>
-            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
-                title="IBMS">
-                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" target="_blank" style="margin-top: 5px;"
-                    class='bx bx-line-chart bx-md'></a>
-            </li>
-            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
-                title="Card Holders">
-                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" target="_blank" style="margin-top: 5px;"
-                    class='bx bx-id-card bx-md'></a>
-            </li>
-            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
-                title="Reports">
-                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank"
-                    style="margin-top: 5px;" class='bx bx-bar-chart-alt-2 bx-md'></a>
-            </li>
-        </ul>
 
     </section>
+    <!-- SIDEBAR -->
 
 
 
     <!-- CONTENT -->
-    <section id="content" style="background-color: white; overflow-x:hidden; overflow-y:auto;">
+    <section id="content" style="background-color: white;">
         <!-- NAVBAR -->
         <nav style="height: 52px;">
             <a href="#" class="nav-link" style="font-size: 1.3rem; font-weight:650;">Nabers Tracking</a>
@@ -96,17 +48,46 @@
         <!-- NAVBAR -->
 
         <!-- MAIN -->
-        <main id="NABER" style="height:100vh;">
-            <!-- #region Heading of the Nabers page-->
-            <div class="NABERheading" style="margin-bottom: 1rem;">
-                <p class="mainHeading">PS-B-ELE-L03-EM001</p>
-                <p class="subHeading">NABERS Tracking</p>
+        <main id="NABER" style="background-image: linear-gradient(to bottom right, #3690b121, #056A87);">
+            <div class="NABERheading" style="margin-bottom:3rem;">
+                <p class="mainHeading" style="font-size: 2rem;">PS-B-ELE-L03-EM001</p>
+                <p class="subHeading" style="font-size: 1.5rem;">NABERS Tracking</p>
             </div>
-            <!-- #endregion End opf heading of the Nabers page-->
 
             <!-- #region Body of the Nabers page-->
             <div class="NABERbody">
-                <div class="dashboard">
+                <div class="graph">
+                    <div style="display: flex; margin-bottom:3rem;">
+                        <div>
+                            <label for="startDate" style="font-family: Lato, sans-serif;">Start Date: </label>
+                            <input type="datetime-local" id="startDate" name="Start Date" value="2022-08-28 00:00:00">
+                        </div>
+                        <div>
+                            <label for="ebdDate" style="font-family: Lato, sans-serif;">End Date: </label>
+                            <input type="datetime-local" id="endDate" name="End Date" value="2022-09-28 00:00:00">
+                        </div>
+                        <div style="margin-right: 20px; margin-left:auto;" class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary">Monthly</button>
+                        </div>
+                        <div style="margin-right: 20px;" class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary">Yearly</button>
+                        </div>
+                        <div class="vertical" style="margin-right: 20px; 
+                                                                border-left: 2px solid black; 
+                                                                height:32px;
+                                                                "></div>
+                        <div class="graphButtons">
+                            <button type="button" class="btn btn-outline-primary"
+                                onclick="document.getElementById('link').click()">Report</button>
+                            <a id="link" href="{% static 'admin/file/Report.xlsx' %}" download hidden></a>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="nabersGraph"></canvas>
+                    </div>
+                </div>
+
+                <div class="dashboard" style="margin-left: 1rem; margin-right:0rem;">
                     <div class="ratings">
                         <div class="naboursRating">
                             <div class="heading">
@@ -118,8 +99,9 @@
                                 <div style="display:flex; ">
                                     <p class="first-rate">5</p>
                                 </div>
-                                <div style="display: flex; flex-direction:column; justify-content: flex-end; width:5.5rem">
-                                    <i class='bx bxs-star bx-lg bx-spin' style='color:#0F799E; align-items:right' ></i>
+                                <div
+                                    style="display: flex; flex-direction:column; justify-content: flex-end; width:5.5rem">
+                                    <i class='bx bxs-star bx-lg bx-spin' style='color:#0F799E; align-items:right'></i>
                                     <p class="second-rate" style="text-align: left;">
                                         .5
                                     </p>
@@ -129,13 +111,18 @@
                                 <p class="NABERtext">
                                     NABERS
                                 </p>
-                                <div style="display: flex; flex-direction:row; align-content:center; justify-content:center; align-items:center;">
-                                    <div class="naberBar" style="border-top-left-radius: 0.3rem; border-bottom-left-radius: 0.3rem;"></div>
+                                <div
+                                    style="display: flex; flex-direction:row; align-content:center; justify-content:center; align-items:center;">
+                                    <div class="naberBar"
+                                        style="border-top-left-radius: 0.3rem; border-bottom-left-radius: 0.3rem;">
+                                    </div>
                                     <div class="naberBar"></div>
                                     <div class="naberBar"></div>
                                     <div class="naberBar"></div>
                                     <div class="naberBar"></div>
-                                    <div class="naberBar" style="border-top-right-radius: 0.3rem; border-bottom-right-radius: 0.3rem; background-color: #939598;"></div>
+                                    <div class="naberBar"
+                                        style="border-top-right-radius: 0.3rem; border-bottom-right-radius: 0.3rem; background-color: #939598;">
+                                    </div>
                                 </div>
                             </div>
                             <div class="hLine3" style="height: 1.4%;"></div>
@@ -159,7 +146,7 @@
                             <div class="hLine3"></div>
                         </div>
                     </div>
-                    <div class="details">
+                    <div class="details" style="height: 20rem;">
                         <div class="heading">
                             <p>
                                 Target for NABERS Rating This Month
@@ -169,14 +156,25 @@
                             <div style="display: flex; flex-direction: column; align-items:center;">
                                 <p>Rating</p>
                                 <div class="hLine"></div>
-                                <div class="box">
+                                <div class="box" style="height: 12rem; justify-content: space-evenly">
                                     <div class="star-details">
-                                        <p><input type="setRating" value="6.0"> STARS</p>
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem; font-weight:550;">6.0 STARS
+                                        </p>
                                     </div>
-                                    <div class="hLine2"></div>
-                                    <div class="unit-details">
-                                        <p>
-                                            Market Leading
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem; font-weight:550;">5.5 STARS
+                                        </p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem; font-weight:550;">5.0 STARS
+                                        </p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem; font-weight:550;">4.5 STARS
+                                        </p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem; font-weight:550;">4.0 STARS
                                         </p>
                                     </div>
                                 </div>
@@ -184,15 +182,36 @@
                             <div div style="display: flex; flex-direction: column; align-items:center;">
                                 <p>Target</p>
                                 <div class="hLine"></div>
-                                <div class="box">
+                                <div class="box" style="height: 12rem; justify-content: space-evenly">
                                     <div class="star-details">
-                                        <p><input type="setRating" style="max-width: 10rem; text-align:center;" value="250000"></p>
+                                        <p style="margin-top: 0.1rem; margin-bottom:0.3rem; height:1.5rem; font-size:1.1rem; font-weight:550;"><input
+                                                type="setRating"
+                                                style="max-width: 6rem; text-align:center; margin-top: 0.2rem; margin-bottom:0.2rem; height:1.5rem; font-size:1.3rem; font-weight:550;"
+                                                value="250000">kWh</p>
                                     </div>
-                                    <div class="hLine2"></div>
-                                    <div class="unit-details">
-                                        <p>
-                                            kWh
-                                        </p>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.1rem; margin-bottom:0.3rem; height:1.5rem; font-size:1.1rem; font-weight:550;"><input
+                                                type="setRating"
+                                                style="max-width: 6rem; text-align:center; margin-top: 0.2rem; margin-bottom:0.2rem; height:1.5rem; font-size:1.3rem; font-weight:550;"
+                                                value="250000">kWh</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.1rem; margin-bottom:0.3rem; height:1.5rem; font-size:1.1rem; font-weight:550;"><input
+                                                type="setRating"
+                                                style="max-width: 6rem; text-align:center; margin-top: 0.2rem; margin-bottom:0.2rem; height:1.5rem; font-size:1.3rem; font-weight:550;"
+                                                value="250000">kWh</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.1rem; margin-bottom:0.3rem; height:1.5rem; font-size:1.1rem; font-weight:550;"><input
+                                                type="setRating"
+                                                style="max-width: 6rem; text-align:center; margin-top: 0.2rem; margin-bottom:0.2rem; height:1.5rem; font-size:1.3rem; font-weight:550;"
+                                                value="250000">kWh</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.1rem; margin-bottom:0.3rem; height:1.5rem; font-size:1.1rem; font-weight:550;"><input
+                                                type="setRating"
+                                                style="max-width: 6rem; text-align:center; margin-top: 0.2rem; margin-bottom:0.2rem; height:1.5rem; font-size:1.3rem; font-weight:550;"
+                                                value="250000">kWh</p>
                                     </div>
                                 </div>
                             </div>
@@ -201,45 +220,28 @@
                                     Consume
                                 </p>
                                 <div class="hLine"></div>
-                                <div class="box">
-                                    <div id="nabersGauge" style="width: 11rem; height: 11rem; margin: 0 auto">
+                                <div class="box" style="height: 12rem; justify-content: space-evenly">
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem">65%</p>
                                     </div>
-                                    <div id="center-circle-nabour">
-                                        <span id="totalConsumptionValue" class="nabourGaugeValue">65%</span>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem">65%</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem">65%</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem">65%</p>
+                                    </div>
+                                    <div class="star-details">
+                                        <p style="margin-top: 0.2rem; margin-bottom:0.2rem; font-size:1.3rem">65%</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="graph">
-                    <div style="display: flex; margin-bottom:4rem;">
-                        <div style="margin-right: 20px; margin-left:auto;" class="graphButtons">
-                            <button type="button" class="btn btn-outline-primary">Monthly</button>
-                        </div>
-                        <div style="margin-right: 20px;" class="graphButtons">
-                            <button type="button" class="btn btn-outline-primary">Yearly</button>
-                        </div>
-                        <div class="vertical" style="margin-right: 20px; 
-															border-left: 2px solid black; 
-															height:32px;
-															"></div>
-                        <div class="graphButtons">
-                            <div>
-                                <div class="dropdown" style="margin-left: auto;">
-                                    <button class="dropbtn" id='dropdown-button' style="min-width:100px">Parameters</button>
-                                    <div class="dropdown-content">
-                                        <li href="#" value="1" onclick="jsFunction(this.value);"><input type="checkbox" id="demoCheckbox" name="checkbox" value="1" class="visible" style="margin-right: 2px;">Base</li>
-                                        <li href="#" value="2" onclick="jsFunction(this.value);"><input type="checkbox" id="demoCheckbox" name="checkbox" value="2" class="visible" style="margin-right: 2px;">Tenant</li>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <canvas id="nabersGraph" style="min-height: 30rem;"></canvas>
-                    </div>
-                </div>
+
             </div>
             <!-- #endregion End opf Body of the Nabers page-->
         </main>
@@ -260,7 +262,7 @@
                     label: 'Consumption',
                     data: [490, 490, 470, 420, 420, 280, 290, 320, 230, 220, 0, 0],
                     borderWidth: 1,
-                    borderColor: '#8AC3EE',
+                    borderWidth: '0',
                     backgroundColor: "#8AC3EE",
                     tension: 1,
                     borderRadius: 8,

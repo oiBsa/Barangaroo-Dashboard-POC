@@ -102,9 +102,8 @@ def ems(request):
         daily = {str(k[-1]).split(":")[0]:k[2] for k in graph_results[-24:]}
         monthly_graph = {"x":[m for m in monthly.keys()], "y":[n for n in monthly.values()]}
         weekly_graph = {"x":[m for m in weekly.keys()], "y":[n for n in weekly.values()]}
-        daily_graph = {"x":[m for m in daily.keys()], "y":[n for n in daily.values()]}
+        daily_graph = {"x":[m.split(" ")[-1]+":00"  for m in daily.keys()], "y":[n for n in daily.values()]}
         target_meter = req_pointKey
-        print(monthly)
         return JsonResponse({"monthly":monthly_graph, "weekly":weekly_graph, "daily":daily_graph}, status=200)
     else:
         result = DF_EMS.values.tolist()
@@ -153,7 +152,7 @@ def nabers(request):
 def nabers_new(request):
     #if request.user.is_authenticated: return render(request=request, template_name="nabers_new.html")
     #else: return redirect("home")
-    return render(request=request, template_name="nabers_new.html")
+    return render(request=request, template_name="nabers_latest.html")
 
 
 def meter_page(request):

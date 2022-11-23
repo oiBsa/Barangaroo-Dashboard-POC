@@ -24,7 +24,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <title>Car Park</title>
+    <title>Traffic</title>
 </head>
 
 
@@ -75,17 +75,17 @@
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
                 title="IBMS">
-                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" target="_blank" style="margin-top: 5px;"
                     class='bx bx-line-chart bx-md'></a>
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
                 title="Card Holders">
-                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" target="_blank" style="margin-top: 5px;"
                     class='bx bx-id-card bx-md'></a>
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
                 title="Reports">
-                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" style="margin-top: 5px;"
+                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank" style="margin-top: 5px;"
                     class='bx bx-bar-chart-alt-2 bx-md'></a>
             </li>
         </ul>
@@ -98,7 +98,7 @@
     <section id="content" style="background-color: rgb(255, 255, 255);">
         <!-- NAVBAR -->
         <nav style="height: 52px;">
-            <a href="#" class="nav-link">Car Park</a>
+            <a href="#" class="nav-link">Traffic</a>
         </nav>
         <!-- NAVBAR -->
 
@@ -111,8 +111,11 @@
                         Traffic
                     </p>
                     <p>
+                    
+                            Data
+                        
                         <span class="dashboard">
-                            Feed
+                            Dashboard
                         </span>
 
                     </p>
@@ -127,7 +130,7 @@
                             <p>{{inc.description}}</p>
                             <p style="font-style: italic;">@ <span>{{inc.location}}</span>
                             </p>
-                            <p style="font-weight: 500; font-size:0.8rem">Est. Delay: <span>{{inc.etd}}</span></p>
+                            <p style="font-weight: 550; font-size:0.8rem">Est. Delay: <span>{{inc.etd}}</span></p>
                             <p style="margin-top:0.5rem;">Details
                                 <i type="button" data-bs-toggle="collapse" data-bs-target="#ID{{inc.id}}"
                                     aria-expanded="true" aria-controls="collapseExample" class='bx bxs-chevrons-down bxs-lg'
@@ -144,13 +147,27 @@
                                         <p>Is Major: <span>{{inc.major}}</span></p>
                                     </div>
                                     <div class="cardDetails2">
-                                        <p>Headilnes: <span>{{inc.headlines}}</span></p>
+                                        <p>Headilnes: 
+                                            {% if inc.headlines %}
+                                            <span>{{inc.headlines}}</span>
+                                            {% else %}
+                                            <span>N/A</span>
+                                            {% endif %}
+                                        </p>
                                         <p>Initial Report: <span>{{inc.initial}}</span></p>
-                                        <p>Diversions: <span>{{inc.diversion}}</span></p>
+                                        <p>Diversions: 
+                                            {% if inc.diversion%}
+                                            <span>{{inc.diversion}}</span>
+                                            {% else %}
+                                            <span>N/A</span>
+                                            {% endif %}
+                                        </p>
                                         <p style="font-family: sans-serif; font-size:15px;">More
                                             Info: 
                                             {% if inc.weblinkI %}
                                             <a class='bx bx-link-alt bx-sm' href="{{inc.weblinkI}}" style="text-decoration: none;" target="_blank"></a>
+                                            {% else %}
+                                            <span>N/A</span>
                                             {% endif %}
                                         </p>
                                     </div>

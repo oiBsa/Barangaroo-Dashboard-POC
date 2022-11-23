@@ -80,19 +80,19 @@
       <li
         style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
         title="IBMS">
-        <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" style="margin-top: 5px;"
+        <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" target="_blank" style="margin-top: 5px;"
           class='bx bx-line-chart bx-md'></a>
       </li>
       <li
         style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
         title="Card Holders">
-        <a href="https://obsi.sydney/Apps/AccessCard/cardholders" style="margin-top: 5px;"
+        <a href="https://obsi.sydney/Apps/AccessCard/cardholders" target="_blank" style="margin-top: 5px;"
           class='bx bx-id-card bx-md'></a>
       </li>
       <li
         style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
         title="Reports">
-        <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" style="margin-top: 5px;"
+        <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank" style="margin-top: 5px;"
           class='bx bx-bar-chart-alt-2 bx-md'></a>
       </li>
     </ul>
@@ -113,18 +113,31 @@
     <main id="TCD">
       <div id="thermalComfortDashboard">
         <!-- Heading -->
-        <div class="headings">
-          <p>
-            Thermal
-          </p>
-          <p>
-            <span>
-              Comfort
-            </span>
-            <span class="dashboard">
-              Dashboard
-            </span>
-          </p>
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; align-content: center;">
+          <div class="headings">
+            <p>
+              Thermal
+            </p>
+            <p>
+              <span>
+                Comfort
+              </span>
+              <span class="dashboard">
+                Dashboard
+              </span>
+            </p>
+          </div>
+          <div>
+            <div 
+            style="color: #3B3462; font-family:sans-serif; font-size:30px; margin-right:6rem; 
+            font-weight:550; text-shadow: 2px 4px 3px rgb(0 0 0 / 10%); display:flex; flex-direction:row; align-items:baseline;">
+              <i class='bx bxs-chevrons-right bx-fade-right' style="padding:1rem"></i>
+              <p id="selectTowerLevel">
+                T1 - Level 00
+              </p>
+              <i class='bx bxs-chevrons-left bx-fade-left' style="padding:1rem;"></i>
+            </div>
+          </div>
         </div>
         <!-- Heading -->
 
@@ -153,9 +166,9 @@
                       </div>
 
                       <!-- Modal body -->
-                      <div class="modal-body" style="max-height:50vh; overflow-y:auto;">
-                        <table class="table table-striped" id="table">
-                          <thead>
+                      <div class="modal-body" style="max-height:50vh; overflow-y:scroll; padding:0rem;">
+                        <table class="table table-striped fix-head" id="table" style="margin-top: 0rem;">
+                          <thead style="position: sticky; top: 0; z-index: 1; background-color:white;">
                             <tr>
                               <th>Equipment</th>
                               <th>Temperature</th>
@@ -195,12 +208,13 @@
                 </button>
               </div>
             </div>
+            
           </div>
           <div>
-            <div style="display: flex; align-content:right;" class="TCDButtons">
-              <button style="margin-left: auto;" class="clicked" value="daily">Today</button>
-              <button value="weekly">Weekly</button>
-              <button value="monthly">Monthly</button>
+            <div style="display: flex; align-content:right;" class="graphButtons">
+              <button type="button" style="margin-left: auto;  margin-right:10px" class="clicked" value="daily">Today</button>
+              <button type="button" value="weekly" style="margin-right:10px">Weekly</button>
+              <button type="button" value="monthly" style="margin-right:10px">Monthly</button>
             </div>
             <canvas id="TDCgraph" style="height: 100px;">
             </canvas>
@@ -235,7 +249,7 @@
           <div class="selectionContainer">
             <div style="display:flex">
               <a class='bx' id="box3" href="{% url 'thermalComfortCo2' %}" style="text-decoration: none;">
-                <span>Co2</span>
+                <span>CO2</span>
               </a>
               <div style="margin-left:20px;" class="selectionLabel">
                 Carbon Dioxide
@@ -275,7 +289,8 @@
     var thermalTower = {{ THERMAL| safe}}
     var graphPoints = {{ graphPoints| safe}}
     var EquipPoints = {{ EQUIP| safe}}
-    var currentGraph = "daily"
+    var currentGraph = "daily";
+    selectedTowerAndLevel = "T1 - Level 00";
     document.getElementById("mainList").children[0].classList.add("active");
     $('.aboveButton').on("click", "button", function () {
       var table = $("#table tbody")
@@ -289,7 +304,6 @@
     });
     $('.belowButton').on("click", "button", function () {
       var table = $("#table tbody")
-      console.log(EquipPoints)
       $("#table tbody").find("tr").remove();
       for (var i = 0; i < EquipPoints[currentGraph]["below"].length; i++) {
         var Equip = EquipPoints[currentGraph]["below"][i].equip;
@@ -540,6 +554,7 @@
       },
       ]
     });
+    
     $('#mainList li').each(function (index, item) {
       var option = $('<option value="' + $(item).text().trim() + '">');
       $('#searchList').append(option);
@@ -586,7 +601,6 @@
       } else if (tower == "3") {
         document.getElementById("tower3Button").classList.add("activeButton")
         for (let i = 0; i < thermalTower["tower3"]["levels"].length; i++) {
-          console.log(thermalTower["tower3"]["levels"][i])
           var li = document.createElement("li");
           var option = document.createElement("option");
           li.innerText = "T3 - Level " + thermalTower["tower3"]["levels"][i];
@@ -599,6 +613,8 @@
 
         }
       }
+      $('li:contains('+selectedTowerAndLevel+')').addClass('active')
+
     };
 
     $("#mainList").on("click", "li", function () {
@@ -606,6 +622,8 @@
       $(this).addClass('active');
       tower = $(this).attr("tower")
       level = $(this).attr("level")
+      selectedTowerAndLevel = "T"+tower+" - Level "+level;
+      document.getElementById("selectTowerLevel").innerText = "T"+tower+" - Level "+level
       $.ajax({
         url: {% url 'thermalComfort' %},
         data: {
@@ -627,11 +645,10 @@
         })
      });
 
-    $(".TCDButtons").on("click", "button", function () {
+    $(".graphButtons").on("click", "button", function () {
       $(this).parent().find('button').removeClass('clicked');
       $(this).addClass('clicked');
       currentGraph = $(this).attr("value");
-      console.log(currentGraph)
       chartConfig["data"]["labels"] = graphPoints[currentGraph]["above"]["x"]
       chartConfig["data"]["datasets"][0]["data"] = graphPoints[currentGraph]["above"]["y"]
       chartConfig["data"]["datasets"][1]["data"] = graphPoints[currentGraph]["below"]["y"]
@@ -640,8 +657,10 @@
     $(document).on('change', 'input', function() {
       var options = $('datalist')[0].options;
       var val = $(this).val();
+      selectedTowerAndLevel = val
       for (var i = 0; i < options.length; i++) {
         if (options[i].value === val) {
+          document.getElementById("selectTowerLevel").innerText = val;
           $('#mainList').scrollTop($('#mainList li:contains('+val+')').position().top - $('#mainList li:first').position().top);
           $('#mainList li').removeClass('active')
           $('li:contains('+val+')').addClass('active')

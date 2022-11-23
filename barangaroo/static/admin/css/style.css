@@ -445,7 +445,7 @@ body {
 #content main .box-info .nabers:hover {
 	background-color: #C4DEF7;
 	cursor: pointer;
-	transition: 0.1s ease-in-out;
+	transition: 0.4s ease-in-out;
 }
 
 #content main .box-info li .text h3 {
@@ -1635,6 +1635,6 @@ svg path {
 	text-decoration: none;
 	color: #3B3462;
 }
-#sidebar .active .bx{
-	color: var(--selectionColor);
+#sidebar .active{
+	background-color: var(--selectionColor);
 }
