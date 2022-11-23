@@ -197,12 +197,12 @@ def thermal_comfort(request):
         weekly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%V"))==str(last_date.strftime("%V"))]
         monthly_above = [i for i in above_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
         monthly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
-        dailyAboveGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_above], "y":[i[1] for i in daily_above]}
-        dailyBelowGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_below], "y":[i[1] for i in daily_below]}
-        weeklyAboveGraph = {"x":[str(i[0]) for i in weekly_above], "y":[str(i[1]) for i in weekly_above]}
-        weeklyBelowGraph = {"x":[str(i[0]) for i in weekly_below], "y":[str(i[1]) for i in weekly_below]}
-        monthlyAboveGraph = {"x":[str(i[0]) for i in monthly_above], "y":[str(i[1]) for i in monthly_above]}
-        monthlyBelowGraph = {"x":[str(i[0]) for i in monthly_below], "y":[str(i[1]) for i in monthly_below]}
+        dailyAboveGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_above][::-1], "y":[i[1] for i in daily_above][::-1]}
+        dailyBelowGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_below][::-1], "y":[i[1] for i in daily_below][::-1]}
+        weeklyAboveGraph = {"x":[str(i[0]) for i in weekly_above][::-1], "y":[str(i[1]) for i in weekly_above][::-1]}
+        weeklyBelowGraph = {"x":[str(i[0]) for i in weekly_below][::-1], "y":[str(i[1]) for i in weekly_below][::-1]}
+        monthlyAboveGraph = {"x":[str(i[0]) for i in monthly_above][::-1], "y":[str(i[1]) for i in monthly_above][::-1]}
+        monthlyBelowGraph = {"x":[str(i[0]) for i in monthly_below][::-1], "y":[str(i[1]) for i in monthly_below][::-1]}
         graphPoints = {"daily":{"above":dailyAboveGraph, "below":dailyBelowGraph},
                        "weekly":{"above":weeklyAboveGraph, "below":weeklyBelowGraph},
                        "monthly":{"above":monthlyAboveGraph, "below":monthlyBelowGraph}}
@@ -226,12 +226,12 @@ def thermal_comfort(request):
         weekly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%V"))==str(last_date.strftime("%V"))]
         monthly_above = [i for i in above_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
         monthly_below = [i for i in below_date_percent_per_day.items() if str(i[0].strftime("%m"))==str(last_date.strftime("%m"))]
-        dailyAboveGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_above], "y":[i[1] for i in daily_above]}
-        dailyBelowGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_below], "y":[i[1] for i in daily_below]}
-        weeklyAboveGraph = {"x":[str(i[0]) for i in weekly_above], "y":[str(i[1]) for i in weekly_above]}
-        weeklyBelowGraph = {"x":[str(i[0]) for i in weekly_below], "y":[str(i[1]) for i in weekly_below]}
-        monthlyAboveGraph = {"x":[str(i[0]) for i in monthly_above], "y":[str(i[1]) for i in monthly_above]}
-        monthlyBelowGraph = {"x":[str(i[0]) for i in monthly_below], "y":[str(i[1]) for i in monthly_below]}
+        dailyAboveGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_above][::-1], "y":[i[1] for i in daily_above][::-1]}
+        dailyBelowGraph = {"x":[str(i[0].strftime("%H:%M")) for i in daily_below][::-1], "y":[i[1] for i in daily_below][::-1]}
+        weeklyAboveGraph = {"x":[str(i[0]) for i in weekly_above][::-1], "y":[str(i[1]) for i in weekly_above][::-1]}
+        weeklyBelowGraph = {"x":[str(i[0]) for i in weekly_below][::-1], "y":[str(i[1]) for i in weekly_below][::-1]}
+        monthlyAboveGraph = {"x":[str(i[0]) for i in monthly_above][::-1], "y":[str(i[1]) for i in monthly_above][::-1]}
+        monthlyBelowGraph = {"x":[str(i[0]) for i in monthly_below][::-1], "y":[str(i[1]) for i in monthly_below][::-1]}
         dailyAboveEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].date())==str(last_date.date())) and (equip[2]>ABOVE_SET_POINT))]
         dailyBelowEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].date())==str(last_date.date())) and (equip[2]<=ABOVE_SET_POINT))]
         weeklyAboveEquip = [{"equip":equip[0], "temp":equip[2], "time":str(equip[-1])} for equip in level_1 if ((str(equip[-1].strftime("%V"))==str(last_date.strftime("%V"))) and (equip[2]>ABOVE_SET_POINT))]
@@ -264,6 +264,7 @@ def thermal_comfort(request):
         Thermal_context = {"THERMAL":thermal_towers, "aboveAvg":above_avg, "belowAvg":below_avg, 
                                                         "aboveThresh":ABOVE_SET_POINT, "belowThresh":BELOW_SET_POINT, "aboveTempAvg":above_temp_avg, "belowTempAvg":below_temp_avg,
                                                         "graphPoints":graphPoints, "EQUIP":EQUIPPOINTS}
+        
         return render(request=request, template_name="ThermalComfortDashboard.html", context={"THERMAL":thermal_towers, "aboveAvg":above_avg, "belowAvg":below_avg, 
                                                         "aboveThresh":ABOVE_SET_POINT, "belowThresh":BELOW_SET_POINT, "aboveTempAvg":above_temp_avg, "belowTempAvg":below_temp_avg,
                                                         "graphPoints":graphPoints, "EQUIP":EQUIPPOINTS})

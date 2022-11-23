@@ -124,11 +124,10 @@
                     {% for inc in data%}
                     <div class="feedCard">
                         <div>
-                            <p style="font-weight: 550;">{{inc.catagory}}</p>
                             <p>{{inc.description}}</p>
                             <p style="font-style: italic;">@ <span>{{inc.location}}</span>
                             </p>
-                            <p>Est. Delay: <span>{{inc.etd}}</span></p>
+                            <p style="font-weight: 500; font-size:0.8rem">Est. Delay: <span>{{inc.etd}}</span></p>
                             <p style="margin-top:0.5rem;">Details
                                 <i type="button" data-bs-toggle="collapse" data-bs-target="#ID{{inc.id}}"
                                     aria-expanded="true" aria-controls="collapseExample" class='bx bxs-chevrons-down bxs-lg'
@@ -151,7 +150,7 @@
                                         <p style="font-family: sans-serif; font-size:15px;">More
                                             Info: 
                                             {% if inc.weblinkI %}
-                                            <a class='bx bx-link-alt bx-sm' href="{{inc.weblinkI}}" style="text-decoration: none;"></a>
+                                            <a class='bx bx-link-alt bx-sm' href="{{inc.weblinkI}}" style="text-decoration: none;" target="_blank"></a>
                                             {% endif %}
                                         </p>
                                     </div>
