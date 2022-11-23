@@ -372,9 +372,9 @@
                     chartConfig["data"]["datasets"][0]["data"] = data[current]["y"]
                     Chart1.update("active");
                     graphPoints = data;
+                    document.getElementById("ChartLoading").style.display = "none";
                 },
             })
-            document.getElementById("ChartLoading").style.display = "none";
         });
         function jsFunction(value) {
 
