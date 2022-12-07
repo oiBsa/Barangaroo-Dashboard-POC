@@ -1,14 +1,10 @@
 import requests
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login
-import pymssql
 from datetime import datetime, timedelta
-import json, requests
+import requests
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
-import pytz
 import pandas as pd
 
 DF = pd.ExcelFile("barangaroo//static//admin//file//Data.xlsx")

@@ -50,10 +50,12 @@ body.dark {
 	--grey: #060714;
 	--dark: #FBFBFB;
 }
-/* background-image: linear-gradient(60deg, #8ecafe, #4b57fe, #ae2eda, #ee7d84); */
+/* background-image: repeating-linear-gradient(72deg, #eae5db, #faf6f5); */
 body {
-	background-image: repeating-linear-gradient(72deg, #eae5db, #faf6f5);
+	background-image: url('../img/bg.svg');
 	overflow-x: hidden;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 #meterPage {
 	background-image: repeating-linear-gradient(330deg, #ffffff, #f5e0ff66);
