@@ -11,7 +11,9 @@
         <path d="M1142.6802098505182 1235.785090321201L1386.9881083763885 1127.0122058500367 1278.215223905224 882.7043073241663 1033.9073253793538 991.4771917953308z" fill="rgba(254, 83, 142, 0.85)" class="triangle-float3"></path>
         <path d="M419.0279675431844 408.1134802680725L516.7579169677476 347.04503010901436 376.2902670168787 230.98433105169863z" fill="rgba(28, 83, 142, 0.85)" class="triangle-float2"></path>
         <path d="M113.22188474920505 381.21617236968586L361.5031425041618 337.4374878232542 69.44320020277337 132.9349146147291z" fill="rgba(28, 253, 142, 0.85)" class="triangle-float3"></path>
+        
     </g>
+    
     <defs>
         <mask id="SvgjsMask1052">
             <rect width="1920" height="1080" fill="#ffffff"></rect>
@@ -19,32 +21,38 @@
         <style>
             @keyframes float1 {
                 0%{transform: translate(0, 0)}
+                25%{transform: translate(400px, -50px)}
                 50%{transform: rotate(-40deg)}
+                75%{transform: translate(-300px, -100px)}
                 100%{transform: translate(0, 0)}
             }
 
             .triangle-float1 {
-                animation: float1 6s infinite;
+                animation: float1 10s infinite;
             }
 
             @keyframes float2 {
                 0%{transform: translate(0, 0)}
+                25%{transform:translate(-100px, 200px)}
                 50%{transform: rotate(60deg)}
+                75%{transform: translate(300px, 400px)}
                 100%{transform: translate(0, 0)}
             }
 
             .triangle-float2 {
-                animation: float2 4s infinite;
+                animation: float2 6s infinite;
             }
 
             @keyframes float3 {
                 0%{transform: translate(0, 0)}
+                25%{transform: translate(200px, 100px)}
                 50%{transform: rotate(320deg)}
+                75%{transform: translate(500px, 500px)}
                 100%{transform: translate(0, 0)}
             }
 
             .triangle-float3 {
-                animation: float3 4s infinite;
+                animation: float3 15s infinite;
             }
         </style>
     </defs>

@@ -6,9 +6,11 @@ import requests
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
 import pandas as pd
+import math
+
 
 DF = pd.ExcelFile("barangaroo//static//admin//file//Data.xlsx")
-
+User_DF = pd.ExcelFile("barangaroo//static//admin//file//Users.xlsx").parse(sheet_name="Users")
 ABOVE_SET_POINT = 23.0
 BELOW_SET_POINT = 21.0
 
@@ -59,8 +61,43 @@ def ems_dashboard(request):
     #if request.user.is_authenticated: return render(request=request, template_name="index.html")
     #else: return redirect("home")
     return render(request=request, template_name="index.html")
-
 target_meter = ""
+def testEms(request, userID):
+    DF_EMS = DF.parse(sheet_name="TenantEMS")
+    username = User_DF[User_DF["ID"]==userID]["Username"].values.tolist()
+    if len(username)==0: return render(request=request, template_name="home.html")
+    #if request.user.is_authenticated: return render(request=request, template_name="EMS.html")
+    #else: return redirect("home")
+    else:
+        DF_EMS = DF_EMS[DF_EMS["Username"]==username[0]]
+        current_datetime = datetime.utcnow() + timedelta(days=1)
+        end_datetime = current_datetime - timedelta(days=31)
+        current_datetime = str(current_datetime.strftime("%Y-%m-%d"))
+        end_datetime = str(end_datetime.strftime("%Y-%m-%d"))
+        result = DF_EMS.values.tolist()
+        graph_ponts = {"x":[], "y":[]}
+        EMS_result = []
+        total_consumption = 0
+        total_online = []
+        total_offline = []
+        for Tuser, pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in result:
+            try: 
+                PointValue = int(PointValue)
+                EMS_result.append([pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline])
+                total_consumption+=PointValue
+                if IsOnline==1:total_online.append(AssetID)
+                if IsOnline==0:total_offline.append({"AssetID":AssetID, "Last":str(LastRecievedTime.strftime("%Y-%m-%d %H:%M:%S"))})
+            except: pass
+        check_ofline = False
+        if len(total_offline)>0:check_ofline=True
+        EMS_result = sorted(EMS_result, key=lambda t: t[3], reverse=True)
+        graph_ponts["x"] = [AssetID for pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in EMS_result[:30]]
+        graph_ponts["y"] = [pointKey for pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in EMS_result[:30]]
+        
+        return render(request=request, template_name="TestEms.html", context={"EMS":EMS_result, "total_consumption":total_consumption, "total_online":len(total_online), "total_offline":len(total_offline), 
+            "check_offline":check_ofline, "total_meters":len(total_online)+len(total_offline), "offline":total_offline, "graphPoints":graph_ponts})
+
+
 def ems(request):
     global target_meter
     DF_EMS = DF.parse(sheet_name="EMS")
@@ -75,14 +112,12 @@ def ems(request):
     
     #if request.user.is_authenticated: return render(request=request, template_name="EMS.html")
     #else: return redirect("home")
-    if request.method == 'GET': 
-        req_pointKey = request.GET.get("pointKey")
-        graphStartDate = request.GET.get("graphStartDate")
-        graphEndDate = request.GET.get("graphEndDate")
+    if request.method == 'GET': req_pointKey = request.GET.get("pointKey")
     if req_pointKey!=None:
         monthly_graph = {}
         weekly_graph = {}
         daily_graph = {}
+        print(req_pointKey)
         if req_pointKey=="249782": graph_results = DF_EM1.values.tolist()
         elif req_pointKey=="120587": graph_results = DF_EM2.values.tolist()
         elif req_pointKey=="120923": graph_results = DF_EM3.values.tolist()
@@ -99,6 +134,8 @@ def ems(request):
         monthly_graph = {"x":[m for m in monthly.keys()], "y":[n for n in monthly.values()]}
         weekly_graph = {"x":[m for m in weekly.keys()], "y":[n for n in weekly.values()]}
         daily_graph = {"x":[m.split(" ")[-1]+":00"  for m in daily.keys()], "y":[n for n in daily.values()]}
+        weekly_graph["y"] = [0 if math.isnan(x) else x for x in weekly_graph["y"]]
+        daily_graph["y"] = [0 if math.isnan(x) else x for x in daily_graph["y"]]
         target_meter = req_pointKey
         return JsonResponse({"monthly":monthly_graph, "weekly":weekly_graph, "daily":daily_graph}, status=200)
     else:
@@ -121,7 +158,6 @@ def ems(request):
         EMS_result = sorted(EMS_result, key=lambda t: t[3], reverse=True)
         graph_ponts["x"] = [AssetID for pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in EMS_result[:30]]
         graph_ponts["y"] = [pointKey for pointKey, AssetID, POintTemplateName, PointValue, LastRecievedTime, Description, IsOnline in EMS_result[:30]]
-        
         return render(request=request, template_name="EMS.html", context={"EMS":EMS_result, "total_consumption":total_consumption, "total_online":len(total_online), "total_offline":len(total_offline), 
             "check_offline":check_ofline, "total_meters":len(total_online)+len(total_offline), "offline":total_offline, "graphPoints":graph_ponts})
 

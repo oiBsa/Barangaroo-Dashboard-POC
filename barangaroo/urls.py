@@ -45,6 +45,7 @@ urlpatterns = [
     path("eotf_cube/", view=views.eotf_cube, name="eotf_cube"),
     path("eotf_use/", view=views.eotf_use, name="eotf_use"),
     path("traffic/", view=views.traffic, name="traffic"),
+    path("testEms/<str:userID>", view=views.testEms, name="TEMS"),
     
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),   

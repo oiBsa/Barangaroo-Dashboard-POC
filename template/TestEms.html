@@ -1,0 +1,469 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static 'admin/css/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+        integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <title>Electric Meter</title>
+
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+    <section id="sidebar" class="hide">
+        <a href="{% url 'home' %}" class="brand">
+            <img class="oi-icon"
+                src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw"
+                alt="Operational Interlligence">
+            <div class="OI-line" id="OI-line"></div>
+            <span class="text">Operational Intelligence</span>
+        </a>
+        <ul
+            style="display: flex; flex-direction: column; align-content: flex-end; flex-wrap: nowrap; justify-content: center; align-items: center;">
+            <li class="active"
+                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FF7F7F; --selectionColorBG: #ff7f7f83;">
+                <a href="{% url 'ems'%}" class='bx bxs-dashboard bx-md' title="Electric Meter Dashboard"
+                    style="margin-top: 5px;"></a>
+            </li>
+            <li
+                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FFE493; --selectionColorBG: #FFE49383; ">
+                <a href="{% url 'thermalComfort'%}" style="margin-top: 5px;" class='bx bxs-thermometer bx-md'
+                    title="Thermal Comfort"></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D2EB99; --selectionColorBG: #D2EB9983; "
+                title="Carpark">
+                <a href="{% url 'carPark' %}" style="margin-top: 5px;" class='bx bxs-car-garage bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #7EB6E0; --selectionColorBG: #7EB6E083; "
+                title="EV Charging">
+                <a href="{% url 'evCharging' %}" style="margin-top: 5px;" class='bx bxs-ev-station bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D7FEFF; --selectionColorBG: #D7FEFF83; "
+                title="Weather Station">
+                <a href="{% url 'weather' %}" style="margin-top: 5px;" class='bx bx-cloud-snow bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3C91E6; --selectionColorBG: #3C91E683; "
+                title="EOTF">
+                <a href="{% url 'eotf' %}" style="margin-top: 5px;" class='bx bx-notepad bx-md'></a>
+            </li>
+
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #b2585e; --selectionColorBG: #b2585e83; "
+                title="Traffic">
+                <a href="{% url 'traffic' %}" style="margin-top: 5px;" class='bx bxs-traffic-barrier bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
+                title="IBMS">
+                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" target="_blank" style="margin-top: 5px;"
+                    class='bx bx-line-chart bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
+                title="Card Holders">
+                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" target="_blank" style="margin-top: 5px;"
+                    class='bx bx-id-card bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
+                title="Reports">
+                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank"
+                    style="margin-top: 5px;" class='bx bx-bar-chart-alt-2 bx-md'></a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+
+
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <a class="nav-link">Energy Managment System</a>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main>
+            <h1 style="color: #ffffff;">Electric Meters Dashboard</h1>
+
+            <ul class="box-info">
+                <li class="consumtion">
+                    <i class='bx bx-bar-chart-square'>
+                    </i>
+                    <span class="text">
+                        <h3>{{total_consumption}} kWh</h3>
+                        <p>Total Consumption</p>
+
+                    </span>
+                </li>
+                <li class="online">
+                    <i class='bx bx-tachometer'></i>
+                    <span class="text">
+                        <h3>{{total_online}}/{{total_meters}}</h3>
+                        <p>Online Meters</p>
+                    </span>
+                </li>
+                <li class="offline" id="offlineTab" data-toggle="modal" data-target="#myModal" label='below'>
+                    {% if check_offline %}
+                    <i class='bx bx-tachometer bx-tada'></i>
+                    {% else %}
+                    <i class='bx bx-tachometer'></i>
+                    {% endif %}
+                    <span class="text">
+                        <h3>{{total_offline}}</h3>
+                        <p>Offline Meters</p>
+                    </span>
+
+                </li>
+                <li class="nabers" onclick="nabers()">
+                    <i class='bx bxs-doughnut-chart'></i>
+                    <span class="text">
+                        <h3>Estimated NABERS</h3>
+                        <p>
+                            Tracking
+                        </p>
+                    </span>
+                </li>
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="min-width:30vw;border-radius:20px;padding:5px 5px;">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Offline Meters</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body" style="max-height:50vh; overflow-y:auto;">
+                                <table class="table table-striped" id="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Meter ID</th>
+                                            <th> Last Seen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id='dialog-tbody'>
+                                        <tr>
+                                            <td> Please wait....</td>
+                                            <td> <i class="bx bx-loader-alt bx-spin"></i> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </ul>
+            <div style="width: 40%; float:left;" class="table-data" id="TableScroll">
+                <div class="order">
+                    <div class="head">
+                        <h3>Electric Meters ({{total_meters}})</h3>
+                        <form action="#">
+                            <div class="form-input" style="align-content: right;">
+                                <input list="ice-cream-flavors" id="ice-cream-choice" name="ice-cream-choice"
+                                    placeholder="Search Meter" oninput="Select1Changed(this.pointKey);">
+                                <datalist id="ice-cream-flavors">
+                                    {% for meter in EMS %}
+                                    <option pointKey="{{ meter.0 }}" meterName="{{ meter.1 }}" meterDesc="{{ meter.5 }}"
+                                        value="{{meter.1}}"></option>
+
+                                    {% endfor %}
+                                </datalist>
+                                <button type="submit" class="search-btn">
+                                    <i class='bx bx-search'></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <table id="meterTable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Meter ID</th>
+                                <th>Status</th>
+                                <th>Consumption
+                                    <p>(kWh)</p>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for meter in EMS %}
+                            <tr value="{{ meter.0 }}" meterName="{{ meter.1 }}" meterDesc="{{ meter.5 }}">
+                                <td>
+                                    <i class='bx bx-bolt-circle bx-sm'></i>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm" id="meter-id">{{meter.1}}</h6>
+                                        <p class="text-xs text-secondary mb-0">{{meter.5}}</p>
+                                    </div>
+                                </td>
+                                {% if meter.6 %}
+                                <td><i class='bx' id='led-green'></i></td>
+                                {% else %}
+                                <td><i class='bx' id='led-red'></i></td>
+                                {% endif %}
+                                <td style="text-align: center;">{{meter.3}}</td>
+                            </tr>
+                            {% endfor %}
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="column-graph-65">
+                <div style="display: flex;" class="graphBoxHeader">
+                    <a href="{% url 'meterPage' %}" target="_blank">
+                        <h4 id="meterName" style="color: black;">EMS</h4>
+                        <a class='bx bx-window-alt' href="{% url 'meterPage' %}" target="_blank"
+                            style="color: black; margin-left:5px"></a>
+                    </a>
+                    <div style="margin-left: auto;">
+                        <div class="dropdown" style="margin-left: auto;">
+                            <button class="dropbtn" id='dropdown-button'>Type</button>
+                            <div class="dropdown-content">
+                                <option href="#" value="1" onclick="jsFunction(this.value);">Bar</option>
+                                <option href="#" value="2" onclick="jsFunction(this.value);">Line</option>
+                                <option href="#" value="3" onclick="jsFunction(this.value);">Pie</option>
+                                <option href="#" value="4" onclick="jsFunction(this.value);">Ring</option>
+                                <option href="#" value="6" onclick="jsFunction(this.value);">Bubble</option>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; margin-top:10px; font-family: Lato, sans-serif; margin-bottom:20px">
+                    <div style="font-family: Lato, sans-serif; margin-bottom:20px;" id="meterDescription">
+                        <p>Top 30 meters</p>
+                    </div>
+                    <div style="margin-left: auto; margin-right: 20px;">
+                        <button type="button" class="btn btn-outline-primary enable" value="daily"
+                            onclick="timeButton(this.value)">Today</button>
+                    </div>
+                    <div style="margin-right: 0px;">
+                        <button type="button" class="btn btn-outline-primary enable" value="weekly"
+                            onclick="timeButton(this.value)">Weekly</button>
+                    </div>
+
+                </div>
+                <div 
+                style="display: flex;justify-content: center;align-items: center;align-content: center;flex-wrap: wrap;flex-direction: row;"
+                id="ChartLoading">
+                    <i class='bx bx-loader-alt bx-spin bx-flip-vertical bx-md'></i>
+                </div>
+
+                <canvas id="waterMeterChart" style="max-height: 400px;" ></canvas>
+
+
+
+            </div>
+
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+
+    <script>
+        document.getElementById("ChartLoading").style.display = "none";
+        var OfflineMeters = {{ offline| safe}};
+        var graphPoints = {{ graphPoints| safe}};
+        var current = "weekly";
+        
+        var ctx = document.getElementById('waterMeterChart').getContext('2d');
+        var chartConfig = {
+            type: 'bar',
+            data: {
+                labels: graphPoints["x"],
+                datasets: [{
+                    label: 'Consumption',
+                    data: graphPoints["y"],
+                    borderWidth: 1,
+                    borderColor: '#8AC3EE',
+                    backgroundColor: "#8AC3EE",
+                    borderRadius: 5,
+                    tension: 0.25
+                }],
+
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+            }
+
+        };
+
+        var Chart1 = new Chart(ctx, chartConfig);
+        function make2Digit(d) {
+            x = d.toString()
+            if (x.length < 2) {
+                return "0" + x
+            }
+            else {
+                return x
+            }
+        }
+        $("#offlineTab").on("click", function () {
+            console.log(OfflineMeters)
+            var table = $("#table tbody")
+            $("#table tbody").find("tr").remove();
+            for (var i = 0; i < OfflineMeters.length; i++) {
+                var Equip = OfflineMeters[i].AssetID;
+                console.log(Equip)
+                var Temp = OfflineMeters[i].Last;
+                table.append("<tr><td>" + Equip + "</td><td>" + Temp + "</td></tr>")
+            }
+        })
+
+        $("#meterTable").on("click", "tr", function () {
+            document.getElementById("ChartLoading").style.display = "flex";
+            pointKey = $(this).attr("value");
+            meterName = $(this).attr("meterName");
+            meterDescription = $(this).attr("meterDesc");
+            chartConfig["data"]["datasets"][0]["data"] = [0]
+            Chart1.update("active");
+            console.log(pointKey)
+            $.ajax({
+                url: {% url 'ems' %},
+                data: {
+                pointKey: pointKey,
+            },
+                method: 'GET',
+                success: function (data) {
+                    document.getElementById("meterName").innerText = meterName
+                    document.getElementById("meterDescription").innerText = meterDescription
+                    chartConfig["data"]["labels"] = data[current]["x"]
+                    chartConfig["data"]["datasets"][0]["data"] = data[current]["y"]
+                    Chart1.update("active");
+                    graphPoints = data;
+                    document.getElementById("ChartLoading").style.display = "none";
+                },
+            })
+        });
+        function jsFunction(value) {
+
+            if (value == 1) {
+                chartConfig.type = 'bar';
+            } else if (value == 2) {
+                chartConfig.type = 'line';
+            } else if (value == 3) {
+                chartConfig.type = 'pie';
+            } else if (value == 4) {
+                chartConfig.type = 'doughnut';
+            } else if (value == 5) {
+                chartConfig.type = 'scatter';
+            } else if (value == 6) {
+                chartConfig.type = 'bubble';
+            } else if (value == 7) {
+                alert("NABLE")
+            }
+
+            Chart1.update('active');
+        };
+        function nabers() { window.location.href = "{% url 'nabers' %}"; };
+        function selectedRow() {
+
+            var index, table = document.getElementById("meterTable");
+            for (var i = 1; i < table.rows.length; i++) {
+                table.rows[i].onclick = function () {
+                    // remove the background from the previous selected row
+                    if (typeof index !== "undefined") {
+                        table.rows[index].classList.toggle("selected");
+                    }
+                    // get the selected row index
+                    index = this.rowIndex;
+                    // add class selected to the row
+                    this.classList.toggle("selected");
+                };
+            }
+
+        }
+        function timeButton(b) {
+            current = b;
+            chartConfig["data"]["labels"] = graphPoints[current]["x"]
+            chartConfig["data"]["datasets"][0]["data"] = graphPoints[current]["y"]
+            Chart1.update("active");
+        }
+        function Select1Changed(pointKey) {
+            console.log(pointKey)
+        }
+        $(document).on('change', 'input', function() {
+            var options = $('datalist')[0].options;
+            var val = $(this).val();
+            selectedTowerAndLevel = val
+            for (var i = 0; i < options.length; i++) {
+              if (options[i].value === val) {
+                $('#TableScroll').scrollTop($('#TableScroll tr:contains('+val+')').position().top - $('#TableScroll tr:first').position().top);
+                $('#meterTable tr').removeClass('selected')
+                $('tr:contains('+val+')').addClass('selected')
+                selectedRowVal = $('tr:contains('+val+')');
+                
+                pointKey = selectedRowVal.attr("value");
+                meterName = selectedRowVal.attr("meterName");
+                meterDescription = selectedRowVal.attr("meterDesc");
+                chartConfig["data"]["datasets"][0]["data"] = [0]
+                Chart1.update("active");
+                console.log(pointKey)
+                $.ajax({
+                    url: {% url 'ems' %},
+                    data: {
+                    pointKey: pointKey,
+                },
+                    method: 'GET',
+                    success: function (data) {
+                        document.getElementById("meterName").innerText = meterName
+                        document.getElementById("meterDescription").innerText = meterDescription
+                        chartConfig["data"]["labels"] = data[current]["x"]
+                        chartConfig["data"]["datasets"][0]["data"] = data[current]["y"]
+                        Chart1.update("active");
+                        graphPoints = data;
+                    },
+                })
+                
+            }
+        }});
+        
+
+
+
+
+
+        selectedRow();
+    </script>
+</body>
+
+</html>
