@@ -9,7 +9,7 @@
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- My CSS -->
-    <link rel="stylesheet" href="{% static 'admin/css/style2.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/home.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
@@ -19,20 +19,16 @@
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-
-    <title>Weather Forecast</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Dashboard</title>
 </head>
 
 <body>
 
 
     <!-- SIDEBAR -->
-    <section id="sidebar" class="hide">
+    <section id="sidebar" class="hide hidden">
         <a href="{% url 'home' %}" class="brand">
             <img class="oi-icon"
                 src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw"
@@ -85,342 +81,265 @@
             </li>
             <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
                 title="Reports">
-                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank" style="margin-top: 5px;"
-                    class='bx bx-bar-chart-alt-2 bx-md'></a>
+                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank"
+                    style="margin-top: 5px;" class='bx bx-bar-chart-alt-2 bx-md'></a>
             </li>
         </ul>
     </section>
     <!-- SIDEBAR -->
 
 
-
     <!-- CONTENT -->
     <section id="content" style="background-color: white;">
         <!-- NAVBAR -->
-        <nav style="height: 52px;">
-            <a href="#" class="nav-link">Weather</a>
-        </nav>
+
         <!-- NAVBAR -->
 
         <!-- MAIN -->
-        <main id="weather">
-            <div id="weatherdashboard">
-                <!-- Heading -->
-                <div class="headings">
-                    <p>
-                        Weather
-                    </p>
-                    <p>
-                        <span>
-
-                        </span>
-                        <span class="dashboard">
-                            Dashboard
-                        </span>
-                    </p>
-                </div>
-                <!-- Heading -->
-
-                <!-- TCD Main Content -->
-                <div class="weatherCard">
-                    <div class="card">
-                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem">Temperature
-                        </p>
-                        <div
-                            style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
-                            <img src="https://img.icons8.com/office/80/000000/temperature--v2.png"
-                                style="margin-right:1rem; margin-left:0rem">
-                            <p
-                                style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;"
-                                    id="today_temp">36</span>&deg;C
-                            </p>
+        <main id="mainBG">
+            <div class="container-sm">
+                <div class="p-4"></div>
+                <h1 style="color: #3B3462; font-size:4rem; text-align:middle;"
+                    class="pt-5 text-center fw-normal homeHeading">
+                    Welcome To</h1>
+                <h1 style="color: #3B3462; font-size:4rem; text-align:middle;" class="pb-5 text-center homeHeading">OI
+                    Dashboards
+                </h1>
+                <div class="row g-3 d-sm-flex justify-content-center align-items-center p-4 homeBody">
+                    <div class="col-sm-4" style="height:100%;" onclick="showEmsModel()" onmouseover="changeBG('ems')"
+                        onmouseout="changeBGNormal()">
+                        <div class="p-3 homeBox" style="--homeBoxBg: #d7e9ff;">
+                            <div class="homeText">
+                                <p class="fs-2 fw-bold mb-0 pb-0">EMS</p>
+                                <p class="fs-5 fw-normal mb-0 pb-0">Dashboard</p>
+                            </div>
+                            <div>
+                                <img class="homeBoxImg"
+                                    src="https://img.icons8.com/external-icongeek26-flat-icongeek26/65/null/external-electric-meter-measurement-icongeek26-flat-icongeek26.png" />
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem">Feels Like</p>
-                        <div
-                            style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
-                            <img src="https://img.icons8.com/office/80/000000/thermometer.png"
-                                style="margin-right:1rem; margin-left:0rem">
-                            <p
-                                style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;"
-                                    id="today_temp_feelike">36</span>&deg;C
-                            </p>
+                    <div class="col-sm-4" style="height:100%;" onclick="showThermalModel()"
+                        onmouseover="changeBG('thermal')" onmouseout="changeBGNormal()">
+                        <div class="p-3 homeBox" style="--homeBoxBg: #fee3da;">
+                            <div class="homeText">
+                                <p class="fs-2 fw-bold mb-0 pb-0">Thermal</p>
+                                <p class="fs-5 fw-normal mb-0 pb-0">Dashboard</p>
+                            </div>
+                            <div>
+                                <img class="homeBoxImg" src="https://img.icons8.com/color/65/null/water-heater.png" />
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem">Air Pressure
-                        </p>
-                        <div
-                            style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
-                            <img src="https://img.icons8.com/color/80/000000/pressure.png"
-                                style="margin-right:1rem; margin-left:0rem">
-                            <p
-                                style="font-size:1.7rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span style="font-size:2rem; font-weight:550; color:#0b0025; margin-bottom:1rem;"
-                                    id="today_pressure">1</span>ATM
-                            </p>
+                    <div class="col-sm-4" style="height:100%;" onmouseover="changeBG('carpark')"
+                        onmouseout="changeBGNormal()" onclick="carpark()">
+                        <div class="p-3 homeBox" style="--homeBoxBg: #adf4f6;">
+                            <div class="homeText">
+                                <p class="fs-2 fw-bold mb-0 pb-0">Carpark</p>
+                                <p class="fs-5 fw-normal mb-0 pb-0">Dashboard</p>
+                            </div>
+                            <div>
+                                <img class="homeBoxImg"
+                                    src="https://img.icons8.com/external-soft-fill-juicy-fish/65/null/external-car-maps-and-navigation-soft-fill-soft-fill-juicy-fish-3.png" />
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem">Daily Rainfall
-                        </p>
-                        <div
-                            style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
-                            <img src="https://img.icons8.com/external-vectorslab-flat-vectorslab/80/000000/external-rainfall-weather-and-season-vectorslab-flat-vectorslab-3.png"
-                                style="margin-right:1rem; margin-left:0rem">
-                            <p
-                                style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span
-                                    style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;">1</span>mm
-                            </p>
+                    <div class="col-sm-4" style="height:100%;" onmouseover="changeBG('ev')"
+                        onmouseout="changeBGNormal()" onclick="ev()">
+                        <div class="p-3 homeBox" style="--homeBoxBg: #fff8e6;">
+                            <div class="homeText">
+                                <p class="fs-2 fw-bold mb-0 pb-0">EV</p>
+                                <p class="fs-5 fw-normal mb-0 pb-0">Dashboard</p>
+                            </div>
+                            <div>
+                                <img class="homeBoxImg" src="https://img.icons8.com/color/65/null/car-charger.png" />
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem">Wind Speed</p>
-                        <div
-                            style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
-                            <img src="https://img.icons8.com/fluency/48/000000/wind.png"
-                                style="margin-right:1rem; margin-left:0rem">
-                            <p
-                                style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;"
-                                    id="today_wind">8</span>km/hr
-                            </p>
+                    <div class="col-sm-4" style="height:100%;" onmouseover="changeBG('weather')"
+                        onmouseout="changeBGNormal()" onclick="weather()">
+                        <div class="p-3 homeBox" style="--homeBoxBg: #fae4cc;">
+                            <div class="homeText">
+                                <p class="fs-2 fw-bold mb-0 pb-0">Weather</p>
+                                <p class="fs-5 fw-normal mb-0 pb-0">Dashboard</p>
+                            </div>
+                            <div>
+                                <img class="homeBoxImg"
+                                    src="https://img.icons8.com/fluency/65/null/cloud-lighting.png" />
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem">Humidity</p>
-                        <div
-                            style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
-                            <img src="https://img.icons8.com/external-justicon-flat-justicon/80/000000/external-humidity-weather-justicon-flat-justicon.png"
-                                style="margin-right:1rem; margin-left:0rem">
-                            <p
-                                style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;"
-                                    id="today_humidity">1</span>%RH
-                            </p>
+                    <div class="col-sm-4" style="height:100%;" onmouseover="changeBG('eotf')"
+                        onmouseout="changeBGNormal()" onclick="eotf">
+                        <div class="p-3 homeBox" style="--homeBoxBg: #d5c9c2;">
+                            <div class="homeText">
+                                <p class="fs-2 fw-bold mb-0 pb-0">EOTF</p>
+                                <p class="fs-5 fw-normal mb-0 pb-0">Dashboard</p>
+                            </div>
+                            <div>
+                                <img class="homeBoxImg"
+                                    src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/65/null/external-members-agile-flaticons-lineal-color-flat-icons.png" />
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem">Vission</p>
-                        <div
-                            style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
-                            <img src="https://img.icons8.com/cute-clipart/80/000000/visible.png"
-                                style="margin-right:1rem; margin-left:0rem">
-                            <p
-                                style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;"
-                                    id="today_vision">2</span>km
-                            </p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <p style="font-size:1.4rem; font-weight:550; color:#0b0025; margin-bottom:1.2rem">Wind Direction
-                        </p>
-                        <div
-                            style="display: flex;flex-direction:row;align-items: center;justify-content: space-between;align-content: center;flex-wrap: wrap;">
-                            <img src="https://img.icons8.com/cute-clipart/80/000000/windsock.png"
-                                style="margin-right:1rem; margin-left:0rem">
-                            <p
-                                style="font-size:2.2rem; font-weight:550; color:#0b0025; margin-bottom:1rem; margin-right:0rem;">
-                                <span style="font-size:2.5rem; font-weight:550; color:#0b0025; margin-bottom:1rem;"
-                                    id="today_direction">221</span>&deg;
-                            </p>
+                    <div class="col-sm-4" style="height:100%;" onmouseover="changeBG('traffic')"
+                        onmouseout="changeBGNormal()" onclick="traffic()">
+                        <div class="p-3 homeBox" style="--homeBoxBg: #d1f4e1;">
+                            <div class="homeText">
+                                <p class="fs-2 fw-bold mb-0 pb-0">Traffic</p>
+                                <p class="fs-5 fw-normal mb-0 pb-0">Dashboard</p>
+                            </div>
+                            <div>
+                                <img class="homeBoxImg"
+                                    src="https://img.icons8.com/fluency/65/null/traffic-light.png" />
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- Modal -->
+                <div class="modal fade mt-5" id="EMSModel" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLongTitle" aria-hidden="true" onmouseover="changeBG('ems')"
+                    onmouseout="changeBGNormal()">
+                    <div class="modal-dialog modal-dialog-centered w-90" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header justify-content-center">
+                                <h5 class="modal-title text-center fs-2 fw-bold" style="color: #3B3462;">Energy
+                                    Mangement System</h5>
+                            </div>
+                            <div class="modal-body row g-4 justify-content-center">
+                                <div class="col-sm-6" style="height:100%;" onclick="ems()">
+                                    <div class="p-3 homeBox modelBox" style="--homeBoxBg: #d7e9ff;">
+                                        <div class="homeText">
+                                            <p class="fs-3 fw-bold mb-0 pb-0">Electric</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="height:100%;" onclick="ems()">
+                                    <div class="p-3 homeBox modelBox" style="--homeBoxBg: #d7e9ff;">
+                                        <div class="homeText">
+                                            <p class="fs-3 fw-bold mb-0 pb-0">Water</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="height:100%;" onclick="ems()">
+                                    <div class="p-3 homeBox modelBox" style="--homeBoxBg: #d7e9ff;">
+                                        <div class="homeText">
+                                            <p class="fs-3 fw-bold mb-0 pb-0">Gas</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="height:100%;" onclick="ems()">
+                                    <div class="p-3 homeBox modelBox" style="--homeBoxBg: #d7e9ff;">
+                                        <div class="homeText">
+                                            <p class="fs-3 fw-bold mb-0 pb-0">Thermal</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade mt-5" id="THERMALModel" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLongTitle" aria-hidden="true" onmouseover="changeBG('thermal')"
+                    onmouseout="changeBGNormal()">
+                    <div class="modal-dialog modal-dialog-centered w-90" role="document">
+                        <div class="modal-content justify-content-center">
+                            <div class="modal-header justify-content-center">
+                                <h5 class="modal-title text-center fs-2 fw-bold" style="color: #3B3462;">Thermal Comfort
+                                </h5>
+                            </div>
+                            <div class="modal-body row g-4 justify-content-center">
+                                <div class="col-sm-6" style="height:100%;" onclick="thermal()">
+                                    <div class="p-3 homeBox modelBox" style="--homeBoxBg: #fee3da;">
+                                        <div class="homeText">
+                                            <p class="fs-3 fw-bold mb-0 pb-0">Temperature</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="height:100%;" onclick="thermal()">
+                                    <div class="p-3 homeBox modelBox" style="--homeBoxBg: #fee3da;">
+                                        <div class="homeText">
+                                            <p class="fs-3 fw-bold mb-0 pb-0">Humidity</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="height:100%;" onclick="thermal()">
+                                    <div class="p-3 homeBox modelBox" style="--homeBoxBg: #fee3da;">
+                                        <div class="homeText">
+                                            <p class="fs-3 fw-bold mb-0 pb-0">CO2</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-                <!-- TCD Main Content -->
             </div>
-            <div id="weatherSideBar">
-                <div class="today-weather">
-                    <div class="location"
-                        style="display: flex;flex-direction:row;align-content: center;align-items: center;justify-content: flex-start;">
-                        <i class='bx bx-current-location'></i>
-                        <p style="text-align: center; vertical-align:middle; margin-bottom: 0rem; margin-left:0.5rem;">
-                            Sydney</p>
-                    </div>
-                    <div class="current">
-                        <img src="{% static 'admin\img\unknown.png' %}" alt="" id="mainIcon">
-                        <p style="font-size: 1.5rem; font-weight:550; color:#3b3462;">
-                            <span id="today_weekday">Today</span>, <span id="today_date">2</span> <span
-                                id="today_month">OCT</span>
-                        </p>
-                        <p style="font-size: 3rem; font-weight:600; color:#ccce4e; margin-bottom:0rem;">
-                            <span id="today_temp2">30</span>&deg;
-                        </p>
-                        <p id="today_desc" style="font-size: 1.5rem; font-weight:600; color:#0b0025; margin-top:0rem">
-                            Sunny
-                        </p>
-                    </div>
-                </div>
-                <div class="forecast-container">
-                    <img id="day2_icon" src="{% static 'admin\img\01d.png' %}" alt=""
-                        style="width: 48px; height: 48px;">
-                    <p style="margin-bottom:0px; margin-left:2rem; font-size:1.5rem; font-weight:550; color:#3B3462;">
-                        <span id="day2_temp">30</span>&deg;
-                    </p>
-                    <p id="day2_status"
-                        style="margin-bottom:0px; margin-left:10%; width:26%; font-size:1.3rem; font-weight:500; color:#3B3462;">
-                        Sunny</p>
-                    <span id="day2_week"
-                        style="text-align: left; right:0; width:25%; font-size:1.5rem; font-weight:550; color:#3B3462;">Tuesday</span>
-                </div>
-                <div class="forecast-container">
-                    <img id="day3_icon" src="{% static 'admin\img\03d.png' %}" alt=""
-                        style="width: 48px; height: 48px;">
-                    <p style="margin-bottom:0px; margin-left:2rem; font-size:1.5rem; font-weight:550; color:#3B3462;">
-                        <span id="day3_temp">28</span>&deg;
-                    </p>
-                    <p id="day3_status"
-                        style="margin-bottom:0px; margin-left:10%; width:26%; font-size:1.3rem; font-weight:500; color:#3B3462;">
-                        Cloudy</p>
-                    <span id="day3_week"
-                        style="text-align: left; right:0; width:25%; font-size:1.5rem; font-weight:550; color:#3B3462;">Wednesday</span>
-                </div>
-                <div class="forecast-container">
-                    <img id="day4_icon" src="{% static 'admin\img\11d.png' %}" alt=""
-                        style="width: 48px; height: 48px;">
-                    <p style="margin-bottom:0px; margin-left:2rem; font-size:1.5rem; font-weight:550; color:#3B3462;">
-                        <span id="day4_temp">27</span>&deg;
-                    </p>
-                    <p id="day4_status"
-                        style="margin-bottom:0px; margin-left:10%; width:26%; font-size:1.3rem; font-weight:500; color:#3B3462;">
-                        Rainy</p>
-                    <span id="day4_week"
-                        style="text-align: left; right:0; width:25%; font-size:1.5rem; font-weight:550; color:#3B3462;">Thursday</span>
-                </div>
-                <div class="forecast-container">
-                    <img id="day5_icon" src="{% static 'admin\img\11d.png' %}" alt=""
-                        style="width: 48px; height: 48px;">
-                    <p style="margin-bottom:0px; margin-left:2rem; font-size:1.5rem; font-weight:550; color:#3B3462;">
-                        <span id="day5_temp">25</span>&deg;
-                    </p>
-                    <p id="day5_status"
-                        style="margin-bottom:0px; margin-left:10%; width:26%; font-size:1.3rem; font-weight:500; color:#3B3462;">
-                        Rainy</p>
-                    <span id="day5_week"
-                        style="text-align: left; right:0; width:1fr; font-size:1.5rem; font-weight:550; color:#3B3462;">Friday</span>
-                </div>
-                <div class="forecast-container">
-                    <img id="day6_icon" src="{% static 'admin\img\11d.png' %}" alt=""
-                        style="width: 48px; height: 48px;">
-                    <p style="margin-bottom:0px; margin-left:2rem; font-size:1.5rem; font-weight:550; color:#3B3462;">
-                        <span id="day6_temp">25</span>&deg;
-                    </p>
-                    <p id="day6_status"
-                        style="margin-bottom:0px; margin-left:10%; width:26%; font-size:1.3rem; font-weight:500; color:#3B3462;">
-                        Rainy</p>
-                    <span id="day6_week"
-                        style="text-align: left; right:0; width:1fr; font-size:1.5rem; font-weight:550; color:#3B3462;">Friday</span>
-                </div>
-            </div>
+            <footer class="homefooter"
+                style="position: fixed;bottom:0;width:100%;display:flex;align-items: center;justify-content: center;align-content: center;flex-wrap: wrap;">
+                <p class="fs-6" style="color: #3B3462;">© Powered By Operational Intelligence</p>
+            </footer>
         </main>
+
         <!-- MAIN -->
     </section>
     <!-- CONTENT -->
 
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
     <script>
-        var weather_01 = 'url("https://i.gifer.com/Lx0q.gif")';
-        var weather_02 = 'url("https://i.gifer.com/6HU.gif")';
-        var weather_03 = 'url("https://i.gifer.com/yY8.gif")';
-        var weather_04 = 'url("https://i.gifer.com/yY8.gif")';
-        var weather_09 = 'url("https://i.gifer.com/32Zh.gif")';
-        var weather_10 = 'url("https://i.gifer.com/QAOA.gif")';
-        var weather_11 = 'url("https://i.gifer.com/7TDG.gif")';
-        var weather_13 = 'url("https://i.gifer.com/4FPq.gif")';
-        var weather_50 = 'url("https://i.gifer.com/V0M.gif")';
-        function zoom() { document.body.style.zoom = "90%" }
-        function weekdaysConvertor(d) {
-            console.log(d)
-            if (d == 0) {
-                return "Monday"
-            } else if (d == 1) {
-                return "Tuesday"
-            } else if (d == 2) {
-                return "Wednesday"
-            } else if (d == 3) {
-                return "Thursday"
-            } else if (d == 4) {
-                return "Friday"
-            } else if (d == 5) {
-                return "Saturday"
-            } else if (d == 6) {
-                return "Sunday"
+        document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/bg.svg' %}")';
+        function changeBG(bg) {
+            if (bg == 'ems') {
+                document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/ems.svg' %}")';
             }
-        };
-        function getBackground(d) {
-            d = d.slice(0, 2);
-            if (d == "01") {
-                return weather_01
-            } else if (d == "02") {
-                return weather_02
-            } else if (d == "03") {
-                return weather_03
-            } else if (d == "04") {
-                return weather_04
-            } else if (d == "09") {
-                return weather_09
-            } else if (d == "10") {
-                return weather_10
-            } else if (d == "11") {
-                return weather_11
-            } else if (d == "13") {
-                return weather_13
-            } else if (d == "15") {
-                return weather_15
-            } else {
-                return weather_01
+            else if (bg == 'thermal'){
+                document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/thermal.svg' %}")';
             }
+            else if (bg == 'carpark'){
+                document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/carpark.svg' %}")';
+            }
+            else if (bg == 'ev'){
+                document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/ev.svg' %}")';
+            }
+            else if (bg == 'weather'){
+                document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/weather.svg' %}")';
+            }
+            else if (bg == 'eotf'){
+                document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/eotf.svg' %}")';
+            }
+            else if (bg == 'traffic'){
+                document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/traffic.svg' %}")';
+            }
+
         }
-        var weather_data = {{ weather| safe}};
-        document.getElementById("weather").style.backgroundImage = getBackground(weather_data["0"]["icon"])
-        document.getElementById("mainIcon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["0"]["icon"])
-        document.getElementById("today_temp").innerText = Number(weather_data["0"]["temp"]).toFixed(1)
-        document.getElementById("today_temp2").innerText = Number(weather_data["0"]["temp"]).toFixed(1)
-        document.getElementById("today_desc").innerText = weather_data["0"]["status"]
-        document.getElementById("today_weekday").innerText = weekdaysConvertor(weather_data["0"]["day"])
-        document.getElementById("today_date").innerText = weather_data["0"]["date"]
-        document.getElementById("today_month").innerText = weather_data["0"]["month"]
-        document.getElementById("today_temp_feelike").innerText = Number(weather_data["0"]["feels_like"]).toFixed(1)
-        document.getElementById("today_pressure").innerText = weather_data["0"]["pressure"]
-        document.getElementById("today_humidity").innerText = weather_data["0"]["humidity"]
-        document.getElementById("today_wind").innerText = weather_data["0"]["wind_speed"]
-        document.getElementById("today_direction").innerText = weather_data["0"]["wind_direction"]
-        document.getElementById("today_vision").innerText = weather_data["0"]["vision"]
-        console.log(getBackground(weather_data["0"]["icon"]))
-
-        document.getElementById("day2_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["1"]["icon"])
-        document.getElementById("day3_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["2"]["icon"])
-        document.getElementById("day4_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["3"]["icon"])
-        document.getElementById("day5_icon").src = "{% static 'admin\img\unknown.png' %}".replace("unknown", weather_data["4"]["icon"])
-
-        document.getElementById("day2_temp").innerText = Number(weather_data["1"]["temp"]).toFixed(1)
-        document.getElementById("day3_temp").innerText = Number(weather_data["2"]["temp"]).toFixed(1)
-        document.getElementById("day4_temp").innerText = Number(weather_data["3"]["temp"]).toFixed(1)
-        document.getElementById("day5_temp").innerText = Number(weather_data["4"]["temp"]).toFixed(1)
-        document.getElementById("day6_temp").innerText = Number(weather_data["5"]["temp"]).toFixed(1)
-
-        document.getElementById("day2_status").innerText = weather_data["1"]["status"]
-        document.getElementById("day3_status").innerText = weather_data["2"]["status"]
-        document.getElementById("day4_status").innerText = weather_data["3"]["status"]
-        document.getElementById("day5_status").innerText = weather_data["4"]["status"]
-        document.getElementById("day6_status").innerText = weather_data["5"]["status"]
-
-        document.getElementById("day2_week").innerText = weekdaysConvertor(weather_data["1"]["day"])
-        document.getElementById("day3_week").innerText = weekdaysConvertor(weather_data["2"]["day"])
-        document.getElementById("day4_week").innerText = weekdaysConvertor(weather_data["3"]["day"])
-        document.getElementById("day5_week").innerText = weekdaysConvertor(weather_data["4"]["day"])
-        document.getElementById("day6_week").innerText = weekdaysConvertor(weather_data["5"]["day"])
-
-
+        function changeBGNormal() {
+            document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/bg.svg' %}")';
+        }
+        function showEmsModel() {
+            $('#EMSModel').modal('toggle')
+        }
+        function showThermalModel() {
+            $('#THERMALModel').modal('toggle')
+        }
+        function ems() { window.location.href = "{% url 'ems' %}"; };
+        function thermalT() { window.location.href = "{% url 'thermalComfort' %}"; };
+        function thermalH() { window.location.href = "{% url 'thermalComfortHumidity' %}"; };
+        function thermalC() { window.location.href = "{% url 'thermalComfortCo2' %}"; };
+        function carpark() { window.location.href = "{% url 'carPark' %}"; };
+        function ev() { window.location.href = "{% url 'evCharging' %}"; };
+        function weather() { window.location.href = "{% url 'weather' %}"; };
+        function eotf() { window.location.href = "{% url 'eotf' %}"; };
+        function traffic() { window.location.href = "{% url 'traffic' %}"; };
     </script>
-
-
 
 </body>
 

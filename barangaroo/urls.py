@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path("login/", view=views.login_view, name="login"),
     #path("accounts/login/", view=views.login_view, name="login"),
-    path("", view=views.weather_forcast, name="home"),
+    path("", view=views.home, name="home"),
     path("ems/", view=views.ems, name="ems"),
     path('nabers/', view=views.nabers, name='nabers'),
     path('nabers_2/', view=views.nabers_new, name='nabers_new'),
@@ -46,6 +46,8 @@ urlpatterns = [
     path("eotf_use/", view=views.eotf_use, name="eotf_use"),
     path("traffic/", view=views.traffic, name="traffic"),
     path("testEms/<str:userID>", view=views.testEms, name="TEMS"),
+    path("meter_tree/", view=views.tree, name="tree"),
+    path("meter_tree2/", view=views.tree2, name="tree2"),
     
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),   

@@ -427,3 +427,16 @@ def traffic(request):
                             "headlines":incident_headlines, "diversion":incident_diversions, "weblinkI":incident_weblink, "google":incident_map, "coord":{"lng":incident["geometry"]["coordinates"][0], "lat": incident["geometry"]["coordinates"][1]}})
     
     return render(request=request, template_name="Traffic.html", context={"data":all_incidents[:20][::-1]})
+
+def tree(request):
+    tree_DF = pd.ExcelFile("barangaroo//static//admin//file//MeterTree.xlsx").parse(sheet_name="Meter")
+    meter_relations = [[i[0], i[3]]for i in tree_DF.values.tolist()]
+    all_meters = [list(j) for j in list(set([(i[0], i[1], i[2]) for i in tree_DF.values.tolist()] + [(i[3], i[4], i[5]) for i in tree_DF.values.tolist()]))]
+    return render(request=request, template_name="tree.html", context={"all_meters":all_meters, "meter_relations":meter_relations})
+
+def tree2(request):
+    tree_DF = pd.ExcelFile("barangaroo//static//admin//file//MeterTree.xlsx").parse(sheet_name="Meter")
+    meter_relations = [[i[0], i[3]]for i in tree_DF.values.tolist()]
+    all_meters = [list(j) for j in list(set([(i[0], i[1], i[2]) for i in tree_DF.values.tolist()] + [(i[3], i[4], i[5]) for i in tree_DF.values.tolist()]))]
+    parents = [[i[0], i[1]] for i in tree_DF[~tree_DF["Parent"].isin(tree_DF["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
+    return render(request=request, template_name="tree2.html", context={"all_meters":all_meters, "meter_relations":meter_relations, "parents":parents})

@@ -1,0 +1,343 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static 'admin/css/tree.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+        integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://code.jscharting.com/latest/jscharting.js"></script>
+        <script type="text/javascript" src="https://code.jscharting.com/latest/modules/toolbar.js"></script>
+        <script type="text/javascript" src="https://code.jscharting.com/latest/modules/types.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+    <section id="sidebar" class="hide hidden">
+        <a href="{% url 'home' %}" class="brand">
+            <img class="oi-icon"
+                src="https://media-exp1.licdn.com/dms/image/C560BAQEAPjKix24H5A/company-logo_200_200/0/1574388135440?e=1672272000&v=beta&t=SBjMJWO6LihSvjdzM88Lvk15riwX8TkLhz_SNQhDWDw"
+                alt="Operational Interlligence">
+            <span class="text">Operational Intelligence</span>
+        </a>
+        <ul
+            style="display: flex; flex-direction: column; align-content: flex-end; flex-wrap: nowrap; justify-content: center; align-items: center;">
+            <li
+                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FF7F7F; --selectionColorBG: #ff7f7f83;">
+                <a href="{% url 'ems'%}" class='bx bxs-dashboard bx-md' title="Electric Meter Dashboard"
+                    style="margin-top: 5px;"></a>
+            </li>
+            <li
+                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #FFE493; --selectionColorBG: #FFE49383; ">
+                <a href="{% url 'thermalComfort'%}" style="margin-top: 5px;" class='bx bxs-thermometer bx-md'
+                    title="Thermal Comfort"></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D2EB99; --selectionColorBG: #D2EB9983; "
+                title="Carpark">
+                <a href="{% url 'carPark' %}" style="margin-top: 5px;" class='bx bxs-car-garage bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #7EB6E0; --selectionColorBG: #7EB6E083; "
+                title="EV Charging">
+                <a href="{% url 'evCharging' %}" style="margin-top: 5px;" class='bx bxs-ev-station bx-md'></a>
+            </li>
+            <li class="active"
+                style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #D7FEFF; --selectionColorBG: #D7FEFF83; "
+                title="Weather Station">
+                <a href="{% url 'weather' %}" style="margin-top: 5px;" class='bx bx-cloud-snow bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3C91E6; --selectionColorBG: #3C91E683; "
+                title="EOTF">
+                <a href="{% url 'eotf' %}" style="margin-top: 5px;" class='bx bx-notepad bx-md'></a>
+            </li>
+
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #b2585e; --selectionColorBG: #b2585e83; "
+                title="Traffic">
+                <a href="{% url 'traffic' %}" style="margin-top: 5px;" class='bx bxs-traffic-barrier bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e6913c; --selectionColorBG: #e6913c83; "
+                title="IBMS">
+                <a href="https://obsi.sydney/Apps/IBMS/rtsystem.json?key=5227" target="_blank" style="margin-top: 5px;"
+                    class='bx bx-line-chart bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #3ce691; --selectionColorBG: #3ce69183; "
+                title="Card Holders">
+                <a href="https://obsi.sydney/Apps/AccessCard/cardholders" target="_blank" style="margin-top: 5px;"
+                    class='bx bx-id-card bx-md'></a>
+            </li>
+            <li style="align-content:center;margin-top: 0.5rem;margin-bottom: 0.5rem;text-align: center;text-decoration: none; --selectionColor: #e63c91; --selectionColorBG: #e63c9183; "
+                title="Reports">
+                <a href="https://obsi.sydney/Apps/CrystalReportsConnector/dashboard" target="_blank"
+                    style="margin-top: 5px;" class='bx bx-bar-chart-alt-2 bx-md'></a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+
+    <!-- CONTENT -->
+    <section id="content" style="background-color: white;">
+        <!-- NAVBAR -->
+
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main id="mainBG">
+            <div class="container justify-content-center max" style="max-width:90vw">
+                <div class="row">
+                    <div class="row g-3">
+                        <div class="col-6 pb-3">
+                            <p class="fs-2 fw-bold mb-0" style="color: #3B3462;">
+                                Electric Meter Tree
+                            </p>
+                        </div>
+                        <div class="col-5 btn-group d-sm-flex justify-content-end">
+                            <div class="col-1"><i class='bx bx-chevrons-right bx-fade-right bx-flip-vertical bx-md'></i>
+                            </div>
+                            <div class="col-3">
+                                <p class="fs-5 text-center fw-bold" id="CatText">MSB-1</p>
+                            </div>
+                            <div class="col-1 ml-5"><i
+                                    class='bx bx-chevrons-left bx-fade-left bx-flip-vertical bx-md'></i></div>
+                            <div class="col-1">
+                                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    Catagory
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <button class="dropdown-item" type="button" value="MSB-1"
+                                        onclick="chnageMeterCat(this.value)">MSB-1</button>
+                                    <button class="dropdown-item" type="button" value="MSB-2"
+                                        onclick="chnageMeterCat(this.value)">MSB-2</button>
+                                    <button class="dropdown-item" type="button" value="MSB-3"
+                                        onclick="chnageMeterCat(this.value)">MSB-3</button>
+                                    <button class="dropdown-item" type="button" value="MSB-4"
+                                        onclick="chnageMeterCat(this.value)">MSB-4</button>
+                                    <button class="dropdown-item" type="button" value="MSB-5"
+                                        onclick="chnageMeterCat(this.value)">MSB-5</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row overflow-auto border bg-light"
+                        style="height: 86vh; min-width:80vw; border-radius:1rem" id="meterTreeContainer">
+                        <div id="meterTree"></div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+
+
+    <script>
+        document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/ems.svg' %}")'
+        function changeBG(bg) {
+            document.getElementById("mainBG").style.backgroundImage = 'url(' + bg + ')';
+        }
+        function changeBGNormal() {
+            document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/ems.svg' %}")'
+        }
+        function showEmsModel() {
+            $('#EMSModel').modal('toggle')
+        }
+        function showThermalModel() {
+            $('#THERMALModel').modal('toggle')
+        }
+        function chnageMeterCat(cat) {
+            document.getElementById("CatText").innerText = cat
+        }
+        meter_relations = {{ meter_relations | safe }};
+        all_meters = {{ all_meters | safe }};
+        parents = {{parents | safe}};
+        meters_r = [];
+        meterDescription = [];
+        for (let i = 0; i < all_meters.length; i++) {
+            meterDescription.push({ id: all_meters[i][0].toLowerCase(), name: all_meters[i][0], description: all_meters[i][1], link: all_meters[i][2] });
+        }
+        for (let i = 0; i < meter_relations.length; i++) {
+            meters_r.push({ id: meter_relations[i][1].toLowerCase().replaceAll("-", ""), x: meter_relations[i][1], parent: meter_relations[i][0].toLowerCase().replaceAll("-", "")});
+        }
+        for (let i = 0; i < parents.length; i++) {
+            meters_r.push({ id: parents[i][0].toLowerCase().replaceAll("-", ""), x: parents[i][0]});
+        }
+        console.log(meters_r)
+        
+        var selectedPoint;
+        var highlightColor = '#448de0';
+
+        var chart = JSC.chart('meterTree', {
+            debug: true,
+            type: 'organizational right',
+            events: {
+                pointSelectionChanged: pointSelectionChanged
+            },
+            defaultTooltip_enabled: false,
+
+            /*These options will apply to all annotations including point nodes.*/
+            defaultAnnotation: {
+                padding: [5, 10],
+                margin: 5
+            },
+            defaultSeries: {
+                color: '#bad5ef',
+                /* Point selection is disabled because it is managed manually. */
+                pointSelection: 'single',
+                shape_padding: 0.1
+            },
+            defaultPoint: {
+                focusGlow: false,
+                connectorLine: {
+                    radius: [10, 3],
+                    color: '#000000',
+                    caps: { end: { type: 'arrow', size: 4 } }
+                },
+                outline: { color: '#cbcbcb', width: 1 },
+                states: {
+                    // The select state is used by points that are clicked. 
+                    credits: { enabled: false },
+                    select: {
+                        fill: [highlightColor, 0.3],
+                        outline: { color: highlightColor }
+                    },
+                    // The mute state is used to style points that are part a clicked path. 
+                    mute: {
+                        enabled: true,
+                        opacity: 1,
+                        outline: { color: highlightColor }
+                    }
+                },
+                events: {
+                    // Returning false from these events prevents mute state changes the chart does automatically. 
+                    mouseOver: function () {
+                        if (this.id === selectedPoint) {
+                            alert(this.id)
+                            this.chart.connectors([this.id, 'up'], {
+                                color: highlightColor,
+                                width: 2
+                            });
+                        } else {
+                            this.chart.connectors([this.id, 'up'], {
+                                color: highlightColor
+                            });
+                        }
+                        this.chart
+                            .series()
+                            .points([this.id, 'up'])
+                            .options({ muted: true });
+                        return false;
+                    },
+                    mouseOut: function () {
+                        styleSelectedPoints(this.chart);
+                        return false;
+                    }
+                }
+            },
+
+            series: [
+                {
+                    shape_padding: 0.1,
+                    points: meters_r,
+                }
+            ],
+            annotations: [
+                {
+                    position: 'inside top right',
+                    label_text:
+                        ''
+                },
+                {
+                    id: 'crumbs',
+                    boxVisible: false,
+                    position: 'inside bottom',
+                    label: {
+                        text: '',
+                        style_fontWeight: 'bold'
+                    }
+                }
+            ],
+
+            toolbar_items: {
+                '': {
+                    events_click: function (item) {
+                        reset(this.chart);
+                        selectedPoint = undefined;
+                    }
+                }
+            }
+        });
+
+        /** 
+         * Event Handler 
+         */
+        function pointSelectionChanged(points) {
+            selectedPoint = points.map(function (p) {
+                return p.id;
+            })[0];
+            styleSelectedPoints(this);
+        }
+
+        function styleSelectedPoints(c) {
+            // Clear styling 
+            c.connectors();
+            c.series()
+                .points()
+                .options({ muted: false });
+            if (selectedPoint) {
+                var path = [selectedPoint, 'up'];
+                c.connectors(path, {
+                    color: highlightColor,
+                    width: 2
+                });
+                c.series()
+                    .points(path)
+                    .options({ muted: true });
+                    
+            }
+        }
+
+        function reset(c) {
+            c.connectors();
+            c.series()
+                .points()
+                .options({ selected: false });
+        }
+        if (chart.logo) {
+            chart.logo.disabled = true;
+          }
+    </script>
+
+</body>
+
+</html>
