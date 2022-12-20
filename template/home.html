@@ -195,6 +195,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-4" style="height:100%;" onmouseover="changeBG('tree')"
+                        onmouseout="changeBGNormal()" onclick="traffic()">
+                        <div class="p-3 homeBox" style="--homeBoxBg: #b8d3f6;">
+                            <div class="homeText">
+                                <p class="fs-2 fw-bold mb-0 pb-0">Meter Tree</p>
+                                <p class="fs-5 fw-normal mb-0 pb-0">Dashboard</p>
+                            </div>
+                            <div>
+                                <img class="homeBoxImg"
+                                    src="https://img.icons8.com/office/65/null/genealogy.png" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Modal -->
                 <div class="modal fade mt-5" id="EMSModel" tabindex="-1" role="dialog"
@@ -319,6 +332,9 @@
             else if (bg == 'traffic'){
                 document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/traffic.svg' %}")';
             }
+            else if (bg == 'tree'){
+                document.getElementById("mainBG").style.backgroundImage = 'url("{% static '/admin/img/tree.svg' %}")';
+            }
 
         }
         function changeBGNormal() {
@@ -339,6 +355,7 @@
         function weather() { window.location.href = "{% url 'weather' %}"; };
         function eotf() { window.location.href = "{% url 'eotf' %}"; };
         function traffic() { window.location.href = "{% url 'traffic' %}"; };
+        function tree() { window.location.href = "{% url 'tree' %}"; };
     </script>
 
 </body>
