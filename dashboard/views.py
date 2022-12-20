@@ -7,7 +7,9 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
 import pandas as pd
 import math
-
+from dashboard.models import Document
+from dashboard.forms import DocumentForm
+from django.contrib import messages
 
 DF = pd.ExcelFile("barangaroo//static//admin//file//Data.xlsx")
 User_DF = pd.ExcelFile("barangaroo//static//admin//file//Users.xlsx").parse(sheet_name="Users")
@@ -435,36 +437,72 @@ def tree(request):
     return render(request=request, template_name="tree.html", context={"all_meters":all_meters, "meter_relations":meter_relations})
 
 def tree2(request):
-    tree_DF = pd.ExcelFile("barangaroo//static//admin//file//MeterTree.xlsx").parse(sheet_name="Meter")
-    meter_relations = [[i[0], i[3], i[4]]for i in tree_DF.values.tolist()]
-    parents = [[i[0], i[1]] for i in tree_DF[~tree_DF["Parent"].isin(tree_DF["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
-    levels = ["B{:02.0f}".format(i) for i in range(1, 10)] + ["LGF", "GND"] + ["L{:02.0f}".format(j) for j in range(1, 100)]
-    lowRise_levels = ["B{:02.0f}".format(i) for i in range(1, 10)] + ["LGF", "GND"] + ["L{:02.0f}".format(j) for j in range(1, 12)]
-    midRise_levels  = ["L{:02.0f}".format(j) for j in range(12, 24)]
-    highRise_levels  = ["L{:02.0f}".format(j) for j in range(24, 37)]
-    level_wise_record = {}
-    for lvl in levels:
-        lvl_df = tree_DF[tree_DF["Parent"].str.contains(lvl)]
-        if lvl_df.empty==False:level_wise_record[lvl] = lvl_df
-    lowRise = pd.concat([v for k, v in level_wise_record.items() if k in lowRise_levels])
-    midRise = pd.concat([v for k, v in level_wise_record.items() if k in midRise_levels])
-    highRise = pd.concat([v for k, v in level_wise_record.items() if k in highRise_levels])
-    lowRise_meter_relations = [[i[0], i[3], i[4]]for i in lowRise.values.tolist()]
-    lowRise_parents = [[i[0], i[1]] for i in lowRise[~lowRise["Parent"].isin(lowRise["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
-    midRise_meter_relations = [[i[0], i[3], i[4]]for i in midRise.values.tolist()]
-    midRise_parents = [[i[0], i[1]] for i in midRise[~midRise["Parent"].isin(midRise["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
-    highRise_meter_relations = [[i[0], i[3], i[4]]for i in highRise.values.tolist()]
-    highRise_parents = [[i[0], i[1]] for i in highRise[~highRise["Parent"].isin(highRise["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
-    cat = ["MSSB", "MSB", "DB", "TX"]
-    cat_wise_record = {}
-    for c in cat:
-        cat_df = tree_DF[tree_DF["Parent Name"].str.contains(c)]
-        if cat_df.empty==False: 
-            cat_wise_record[c] = [[[i[0], i[3], i[4]]for i in cat_df.values.tolist()],
-                              [[i[0], i[1]] for i in cat_df[~cat_df["Parent"].isin(cat_df["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]]
-    all_cat = list(cat_wise_record.keys())
-    return render(request=request, template_name="tree2.html", context={"meter_relations":meter_relations, "parents":parents,
-                                                                        "lowRise_meter_relations":lowRise_meter_relations, "lowRise_parents":lowRise_parents,
-                                                                        "midRise_meter_relations":midRise_meter_relations, "midRise_parents":midRise_parents,
-                                                                        "highRise_meter_relations":highRise_meter_relations, "highRise_parents":highRise_parents,
-                                                                        "allCat":all_cat, "cat_wise_record":cat_wise_record})
+    if request.method == 'POST':
+        tree_DF = pd.ExcelFile(request.FILES['myfile']).parse(sheet_name="Meter")
+        meter_relations = [[i[0], i[3], i[4]]for i in tree_DF.values.tolist()]
+        parents = [[i[0], i[1]] for i in tree_DF[~tree_DF["Parent"].isin(tree_DF["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
+        levels = ["B{:02.0f}".format(i) for i in range(1, 10)] + ["LGF", "GND"] + ["L{:02.0f}".format(j) for j in range(1, 100)]
+        lowRise_levels = ["B{:02.0f}".format(i) for i in range(1, 10)] + ["LGF", "GND"] + ["L{:02.0f}".format(j) for j in range(1, 12)]
+        midRise_levels  = ["L{:02.0f}".format(j) for j in range(12, 24)]
+        highRise_levels  = ["L{:02.0f}".format(j) for j in range(24, 37)]
+        level_wise_record = {}
+        for lvl in levels:
+            lvl_df = tree_DF[tree_DF["Parent"].str.contains(lvl)]
+            if lvl_df.empty==False:level_wise_record[lvl] = lvl_df
+        lowRise = pd.concat([v for k, v in level_wise_record.items() if k in lowRise_levels])
+        midRise = pd.concat([v for k, v in level_wise_record.items() if k in midRise_levels])
+        highRise = pd.concat([v for k, v in level_wise_record.items() if k in highRise_levels])
+        lowRise_meter_relations = [[i[0], i[3], i[4]]for i in lowRise.values.tolist()]
+        lowRise_parents = [[i[0], i[1]] for i in lowRise[~lowRise["Parent"].isin(lowRise["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
+        midRise_meter_relations = [[i[0], i[3], i[4]]for i in midRise.values.tolist()]
+        midRise_parents = [[i[0], i[1]] for i in midRise[~midRise["Parent"].isin(midRise["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
+        highRise_meter_relations = [[i[0], i[3], i[4]]for i in highRise.values.tolist()]
+        highRise_parents = [[i[0], i[1]] for i in highRise[~highRise["Parent"].isin(highRise["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
+        cat = ["MSSB", "MSB", "DB", "TX"]
+        cat_wise_record = {}
+        for c in cat:
+            cat_df = tree_DF[tree_DF["Parent Name"].str.contains(c)]
+            if cat_df.empty==False: 
+                cat_wise_record[c] = [[[i[0], i[3], i[4]]for i in cat_df.values.tolist()],
+                                [[i[0], i[1]] for i in cat_df[~cat_df["Parent"].isin(cat_df["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]]
+        all_cat = list(cat_wise_record.keys())
+        #messages.success(request, 'File Uploaded!')
+        return render(request=request, template_name="tree2.html", context={"meter_relations":meter_relations, "parents":parents,
+                                                                            "lowRise_meter_relations":lowRise_meter_relations, "lowRise_parents":lowRise_parents,
+                                                                            "midRise_meter_relations":midRise_meter_relations, "midRise_parents":midRise_parents,
+                                                                            "highRise_meter_relations":highRise_meter_relations, "highRise_parents":highRise_parents,
+                                                                            "allCat":all_cat, "cat_wise_record":cat_wise_record})
+    else:
+        tree_DF = pd.ExcelFile("barangaroo//static//admin//file//MeterTree.xlsx").parse(sheet_name="Meter")
+        meter_relations = [[i[0], i[3], i[4]]for i in tree_DF.values.tolist()]
+        parents = [[i[0], i[1]] for i in tree_DF[~tree_DF["Parent"].isin(tree_DF["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
+        levels = ["B{:02.0f}".format(i) for i in range(1, 10)] + ["LGF", "GND"] + ["L{:02.0f}".format(j) for j in range(1, 100)]
+        lowRise_levels = ["B{:02.0f}".format(i) for i in range(1, 10)] + ["LGF", "GND"] + ["L{:02.0f}".format(j) for j in range(1, 12)]
+        midRise_levels  = ["L{:02.0f}".format(j) for j in range(12, 24)]
+        highRise_levels  = ["L{:02.0f}".format(j) for j in range(24, 37)]
+        level_wise_record = {}
+        for lvl in levels:
+            lvl_df = tree_DF[tree_DF["Parent"].str.contains(lvl)]
+            if lvl_df.empty==False:level_wise_record[lvl] = lvl_df
+        lowRise = pd.concat([v for k, v in level_wise_record.items() if k in lowRise_levels])
+        midRise = pd.concat([v for k, v in level_wise_record.items() if k in midRise_levels])
+        highRise = pd.concat([v for k, v in level_wise_record.items() if k in highRise_levels])
+        lowRise_meter_relations = [[i[0], i[3], i[4]]for i in lowRise.values.tolist()]
+        lowRise_parents = [[i[0], i[1]] for i in lowRise[~lowRise["Parent"].isin(lowRise["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
+        midRise_meter_relations = [[i[0], i[3], i[4]]for i in midRise.values.tolist()]
+        midRise_parents = [[i[0], i[1]] for i in midRise[~midRise["Parent"].isin(midRise["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
+        highRise_meter_relations = [[i[0], i[3], i[4]]for i in highRise.values.tolist()]
+        highRise_parents = [[i[0], i[1]] for i in highRise[~highRise["Parent"].isin(highRise["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]
+        cat = ["MSSB", "MSB", "DB", "TX"]
+        cat_wise_record = {}
+        for c in cat:
+            cat_df = tree_DF[tree_DF["Parent Name"].str.contains(c)]
+            if cat_df.empty==False: 
+                cat_wise_record[c] = [[[i[0], i[3], i[4]]for i in cat_df.values.tolist()],
+                                [[i[0], i[1]] for i in cat_df[~cat_df["Parent"].isin(cat_df["Child"])].drop_duplicates(subset=["Parent"]).values.tolist()]]
+        all_cat = list(cat_wise_record.keys())
+        return render(request=request, template_name="tree2.html", context={"meter_relations":meter_relations, "parents":parents,
+                                                                            "lowRise_meter_relations":lowRise_meter_relations, "lowRise_parents":lowRise_parents,
+                                                                            "midRise_meter_relations":midRise_meter_relations, "midRise_parents":midRise_parents,
+                                                                            "highRise_meter_relations":highRise_meter_relations, "highRise_parents":highRise_parents,
+                                                                            "allCat":all_cat, "cat_wise_record":cat_wise_record})

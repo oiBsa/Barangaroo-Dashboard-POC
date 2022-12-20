@@ -110,6 +110,13 @@
 
         <!-- MAIN -->
         <main id="mainBG" style="background-color: #E3D91F;">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+            </ul>
+            {% endif %}
             <div class="container justify-content-center max" style="max-width:90vw">
                 <div class="row">
                     <div class="row g-3">
@@ -135,7 +142,7 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     {% for i in allCat %}
                                     <button class="dropdown-item" type="button" value="{{ i }}"
-                                    onclick="chnageMeterCat(this.value)">{{i}}</button>
+                                        onclick="chnageMeterCat(this.value)">{{i}}</button>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -152,6 +159,14 @@
                                     <button class="dropdown-item" type="button" value="high"
                                         onclick="chnageMeterLvl(this.value)">High Rise</button>
                                 </div>
+                            </div>
+                            <div class="col-2">
+                                <form method="post" enctype="multipart/form-data" class="d-flex flex-column">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <input id="catagoryButton" type="file" name="myfile" />
+                                    <button id="catagoryButton" type="submit">Submit</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -196,7 +211,7 @@
                 debug: true,
                 type: 'organizational right',
                 defaultTooltip_enabled: false,
-    
+
                 /* These options will apply to all annotations including point nodes. */
                 defaultAnnotation: {
                     padding: [5, 10],
@@ -207,7 +222,7 @@
                     fill: "#ffffff",
                     padding: 16
                 },
-    
+
                 defaultSeries: {
                     color: normalFill,
                     /* Point selection is disabled because it is managed manually with point click events. */
@@ -228,7 +243,7 @@
                     },
                     outline: { color: '#000000', width: 1 },
                     annotation: { syncHeight_with: 'all', syncWidth_with: 'all' },
-    
+
                     states: {
                         credits: { enabled: false },
                         mute: {
@@ -263,7 +278,7 @@
                     }
                 },
                 series: [{ points: cat_meters_r }]
-            }); 
+            });
         }
         function chnageMeterLvl(cat) {
             document.getElementById("CatText").innerText = cat.toUpperCase() + " Rise";
@@ -272,7 +287,7 @@
                     debug: true,
                     type: 'organizational right',
                     defaultTooltip_enabled: false,
-        
+
                     /* These options will apply to all annotations including point nodes. */
                     defaultAnnotation: {
                         padding: [5, 10],
@@ -283,7 +298,7 @@
                         fill: "#ffffff",
                         padding: 16
                     },
-        
+
                     defaultSeries: {
                         color: normalFill,
                         /* Point selection is disabled because it is managed manually with point click events. */
@@ -304,7 +319,7 @@
                         },
                         outline: { color: '#000000', width: 1 },
                         annotation: { syncHeight_with: 'all', syncWidth_with: 'all' },
-        
+
                         states: {
                             credits: { enabled: false },
                             mute: {
@@ -339,14 +354,14 @@
                         }
                     },
                     series: [{ points: meters_r_low }]
-                }); 
+                });
             }
             else if (cat == "mid") {
                 var chart = JSC.chart('meterTree', {
                     debug: true,
                     type: 'organizational right',
                     defaultTooltip_enabled: false,
-        
+
                     /* These options will apply to all annotations including point nodes. */
                     defaultAnnotation: {
                         padding: [5, 10],
@@ -357,7 +372,7 @@
                         fill: "#ffffff",
                         padding: 16
                     },
-        
+
                     defaultSeries: {
                         color: normalFill,
                         /* Point selection is disabled because it is managed manually with point click events. */
@@ -378,7 +393,7 @@
                         },
                         outline: { color: '#000000', width: 1 },
                         annotation: { syncHeight_with: 'all', syncWidth_with: 'all' },
-        
+
                         states: {
                             credits: { enabled: false },
                             mute: {
@@ -413,14 +428,14 @@
                         }
                     },
                     series: [{ points: meters_r_mid }]
-                }); 
+                });
             }
             else if (cat == "high") {
                 var chart = JSC.chart('meterTree', {
                     debug: true,
                     type: 'organizational right',
                     defaultTooltip_enabled: false,
-        
+
                     /* These options will apply to all annotations including point nodes. */
                     defaultAnnotation: {
                         padding: [5, 10],
@@ -431,7 +446,7 @@
                         fill: "#ffffff",
                         padding: 16
                     },
-        
+
                     defaultSeries: {
                         color: normalFill,
                         /* Point selection is disabled because it is managed manually with point click events. */
@@ -452,7 +467,7 @@
                         },
                         outline: { color: '#000000', width: 1 },
                         annotation: { syncHeight_with: 'all', syncWidth_with: 'all' },
-        
+
                         states: {
                             credits: { enabled: false },
                             mute: {
@@ -487,7 +502,7 @@
                         }
                     },
                     series: [{ points: meters_r_high }]
-                }); 
+                });
             }
         }
 
@@ -653,7 +668,7 @@
             },
             series: [{ points: points }]
         });
-        
+
         /** 
          * Event Handlers 
          */
